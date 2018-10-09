@@ -5,8 +5,11 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "author": "Aaron Leyesa",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
 }
