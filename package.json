@@ -1,0 +1,12 @@
+{
+  "name": "yourlocalmechanic",
+  "version": "1.0.0",
+  "description": "If you have any issues with your automobile, we willhave the solutions. We are a company with expert mechanics stationed in your local area.",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "author": "Aaron Leyesa",
+  "license": "ISC"
+}
