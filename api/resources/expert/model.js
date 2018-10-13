@@ -12,9 +12,17 @@ const expertSchema = new Schema({
   password: {
     type: String,
     required: 'Password is needed'
-  }
+  },
+  aboutMe: String
 });
 
-const Expert = mongoose.Collection('Expert', expertSchema);
+const expertSkillsSchema = new Schema({
+  experience:  [String],
+  qualifications: [String]
+});
 
-export default Expert;
+const Expert = mongoose.model('Expert', expertSchema);
+
+export { 
+  Expert
+};

@@ -1,3 +1,5 @@
-const localDb = 'mongodb://localhost:8080/localDb';
+const localDb = 'mongodb://localhost/api-expert-test';
 
-export default localDb;
+export {
+  localDb
+};
