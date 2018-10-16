@@ -40,7 +40,7 @@ expertRouter.get('/expert/:id', (req, res) => {
   });
 });
 
-expertRouter.put('/expert/:id', (req, rest) => {
+expertRouter.put('/expert/:id', (req, res) => {
   //should be able to update any of the following
   //related to the expert model
   //personal info
@@ -52,19 +52,15 @@ expertRouter.put('/expert/:id', (req, rest) => {
 to get connected to other collections related to the Expert
 3) Simply update each collection using the find and update
 */
-
-  // PersonalInfo
-
-  // ExpertSkills,
-  // Inquire,
-  // WorkDone,
-  // Bill
-
-  Expert
-  .findByIdAndUpdate(req.param)
-  .then(expert => {
-    res.json(expert);
-  });
+    PersonalInfo
+    .create(req.body)
+    .then((personalInfo) => {
+      Expert
+      .findByIdAndUpdate(req.params.id, { personalInfo: personalInfo._id })
+      .then(expert => {
+        res.json(expert);
+      });
+    });
 });
 
 export default expertRouter;

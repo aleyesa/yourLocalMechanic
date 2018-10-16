@@ -89,7 +89,11 @@ const expertSchema = new Schema({
   password: {
     type: String,
     required: 'Password is needed'
-  }
+  },
+  personalInfo: {
+    type: Schema.Types.ObjectId,
+    ref: 'PersonalInfo'
+  } 
 });
 
 const Expert = mongoose.model('Expert', expertSchema);
@@ -98,8 +102,6 @@ const ExpertSkills = mongoose.model('ExpertSkills', expertSkillsSchema);
 const Inquire = mongoose.model('Inquire', inquireSchema);
 const WorkDone = mongoose.model('WorkDone', workDoneSchema);
 const Bill = mongoose.model('Bill', billSchema);
-
-console.log(Expert);
 
 export { 
   Expert,
