@@ -1,10 +1,8 @@
 import express from 'express';
 import {
   Expert,
-  PersonalInfo,
-  ExpertSkills,
+  Inbox,
   Inquire,
-  WorkDone,
   Bill
 } from './model';
 
@@ -52,15 +50,20 @@ expertRouter.put('/expert/:id', (req, res) => {
 to get connected to other collections related to the Expert
 3) Simply update each collection using the find and update
 */
-    PersonalInfo
-    .create(req.body)
-    .then((personalInfo) => {
-      Expert
-      .findByIdAndUpdate(req.params.id, { personalInfo: personalInfo._id })
-      .then(expert => {
-        res.json(expert);
-      });
-    });
+  const expertSkillsId = '';
+
+  const pId = 
+  PersonalInfo
+  .create(req.body);
+
+  const eId = 
+  ExpertSkills
+  .create(req.body);
+
+  pId.then(id => console.log(id._id));
+  eId.then(id => console.log(id.Id));
+
+
 });
 
 export default expertRouter;

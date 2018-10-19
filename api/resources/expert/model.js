@@ -24,41 +24,18 @@ Want to contact the expert?
 
 Billing(separate?)
 */
-const personalInfoSchema = new Schema({
-  firstName: String,
-  lastName: String,
-  contactInfo: {
-    email: String,
-    phone: String
-  },
-  area: String
-});
-
-const expertSkillsSchema = new Schema({
-  experience:
-  {
-    education: String,
-    qualifications: String
-  },
-  specialties: String,
-  fee: {
-    type: String,
-    default: 'negotiable'
-  }
+const inboxSchema = new Schema({
+  messages: [String]
 });
 
 const inquireSchema = new Schema({
   question: String,
   solution: String,
+  done: {
+    type: Boolean,
+    default: false
+  },
   client: String
-});
-
-const expertInbox = new Schema({
-  messages: [String]
-});
-
-const workDoneSchema = new Schema({
-  work: [String]
 });
 
 const billSchema = new Schema({
@@ -91,23 +68,36 @@ const expertSchema = new Schema({
     required: 'Password is needed'
   },
   personalInfo: {
-    type: Schema.Types.ObjectId,
-    ref: 'PersonalInfo'
-  } 
+    firstName: String,
+    lastName: String,
+    contactInfo: {
+      email: String,
+      phone: String
+    },
+    area: String
+  },
+  expertSkills: {
+    experience:
+    {
+      education: String,
+      qualifications: String
+    },
+    specialties: String,
+    fee: {
+      type: String,
+      default: 'negotiable'
+    }
+  }
 });
 
 const Expert = mongoose.model('Expert', expertSchema);
-const PersonalInfo = mongoose.model('PersonalInfo', personalInfoSchema);
-const ExpertSkills = mongoose.model('ExpertSkills', expertSkillsSchema);
+const Inbox = mongoose.model('Inbox', inboxSchema);
 const Inquire = mongoose.model('Inquire', inquireSchema);
-const WorkDone = mongoose.model('WorkDone', workDoneSchema);
 const Bill = mongoose.model('Bill', billSchema);
 
 export { 
   Expert,
-  PersonalInfo,
-  ExpertSkills,
+  Inbox,
   Inquire,
-  WorkDone,
   Bill
 };
