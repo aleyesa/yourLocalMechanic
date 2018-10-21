@@ -50,20 +50,18 @@ expertRouter.put('/expert/:id', (req, res) => {
 to get connected to other collections related to the Expert
 3) Simply update each collection using the find and update
 */
-  const expertSkillsId = '';
+  Expert
+  .findByIdAndUpdate(req.params.id, req.body)
+  .then(updatedItems => {
+    res.json(updatedItems);
+  });
+});
 
-  const pId = 
-  PersonalInfo
-  .create(req.body);
-
-  const eId = 
-  ExpertSkills
-  .create(req.body);
-
-  pId.then(id => console.log(id._id));
-  eId.then(id => console.log(id.Id));
-
-
+expertRouter.get('/experts/:id', (req,res) => {
+  Expert.find()
+  .then(expert => {
+    console.log(expert[0].expertInfo1());
+  });
 });
 
 export default expertRouter;

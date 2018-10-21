@@ -25,7 +25,14 @@ Want to contact the expert?
 Billing(separate?)
 */
 const inboxSchema = new Schema({
-  messages: [String]
+  messages: {
+    type: [Schema.Types.ObjectId],
+    ref: 'Inquire',
+    unread: {
+      type: Boolean,
+      default: true
+    }
+    }
 });
 
 const inquireSchema = new Schema({
@@ -39,7 +46,9 @@ const inquireSchema = new Schema({
 });
 
 const billSchema = new Schema({
-  workFees: [String],
+  workFees: {
+    timeWorked: String,
+  },
   tax: Number,
   total: Number,
   client: String,
@@ -79,8 +88,8 @@ const expertSchema = new Schema({
   expertSkills: {
     experience:
     {
-      education: String,
-      qualifications: String
+      education: [String],
+      workedOn: [String]
     },
     specialties: String,
     fee: {
@@ -90,10 +99,15 @@ const expertSchema = new Schema({
   }
 });
 
+expertSchema.virtual('expertInfo').get(function() {
+  return this.personalInfo + ' ' + this.expertSkills 
+});
+
 const Expert = mongoose.model('Expert', expertSchema);
 const Inbox = mongoose.model('Inbox', inboxSchema);
 const Inquire = mongoose.model('Inquire', inquireSchema);
 const Bill = mongoose.model('Bill', billSchema);
+
 
 export { 
   Expert,
