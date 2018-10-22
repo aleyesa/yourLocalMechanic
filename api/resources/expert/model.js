@@ -1,117 +1,63 @@
 import mongoose from 'mongoose';
+import Billing from '../billing/model';
+import {
+  Inbox,
+  Inquire
+ } from '../messaging/model';
 
 const Schema = mongoose.Schema;
-//Tasks: 
-//link each schema together
-//main entry point is expert schema
-//What I think is needed:
-/*
-unique collection of experts
-expert account creation
-  -username
-  -password
-Specializes in:
-  -about the expert
-  -education?
-  -experience in the field
-  -specifics
-  -general
-  -fee(his worth)
-Want to contact the expert?
--some type of messaging system
-  -create an inquire
-  -show as a message
-
-Billing(separate?)
-*/
-const inboxSchema = new Schema({
-  messages: {
-    type: [Schema.Types.ObjectId],
-    ref: 'Inquire',
-    unread: {
-      type: Boolean,
-      default: true
-    }
-    }
-});
-
-const inquireSchema = new Schema({
-  question: String,
-  solution: String,
-  done: {
-    type: Boolean,
-    default: false
-  },
-  client: String
-});
-
-const billSchema = new Schema({
-  workFees: {
-    timeWorked: String,
-  },
-  tax: Number,
-  total: Number,
-  client: String,
-  paid: Boolean
-});
-
-const paymentInfoSchema = new Schema({
-  name: String,
-  paymentType: [
-    {
-      card: Boolean,
-      cash: Boolean,
-      check: Boolean,
-      other: Boolean
-    }
-  ]
-});
+const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const expertSchema = new Schema({
   username: {
     type: String,
-    unique: true
+    required: 'Username is required',
+    unique: true,
+    minlength: 1
   },
   password: {
     type: String,
-    required: 'Password is needed'
+    required: 'Password is needed',
+    minlength: 8,
+    maxlength: 72,
+    trim: true
   },
-  personalInfo: {
-    firstName: String,
-    lastName: String,
+  carShopInfo: {
+    representative: String,
+    shopName: String,
     contactInfo: {
-      email: String,
+      email: {
+        type: String,
+        validate: {
+          validator: (username) => {
+            console.log(emailRegex.test(username));
+            return emailRegex.test(username);
+          },
+          message: username => `${username.value} is not a valid username.`
+        }
+      },
       phone: String
     },
-    area: String
-  },
-  expertSkills: {
-    experience:
-    {
-      education: [String],
-      workedOn: [String]
-    },
-    specialties: String,
-    fee: {
-      type: String,
-      default: 'negotiable'
+    location: {
+      address: String
     }
-  }
+  },
+  specialties: [{
+    repair: String,
+    cost: {
+      type: String,
+      default: 'Parts + Labor'
+    }
+  }],
+  labor: String
 });
 
 expertSchema.virtual('expertInfo').get(function() {
-  return this.personalInfo + ' ' + this.expertSkills 
+  return this.carShopInfo + ' ' + this.specialties 
 });
 
 const Expert = mongoose.model('Expert', expertSchema);
-const Inbox = mongoose.model('Inbox', inboxSchema);
-const Inquire = mongoose.model('Inquire', inquireSchema);
-const Bill = mongoose.model('Bill', billSchema);
-
 
 export { 
-  Expert,
-  Inbox,
-  Inquire,
-  Bill
+  Expert
 };
