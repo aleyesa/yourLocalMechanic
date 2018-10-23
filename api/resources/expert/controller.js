@@ -50,7 +50,7 @@ const showExpertInfo = (req, res) => {
   .find()
   .then(expert => {
     expert.forEach(expert => {
-      res.json(expert.expertInfo);
+      res.json(expert.expertInfoHtml);
     });
   });
 };

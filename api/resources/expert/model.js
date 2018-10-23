@@ -8,6 +8,10 @@ import {
 const Schema = mongoose.Schema;
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+//Tasks list:
+//Nice to have:
+//Review/rating system: Stars
+
 const expertSchema = new Schema({
   username: {
     type: String,
@@ -52,8 +56,18 @@ const expertSchema = new Schema({
   labor: String
 });
 
-expertSchema.virtual('expertInfo').get(function() {
-  return this.carShopInfo + ' ' + this.specialties 
+expertSchema.virtual('expertInfoHtml').get(function() {
+    return `
+    <h2>${this.carShopInfo.shopName}</h2>
+    <p>${this.carShopInfo.representative}</p>
+    <h3>Specialties</h3>
+    <p>Specialties listed here</p>
+    <h3>Contact</h3>
+    <p>${this.carShopInfo.contactInfo.email}</p>
+    <p>${this.carShopInfo.contactInfo.phone}</p>
+    <h3>Location</h3>
+    <p>${this.carShopInfo.location.address}</p>
+    `
 });
 
 const Expert = mongoose.model('Expert', expertSchema);
