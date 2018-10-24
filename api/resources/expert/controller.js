@@ -5,12 +5,28 @@ import {
   Bill
 } from './model';
 
+//Tasks:
+/*
+  -get only expert info when querying the list of experts
+  -figure out the best way to filter expert when a client is looking by specialty 
+  -and location
+*/
+
 //testing
 //Query to get all Experts and its information
+
+
+//Function used to show list of experts when client searches for a car shop
 const getAllExperts = (req, res) => {
   Expert.find()
   .then(experts => {
-    res.json(experts);
+    let expertListHtml = '';
+
+    experts.forEach(expert => {
+      expertListHtml += expert.expertInfoHtml;
+    });
+
+    res.json(expertListHtml);
   });
 };
 

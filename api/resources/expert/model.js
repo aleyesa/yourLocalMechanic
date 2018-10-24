@@ -58,6 +58,8 @@ const expertSchema = new Schema({
 
 expertSchema.virtual('expertInfoHtml').get(function() {
     return `
+    <div>
+    <p hidden>${this._id}<p>
     <h2>${this.carShopInfo.shopName}</h2>
     <p>${this.carShopInfo.representative}</p>
     <h3>Specialties</h3>
@@ -67,6 +69,7 @@ expertSchema.virtual('expertInfoHtml').get(function() {
     <p>${this.carShopInfo.contactInfo.phone}</p>
     <h3>Location</h3>
     <p>${this.carShopInfo.location.address}</p>
+    </div>
     `
 });
 
