@@ -1,6 +1,8 @@
 import express from 'express';
 
 import {
+  findExpertByLocation,
+
   getAllExperts,
   registerExpert,
   deleteExpert,
@@ -10,6 +12,9 @@ import {
 } from './controller';
 
 const expertRouter = express.Router();
+
+expertRouter.get('/expertByZipcode/:zipcode', findExpertByLocation);
+// expertRouter.get('/expertByCityStateZipcode/:city/:state/:zipcode', findExpertByLocation);
 
 expertRouter.get('/expert', getAllExperts);
 

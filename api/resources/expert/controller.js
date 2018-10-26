@@ -11,10 +11,32 @@ import {
   -figure out the best way to filter expert when a client is looking by specialty 
   -and location
 */
+const findExpertByLocation = (req, res) => {
+  let expertListHtml = '';
+  Expert.find((err, expert) => {
+    expert.forEach(expert => {
+      if(expert.carShopInfo.location.address.zipcode === req.params.zipcode){
+          expertListHtml += expert.expertInfoHtml;
+        }
+    });
+    res.json(expertListHtml);
+  });
+};
 
-//testing
-//Query to get all Experts and its information
-
+const findExpertByCityStateZipcode = (req, res) => {
+  Expert.find({
+    carShopInfo: { 
+      location: {
+        address: {
+          city: req.params.city,
+          state: res.params.state,
+          zipcode: req.params.zipcode
+        }
+      }    
+    },
+  })
+  .then(expert => res.json(expert));
+};
 
 //Function used to show list of experts when client searches for a car shop
 const getAllExperts = (req, res) => {
@@ -72,6 +94,8 @@ const showExpertInfo = (req, res) => {
 };
 
 export {
+  findExpertByLocation,
+
   getAllExperts,
   registerExpert,
   deleteExpert,

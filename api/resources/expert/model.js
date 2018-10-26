@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import Billing from '../billing/model';
+import Receipt from '../receipt/model';
 import {
   Inbox,
   Inquire
@@ -53,6 +53,7 @@ const expertSchema = new Schema({
   },
   specialties: [{
     repair: String,
+    description: [String],
     cost: {
       type: String,
       default: 'Parts + Labor'
@@ -62,18 +63,34 @@ const expertSchema = new Schema({
 });
 
 expertSchema.virtual('expertInfoHtml').get(function() {
+    let repairList = '';
+
+    this.specialties.forEach(repair => {
+      repairList += 
+      `
+      <h3>${repair.repair}</h3>
+      <p>${repair.description}</p>
+      <p>${repair.cost}</p>
+      `;
+    });
+
     return `
     <div>
-    <p hidden>${this._id}<p>
-    <h2>${this.carShopInfo.shopName}</h2>
-    <p>${this.carShopInfo.representative}</p>
-    <h3>Specialties</h3>
-    <p>Specialties listed here</p>
-    <h3>Contact</h3>
-    <p>${this.carShopInfo.contactInfo.email}</p>
-    <p>${this.carShopInfo.contactInfo.phone}</p>
-    <h3>Location</h3>
-    <p>${this.carShopInfo.location.address}</p>
+      <p hidden>${this._id}<p>
+      <h2>${this.carShopInfo.shopName}</h2>
+      <p>${this.carShopInfo.representative}</p>
+      <h3>Specialties</h3>
+      ${repairList}
+      <p>${this.labor}</p>
+      <h3>Contact</h3>
+      <p>${this.carShopInfo.contactInfo.email}</p>
+      <p>${this.carShopInfo.contactInfo.phone}</p>
+      <h3>Location</h3>
+      <p>${this.carShopInfo.location.address.street}, 
+        ${this.carShopInfo.location.address.city} 
+        ${this.carShopInfo.location.address.state} 
+        ${this.carShopInfo.location.address.zipcode}
+      </p>
     </div>
     `
 });

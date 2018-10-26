@@ -1,8 +1,5 @@
 import mongoose from 'mongoose';
-import {
-  Billing,
-  PaymentInfo
-} from '../billing/model';
+import Receipt from '../receipt/model';
 import {
   Inbox,
   Inquire
