@@ -43,7 +43,12 @@ const expertSchema = new Schema({
       phone: String
     },
     location: {
-      address: String
+      address: {
+        street: String,
+        city: String,
+        state: String,
+        zipcode: String
+      }
     }
   },
   specialties: [{
