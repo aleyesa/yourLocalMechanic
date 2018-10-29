@@ -11,7 +11,7 @@ mongoose.connect(localDb, (err) => {
 
 app.use(express.json());
 app.use(express.static('public'));
-app.use('/api', expertRouter);
+app.use('/api/expert', expertRouter);
 
 app.listen(8080, () => console.log('application connected to port 8080.'));
 

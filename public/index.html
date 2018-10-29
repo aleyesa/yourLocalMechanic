@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Your Local Mechanic!</title>
+  <link rel="stylesheet" href="style.css" type="text/css">
+  
   <script
     src="https://code.jquery.com/jquery-3.3.1.min.js"
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -19,13 +21,46 @@
   <nav>
     <ul>
       <li>
-        Search
+        <a href="#">Search</a>
       </li>
-      <li>Profile</li>
-      <li>Inbox</li>
+      <li>
+        <a href="#">Profile</a>
+      </li>
+      <li>
+        <a href="#">Inbox</a>
+      </li>
     </ul>
   </nav>
-  <button class="getExpertInfoBtn">GetExpertInfo</button>
+
+  <section class="search">
+  <div>
+  <h2>Specialites:</h2>
+  <select name="carSpecialties" id="carSpecialtiesFilter">
+    <option value="bodyAndInterior">Body and Interior</option>
+    <option value="engine">Engine</option>
+    <option value="transmissionsAndDriveTrains">Transmissions and Drivetrains</option>
+    <option value="brakes">Brakes</option>
+    <option value="steeringAndSuspension">Steering and Suspension</option>
+    <option value="preventiveMaintenance">Preventive Maintenance</option>
+  </select>
+
+
+  <h2>Search for experts by:</h2>
+  <select name="carShopsBy" id="carShopsFilter">
+    <option value="shopName">Shop Name</option>
+    <option value="cityStateZipcode">City State and Zipcode</option>
+    <option value="state">State</option>
+    <option value="zipcode">Zipcode</option>
+  </select>
+
+  </div>
+
+  <form name="carShopByFilter">
+    <input type="search" name="expertSearch" id="expertSearch">
+    <input type="submit" name="searchBtn" id="expertSearchBtn" value="Expert Search">
+  </form>
+  </section>
+
   <section class="expertInfo">
 
   </section>

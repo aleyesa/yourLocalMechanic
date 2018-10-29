@@ -1,0 +1,33 @@
+header {
+  text-align: center;
+}
+
+nav {
+  border: 2px solid black;
+  padding: 0px 20px;
+  text-align: right;
+}
+
+nav ul {
+  list-style-type: none;
+}
+
+nav ul li {
+  display: inline-block;
+}
+
+a {
+text-decoration-line: none;
+}
+
+div {
+  text-align: center;
+}
+
+h2 {
+  display: inline-block;
+}
+
+form {
+  text-align: center;
+}
