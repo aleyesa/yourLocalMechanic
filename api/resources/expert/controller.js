@@ -13,6 +13,16 @@ import {
 */
 const findExpertByLocation = (req, res) => {
 
+  //Tasks:
+  /*
+    create a conditional statement that checks if the user has
+    - inputted the city, state, and zipcode
+      or
+    - just the zipcode
+    - anything else let user know that they have to input
+     the specific inputs
+     
+  */
   Expert.find((err, expert) => {
     expert.forEach(expert => {
       if(expert.carShopInfo.location.address.zipcode === req.params.zipcode){

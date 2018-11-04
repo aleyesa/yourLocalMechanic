@@ -1,3 +1,4 @@
+import zipcodes from 'zipcodes';
 //get value of specialties dropdown value
 //get carShopFilter dropdown value
 //use the dropdown filters to set object key?
@@ -12,12 +13,14 @@ $('#carShopsFilter').on('click', () => {
 });
 
 $('#expertSearchBtn').on('click', () => {
-  let searchKey = $('#expertSearch').val();
+  let city = 'Gilbert';
+  let state = 'AZ';
+  let zipcode = $('#expertSearch').val();
   console.log('Button listener works');
   event.preventDefault();
   $.ajax({
     type: 'GET',
-    url: `/api/expert/location/${searchKey}`,
+    url: `/api/expert/location/${city}/${state}/${zipcode}`,
     success: (response) => {
 
     let repairList = '';

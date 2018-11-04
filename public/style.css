@@ -1,23 +1,33 @@
 header {
   text-align: center;
+  width: 75%;
+  border: 2px solid black;
 }
-
+h1 {
+  display: inline-block;
+}
 nav {
+  display: inline-block;
+  background-color: lightgreen;
   border: 2px solid black;
   padding: 0px 20px;
-  text-align: right;
 }
 
 nav ul {
+  background-color: orange;
+  text-align: right;
+  display: inline-block;
   list-style-type: none;
 }
 
 nav ul li {
+  background-color: yellow;
   display: inline-block;
 }
 
 a {
-text-decoration-line: none;
+  background-color: violet;
+  text-decoration-line: none;
 }
 
 div {

@@ -9,7 +9,7 @@ import {
   getSpecificExpert,
   updateExpertInfo
 } from './controller';
-
+    
 const expertRouter = express.Router();
 
 //chaining routes
@@ -22,7 +22,7 @@ expertRouter.route('/:id')
 .put(updateExpertInfo)
 .delete(deleteExpert);
 
-expertRouter.route('/location/:zipcode')
+expertRouter.route('/location/:city/:state/:zipcode')
 .get(findExpertByLocation);
 
 export default expertRouter;
