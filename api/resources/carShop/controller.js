@@ -14,12 +14,6 @@ const getSpecificCarShop = (req, res) => {
   });
 };
 
-const addCarShop = (req, res) => {
-  CarShop1
-  .create(req.body)
-  .then(carShop => res.json(carShop));
-};
-
 const updateCarShopInfo = (req, res) => {
   CarShop1
   .findByIdAndUpdate(req.params.id, req.body)
@@ -35,7 +29,6 @@ const removeCarShop = (req, res) => {
 export {
   getCarShops,
   getSpecificCarShop,
-  addCarShop,
   updateCarShopInfo,
   removeCarShop
 };

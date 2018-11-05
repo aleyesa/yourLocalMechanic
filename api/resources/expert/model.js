@@ -1,16 +1,16 @@
-import mongoose, { Types } from 'mongoose';
-import Receipt from '../receipt/model';
-import {
-  Inbox,
-  Inquire
- } from '../messaging/model';
+// import mongoose, { Types } from 'mongoose';
+// import Receipt from '../receipt/model';
+// import {
+//   Inbox,
+//   Inquire
+//  } from '../messaging/model';
 
-const Schema = mongoose.Schema;
-const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+// const Schema = mongoose.Schema;
+// const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-//Tasks list:
-//Nice to have:
-//Review/rating system: Stars
+// //Tasks list:
+// //Nice to have:
+// //Review/rating system: Stars
 
 // const expertSchema = new Schema({
 //   username: {
@@ -62,23 +62,23 @@ const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+")
 //   labor: String
 // });
 
-//This is used to create an account + introduce the car shop that
-//the owner owns
-/* maybe reference the car shop collection under carShopInfo
-*/
-const carShopOwnerSchema = new Schema({
-  username: String,
-  password: String,
-  carShopInfo: {
-    type: Schema.Types.ObjectId,
-    ref: 'CarShop'
-  }
-});
+// //This is used to create an account + introduce the car shop that
+// //the owner owns
+// /* maybe reference the car shop collection under carShopInfo
+// */
+// const carShopOwnerSchema = new Schema({
+//   username: String,
+//   password: String,
+//   carShopInfo: {
+//     type: Schema.Types.ObjectId,
+//     ref: 'CarShop'
+//   }
+// });
 
-// const Expert = mongoose.model('Expert', expertSchema);
-const CarShopOwner = mongoose.model('CarShopOwner', carShopOwnerSchema);
+// // const Expert = mongoose.model('Expert', expertSchema);
+// const CarShopOwner = mongoose.model('CarShopOwner', carShopOwnerSchema);
 
-export { 
-  // Expert,
-  CarShopOwner
-};
+// export { 
+//   // Expert,
+//   CarShopOwner
+// };
