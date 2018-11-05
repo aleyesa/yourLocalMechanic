@@ -61,45 +61,6 @@ const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+")
 //   }],
 //   labor: String
 // });
-//use this to show list of car shops in search page.
-//Probably don't need representative since they can simply just
-//add their name when sending a message
-const carShopSchema = new Schema({
-  carShopInfo: {
-    representative: String,
-    shopName: String,
-    contactInfo: {
-      email: {
-        type: String,
-        validate: {
-          validator: (username) => {
-            console.log(emailRegex.test(username));
-            return emailRegex.test(username);
-          },
-          message: username => `${username.value} is not a valid username.`
-        }
-      },
-      phone: String
-    },
-    location: {
-      address: {
-        street: String,
-        city: String,
-        state: String,
-        zipcode: String
-      }
-    }
-  },
-  specialties: [{
-    repair: String,
-    description: [String],
-    cost: {
-      type: String,
-      default: 'Parts + Labor'
-    }
-  }],
-  labor: String
-});
 
 //This is used to create an account + introduce the car shop that
 //the owner owns
@@ -115,11 +76,9 @@ const carShopOwnerSchema = new Schema({
 });
 
 // const Expert = mongoose.model('Expert', expertSchema);
-const CarShop = mongoose.model('CarShop', carShopSchema);
 const CarShopOwner = mongoose.model('CarShopOwner', carShopOwnerSchema);
 
 export { 
   // Expert,
-  CarShop,
   CarShopOwner
 };

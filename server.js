@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import { localDb } from './config/config';
-import expertRouter from './api/resources/expert/router';
+import carShopRouter from './api/resources/carShop/router';
 
 const app = express();
 
@@ -11,7 +11,8 @@ mongoose.connect(localDb, (err) => {
 
 app.use(express.json());
 app.use(express.static('public'));
-app.use('/api/expert', expertRouter);
+app.use('/api/carshop', carShopRouter);
+
 
 app.listen(8080, () => console.log('application connected to port 8080.'));
 
