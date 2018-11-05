@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+  getAllCarShopOwner,
   getCarShopOwnerInfo,
   createAccount,
   updateCarShopOwnerInfo,
@@ -9,6 +10,7 @@ import {
 const carShopOwnerRouter = express.Router();
 
 carShopOwnerRouter.route('/')
+.get(getAllCarShopOwner)
 .post(createAccount);
 
 carShopOwnerRouter.route('/:id')

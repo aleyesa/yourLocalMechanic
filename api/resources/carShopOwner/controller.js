@@ -1,6 +1,12 @@
 import { CarShop1 } from '../carShop/model';
 import { CarShopOwner } from './model';
 
+const getAllCarShopOwner = (req, res) => {
+  CarShopOwner
+  .find()
+  .then(owner => res.json(owner));
+};
+
 const getCarShopOwnerInfo = (req, res) => {
   CarShopOwner
   .findById(req.params.id)
@@ -36,6 +42,7 @@ const deleteCarShopOwnerAccount = (req, res) => {
 };
 
 export {
+  getAllCarShopOwner,
   getCarShopOwnerInfo,
   createAccount,
   updateCarShopOwnerInfo,

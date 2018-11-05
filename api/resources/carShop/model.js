@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 
 const carShopSchema = new Schema({
   carShopInfo: {
-    representative: String,
     shopName: String,
     contactInfo: {
       email: {
