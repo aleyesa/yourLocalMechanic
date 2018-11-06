@@ -3,15 +3,14 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const carShopSchema = new Schema({
-  carShopInfo: {
     shopName: String,
-    contactInfo: {
+    // contactInfo: {
       email: {
         type: Schema.Types.ObjectId,
         ref: 'CarShopOwner'
       },
-      phone: String
-    },
+      phone: String,
+    // },
     location: {
       address: {
         street: String,
@@ -19,7 +18,6 @@ const carShopSchema = new Schema({
         state: String,
         zipcode: String
       }
-    }
   },
   specialties: [{
     repair: String,

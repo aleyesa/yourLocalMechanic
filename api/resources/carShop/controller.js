@@ -1,4 +1,5 @@
-import {CarShop1} from './model';
+import { CarShop1 } from './model';
+import { CarShopOwner } from '../carShopOwner/model';
 
 const getCarShops = (req, res) => {
   CarShop1
@@ -9,9 +10,21 @@ const getCarShops = (req, res) => {
 const getSpecificCarShop = (req, res) => {
   CarShop1
   .findById(req.params.id)
+  .populate('email', 'username')
   .then(carShop => {
     res.json(carShop);
   });
+};
+
+const addCarShop = (req, res) => {
+    req.body.email = req.params.id;
+    CarShop1
+    .create(req.body)
+    .then(carshop => {
+      CarShopOwner
+      .findByIdAndUpdate(req.params.id, {carShopInfo: carshop._id})
+      .then(owner => res.json(owner));
+    });
 };
 
 const updateCarShopInfo = (req, res) => {
@@ -29,6 +42,7 @@ const removeCarShop = (req, res) => {
 export {
   getCarShops,
   getSpecificCarShop,
+  addCarShop,
   updateCarShopInfo,
   removeCarShop
 };

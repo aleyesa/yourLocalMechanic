@@ -3,6 +3,7 @@ import express from 'express';
 import {
   getCarShops,
   getSpecificCarShop,
+  addCarShop,
   removeCarShop,
   updateCarShopInfo
 } from './controller';
@@ -10,10 +11,11 @@ import {
 const carShopRouter = express.Router();
 
 carShopRouter.route('/')
-.get(getCarShops);
+.get(getCarShops)
 
 carShopRouter.route('/:id')
 .get(getSpecificCarShop)
+.post(addCarShop)
 .put(updateCarShopInfo)
 .delete(removeCarShop);
 
