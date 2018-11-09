@@ -4,8 +4,19 @@ import { CarShopOwner } from './model';
 const getAllCarShopOwner = (req, res) => {
   CarShopOwner
   .find()
-  .populate('carShopInfo')
-  .populate('email', 'username')
+  .populate({
+    path: 'carShopInfo',
+    model: 'CarShop'
+  })
+  .populate({
+    path: 'carShopInfo',
+    model: 'CarShop',
+    populate: {
+      path: 'email',
+      select: 'username',
+      model: 'CarShopOwner'
+    }
+  })
   .then(owner => res.json(owner));
 };
 
