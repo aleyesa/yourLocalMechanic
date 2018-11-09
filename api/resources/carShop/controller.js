@@ -2,10 +2,36 @@ import { CarShop1 } from './model';
 import { CarShopOwner } from '../carShopOwner/model';
 
 const getCarShops = (req, res) => {
-  CarShop1
-  .find()
-  .populate('email', 'username')
-  .then(carShops => res.json(carShops));
+  // if city and state and zipcode is present
+  if(req.params.city !== ' ' &&
+     req.params.state !== ' ' &&
+     req.params.zipcode !== ' ') {
+
+    CarShop1
+    .find({
+      'location.address.city':  req.params.city,
+      'location.address.state': req.params.state,
+      'location.address.zipcode': req.params.zipcode
+    }
+    , (err, docs) => {
+      console.log(docs);
+    });
+    // .populate('email', 'username')
+    // .then(carShops => res.json(carShops));
+  }else {
+    console.log(false);
+  }
+
+  //else if city and state is present
+
+  //else if zipcode is present
+
+  //else if only city or else if only state
+  
+  // CarShop1
+  // .find()
+  // .populate('email', 'username')
+  // .then(carShops => res.json(carShops));
 };
 
 const getSpecificCarShop = (req, res) => {

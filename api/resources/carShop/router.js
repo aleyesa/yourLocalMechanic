@@ -10,8 +10,8 @@ import {
 
 const carShopRouter = express.Router();
 
-carShopRouter.route('/')
-.get(getCarShops)
+carShopRouter.route('/:city/:state/:zipcode')
+.get(getCarShops);
 
 carShopRouter.route('/:id')
 .get(getSpecificCarShop)
