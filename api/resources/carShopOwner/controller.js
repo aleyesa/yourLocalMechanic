@@ -4,7 +4,8 @@ import { CarShopOwner } from './model';
 const getAllCarShopOwner = (req, res) => {
   CarShopOwner
   .find()
-  .populate('carShopInfo', 'contactInfo')
+  .populate('carShopInfo')
+  .populate('email', 'username')
   .then(owner => res.json(owner));
 };
 
@@ -22,7 +23,6 @@ const createAccount = (req, res) => {
     .then(owner => {
       res.json(owner);
     });
-
 };
 
 const updateCarShopOwnerInfo = (req, res) => {

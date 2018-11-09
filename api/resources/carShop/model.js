@@ -4,13 +4,11 @@ const Schema = mongoose.Schema;
 
 const carShopSchema = new Schema({
     shopName: String,
-    // contactInfo: {
-      email: {
-        type: Schema.Types.ObjectId,
-        ref: 'CarShopOwner'
-      },
-      phone: String,
-    // },
+    email: {
+      type: Schema.Types.ObjectId,
+      ref: 'CarShopOwner'
+    },
+    phone: String,
     location: {
       address: {
         street: String,
