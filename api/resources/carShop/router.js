@@ -1,6 +1,8 @@
 import express from 'express';
 
 import {
+  getAllCarShopsForTest,
+
   getCarShops,
   getSpecificCarShop,
   addCarShop,
@@ -9,6 +11,9 @@ import {
 } from './controller';
 
 const carShopRouter = express.Router();
+
+carShopRouter.route('/')
+.get(getAllCarShopsForTest);
 
 carShopRouter.route('/:city/:state/:zipcode')
 .get(getCarShops);
