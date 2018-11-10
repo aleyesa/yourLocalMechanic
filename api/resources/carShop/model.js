@@ -4,10 +4,12 @@ const Schema = mongoose.Schema;
 
 const carShopSchema = new Schema({
   shopName: String,
-  email: {
+
+  carShopOwner: {
     type: Schema.Types.ObjectId,
     ref: 'CarShopOwner'
   },
+  shopEmail: String,
   phone: String,
   location: {
     address: {
@@ -28,8 +30,8 @@ const carShopSchema = new Schema({
   labor: String
 });
 
-const CarShop1 = mongoose.model('CarShop', carShopSchema);
+const CarShop = mongoose.model('CarShop', carShopSchema);
 
 export {
-  CarShop1
+  CarShop
 };

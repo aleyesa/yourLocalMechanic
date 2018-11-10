@@ -12,10 +12,10 @@ import {
 
 const carShopRouter = express.Router();
 
-carShopRouter.route('/')
-.get(getAllCarShopsForTest);
+// carShopRouter.route('/')
+// .get(getAllCarShopsForTest);
 
-carShopRouter.route('/:city/:state/:zipcode')
+carShopRouter.route('/')
 .get(getCarShops);
 
 carShopRouter.route('/:id')

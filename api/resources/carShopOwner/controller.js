@@ -1,4 +1,4 @@
-import { CarShop1 } from '../carShop/model';
+import { CarShop } from '../carShop/model';
 import { CarShopOwner } from './model';
 
 const getAllCarShopOwner = (req, res) => {

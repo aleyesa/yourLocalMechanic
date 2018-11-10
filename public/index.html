@@ -43,21 +43,16 @@
     <option value="steeringAndSuspension">Steering and Suspension</option>
     <option value="preventiveMaintenance">Preventive Maintenance</option>
   </select>
-
-
-  <h2>Search for experts by:</h2>
-  <select name="carShopsBy" id="carShopsFilter">
-    <option value="shopName">Shop Name</option>
-    <option value="cityStateZipcode">City State and Zipcode</option>
-    <option value="state">State</option>
-    <option value="zipcode">Zipcode</option>
-  </select>
-
   </div>
 
-  <form name="carShopByFilter">
-    <input type="search" name="expertSearch" id="expertSearch">
-    <input type="submit" name="searchBtn" id="expertSearchBtn" value="Expert Search">
+  <form class="carShopSearchForm">
+    <label for="city">City</label>
+    <input type="search" name="city" id="cityTextField">
+    <label for="city">State</label>
+    <input type="search" name="state" id="stateTextField">
+    <label for="city">Zipcodes</label>
+    <input type="search" name="zipcode" id="zipcodeTextField">
+    <input type="submit" name="searchBtn" value="Search">
   </form>
   </section>
 
