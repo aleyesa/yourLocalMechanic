@@ -2,6 +2,7 @@ import { CarShop } from './model';
 import { CarShopOwner } from '../carShopOwner/model';
 
 const getAllCarShopsForTest = (req, res) => {
+  console.log(CarShop);
   CarShop
   .find()
   .populate('email', 'username')
@@ -9,7 +10,7 @@ const getAllCarShopsForTest = (req, res) => {
 };
 
 const getCarShops = (req, res) => {
-  const {city, state, zipcode} = req.body;
+  const {city, state, zipcode} = req.query;
 
   if(city && state && !zipcode){
     res.json('city and state is present, now searching.');
@@ -18,31 +19,6 @@ const getCarShops = (req, res) => {
   }else{
     res.json('Please input city and state fields or a zipcode.');
   }
-//   if(req.params.city !== ' ' &&
-//         req.params.state !== ' ' &&
-//         req.params.zipcode === ' ') {
-    
-//     CarShop
-//     .find({
-//       'location.address.city':  req.params.city,
-//       'location.address.state': req.params.state
-//     })
-//     .populate('email', 'username')
-//     .then(carShops => res.json(carShops));
-//     console.log('city and state is present');
-//   //if zipcode is present
-//   }else if(req.params.zipcode !== ' '){
-//     CarShop
-//     .find({
-//       'location.address.zipcode': req.params.zipcode
-//     })
-//     .populate('email', 'username')
-//     .then(carShops => res.json(carShops));
-      
-//     console.log('only zipcode is present');
-//   }else {
-//     res.json('Please input either a city and state or zipcode.');
-//   }
 };
 
 const getSpecificCarShop = (req, res) => {

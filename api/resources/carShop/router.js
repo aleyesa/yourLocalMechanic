@@ -12,8 +12,8 @@ import {
 
 const carShopRouter = express.Router();
 
-// carShopRouter.route('/')
-// .get(getAllCarShopsForTest);
+carShopRouter.route('/all')
+.get(getAllCarShopsForTest);
 
 carShopRouter.route('/')
 .get(getCarShops);
