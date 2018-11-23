@@ -33,8 +33,9 @@ const getCarShops = (req, res) => {
     .then(carshops => res.json(carshops));
   
   }else {
-    
+
     console.log('Please input city and state fields or a zipcode.');
+    res.json('Please input the city and state or the zipcode to search for car shops.');
   
   }
 };
