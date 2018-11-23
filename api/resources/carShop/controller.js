@@ -12,12 +12,30 @@ const getAllCarShopsForTest = (req, res) => {
 const getCarShops = (req, res) => {
   const {city, state, zipcode} = req.query;
 
-  if(city && state && !zipcode){
-    res.json('city and state is present, now searching.');
-  }else if(zipcode){
-    res.json('zipcode is present, now searching.');
-  }else{
-    res.json('Please input city and state fields or a zipcode.');
+  if(city && state && !zipcode) {
+
+    console.log('city and state is present, now searching.');
+
+    CarShop
+    .find({
+      'location.address.city': city,
+      'location.address.state': state
+    })
+    .then(carshops => res.json(carshops));
+  
+  }else if(zipcode) {
+
+    console.log('zipcode is present, now searching.');
+    CarShop
+    .find({
+      'location.address.zipcode': zipcode
+    })
+    .then(carshops => res.json(carshops));
+  
+  }else {
+    
+    console.log('Please input city and state fields or a zipcode.');
+  
   }
 };
 
