@@ -2,11 +2,13 @@ import { CarShop } from './model';
 import { CarShopOwner } from '../carShopOwner/model';
 
 const getAllCarShopsForTest = (req, res) => {
-  console.log(CarShop);
   CarShop
   .find()
   .populate('email', 'username')
-  .then(carShops => res.json(carShops));
+  .then(carShops => res.json(carShops))
+  .catch(err => {
+    res.json('no carshops found.');
+  });
 };
 
 const getCarShops = (req, res) => {
@@ -21,7 +23,8 @@ const getCarShops = (req, res) => {
       'location.address.city': city,
       'location.address.state': state
     })
-    .then(carshops => res.json(carshops));
+    .then(carshops => res.json(carshops))
+    .catch(err => res.json('no carshops found.'));
   
   }else if(zipcode) {
 
@@ -30,7 +33,8 @@ const getCarShops = (req, res) => {
     .find({
       'location.address.zipcode': zipcode
     })
-    .then(carshops => res.json(carshops));
+    .then(carshops => res.json(carshops))
+    .catch(err => res.json('no carshops found.'));
   
   }else {
 
@@ -47,29 +51,33 @@ const getSpecificCarShop = (req, res) => {
   .then(carShop => {
     res.json(carShop);
   })
+  .catch(err => res.json('could not find the carshop.'))
 };
 
 const addCarShop = (req, res) => {
-    req.body.email = req.params.id;
     CarShop
     .create(req.body)
     .then(carshop => {
       CarShopOwner
       .findByIdAndUpdate(req.params.id, {carShopInfo: carshop._id})
-      .then(owner => res.json(owner));
-    });
+      .then(owner => res.json(owner))
+      .catch(err => res.json('could not find car owner.'));
+    })
+    .catch(err => res.json(err));
 };
 
 const updateCarShopInfo = (req, res) => {
   CarShop
   .findByIdAndUpdate(req.params.id, req.body)
-  .then(updatedInfo => res.json(updatedInfo));
+  .then(updatedInfo => res.json(updatedInfo))
+  .catch(err => res.json('could not update your info.'));
 };
 
 const removeCarShop = (req, res) => {
   CarShop
   .findByIdAndDelete(req.params.id)
-  .then(carShop => res.json('car shop has been removed.'));
+  .then(carShop => res.json('car shop has been removed.'))
+  .catch(err => res.json('could not remove your carshop from list.'));
 };
 
 export {

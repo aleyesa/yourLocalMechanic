@@ -10,16 +10,9 @@
 
 $('.carShopSearchForm').on('submit', () => {
   event.preventDefault();
+
   let form = $('.carShopSearchForm');
-
-
-  let city = $('#cityTextField').val();
-  let state = $('#stateTextField').val();
-  let zipcode = $('#zipcodeTextField').val();
   let formLength = form[0].childNodes.length;
-
-  //create an object that holds the address keys, and hold the
-  //value of the address key
   const address = {};
 
   for(let i = 0; i < formLength; i++){
@@ -35,11 +28,40 @@ $('.carShopSearchForm').on('submit', () => {
     contentType: 'application/json',
     data: address,
     success: (response) => {
-      console.log(response);
+      let carshops = '';
+
+      response.map(info => {
+        console.log(info);
+        const {
+          shopName,
+          carShopOwner,
+          shopEmail,
+          labor
+        } = info;
+
+        const {
+          street,
+          city,
+          state,
+          zipcode
+        } = info.location.address;
+
+        carshops += 
+        `
+          <p>${shopName}</p>
+          <p>${carShopOwner}</p>
+          <p>${shopEmail}</p>
+          <p>${street} 
+            ${city}
+            ${state}
+            ${zipcode}   
+          </p>
+          <p>Specialties Here</p>
+          <p>${labor}</p>
+        `
+      });
+
+      $('.carShops').html(carshops);
     }
   });
 });
-
-// JSON.stringify({
-//   'zipcode': '85298'
-// }

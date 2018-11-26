@@ -17,7 +17,8 @@ const getAllCarShopOwner = (req, res) => {
       model: 'CarShopOwner'
     }
   })
-  .then(owner => res.json(owner));
+  .then(owner => res.json(owner))
+  .catch(err => res.json('could not find any car shop owners.'));
 };
 
 const getCarShopOwnerInfo = (req, res) => {
@@ -25,7 +26,8 @@ const getCarShopOwnerInfo = (req, res) => {
   .findById(req.params.id)
   .then(ownerInfo => {
     res.json(ownerInfo);
-  });
+  })
+  .catch(err => res.json('could not find any car shop owners.'));
 };
 
 const createAccount = (req, res) => {
@@ -33,19 +35,22 @@ const createAccount = (req, res) => {
     .create(req.body)
     .then(owner => {
       res.json(owner);
-    });
+    })
+    .catch(err => res.json('could not create account.'));
 };
 
 const updateCarShopOwnerInfo = (req, res) => {
   CarShopOwner
   .findByIdAndUpdate(req.params.id, req.body)
-  .then(updatedInfo => res.json(updatedInfo));
+  .then(updatedInfo => res.json(updatedInfo))
+  .catch(err => res.json('failed to update info.'));
 };
 
 const deleteCarShopOwnerAccount = (req, res) => {
   CarShopOwner
   .findByIdAndDelete(req.params.id)
-  .then(account => res.json('Car shop owner has been removed.'));
+  .then(account => res.json('Car shop owner has been removed.'))
+  .catch(err => res.json('failed to delete account.'));
 };
 
 export {
