@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const phoneNumberRegex = /^\d{10}$/;
 const Schema = mongoose.Schema;
 
 const carShopSchema = new Schema({
@@ -10,8 +9,8 @@ const carShopSchema = new Schema({
     required: [true, 'A car shop name is required.']
   },
   carShopOwner: {
-    type: String,
-    required: [true, 'The car shop owners name is needed.']
+    type: Schema.Types.ObjectId,
+    reference: 'CarShopOwner'
   },
   shopEmail: {
     type: String,
@@ -24,42 +23,13 @@ const carShopSchema = new Schema({
     },
     required: [true, 'Please input the main email for your car shop.']
   },
-  phone: {
-    type: String,
-    validate: {
-      validator: (phoneNumber) => {
-        console.log(phoneNumberRegex.test(phoneNumber));
-        return phoneNumberRegex.test(phoneNumber);
-      },
-      message: phoneNumber => `${phoneNumber.value} is not a valid phone number.`
-    },
-    required: [true, 'Not a valid phone number, please try again.']
+  carShopPhone: {
+    type: Schema.Types.ObjectId,
+    ref: 'Phone'
   },
   location: {
-    address: {
-      street: {
-        streetNumber: {
-        type: String,
-        required: [true, 'Input the street number']
-        },
-        streetName: {
-          type: String,
-          required: [true, 'Input the streetName.']
-        }
-      },
-      city: {
-        type: String,
-        required: [true, 'Input the city.']
-      },
-      state: {
-        type: String,
-        required: [true, 'Input the state.']
-      },
-      zipcode: {
-        type: String,
-        required: [true, 'Input the zipcode.']
-      }
-    }
+    type: Schema.Types.ObjectId,
+    ref: 'Address'
   },
   specialties: [{
     repair: String,

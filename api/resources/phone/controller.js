@@ -30,7 +30,7 @@ const updatePhoneNumber = (req, res) => {
 
 const removePhoneNumber = (req, res) => {
   Phone
-  .findByIdAndRemove(req.params.id)
+  .findByIdAndDelete(req.params.id)
   .then(phoneNumber => res.json('The phone Number was deleted'))
   .catch(err => res.json('failed to remove phone number.'));
 };

@@ -16,11 +16,11 @@ carShopRouter.route('/all')
 .get(getAllCarShopsForTest);
 
 carShopRouter.route('/')
-.get(getCarShops);
+.get(getCarShops)
+.post(addCarShop);
 
 carShopRouter.route('/:id')
 .get(getSpecificCarShop)
-.post(addCarShop)
 .put(updateCarShopInfo)
 .delete(removeCarShop);
 

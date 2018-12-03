@@ -4,7 +4,10 @@ import { CarShopOwner } from '../carShopOwner/model';
 const getAllCarShopsForTest = (req, res) => {
   CarShop
   .find()
-  .populate('email', 'username')
+  .populate({
+    path: 'carShopOwner',
+    model: 'CarShopOwner'
+  })
   .then(carShops => res.json(carShops))
   .catch(err => {
     res.json('no carshops found.');
@@ -54,12 +57,14 @@ const getSpecificCarShop = (req, res) => {
   .catch(err => res.json('could not find the carshop.'))
 };
 
+//*have to populate car shop owner name, phone, and address
 const addCarShop = (req, res) => {
+
     CarShop
     .create(req.body)
     .then(carshop => {
       CarShopOwner
-      .findByIdAndUpdate(req.params.id, {carShopInfo: carshop._id})
+      .findByIdAndUpdate(req.body.carShopOwner, {'carShopInfo': carshop._id})
       .then(owner => res.json(owner))
       .catch(err => res.json('could not find car owner.'));
     })

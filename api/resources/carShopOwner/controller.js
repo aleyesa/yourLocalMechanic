@@ -5,17 +5,13 @@ const getAllCarShopOwner = (req, res) => {
   CarShopOwner
   .find()
   .populate({
-    path: 'carShopInfo',
-    model: 'CarShop'
+    path: 'messageBox',
+    model: 'Message'
   })
   .populate({
     path: 'carShopInfo',
-    model: 'CarShop',
-    populate: {
-      path: 'email',
-      select: 'username',
-      model: 'CarShopOwner'
-    }
+    select: 'shopName',
+    model: 'CarShop'
   })
   .then(owner => res.json(owner))
   .catch(err => res.json('could not find any car shop owners.'));

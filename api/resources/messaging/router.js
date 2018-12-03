@@ -1,9 +1,10 @@
 import express from 'express';
 import {
   getAllMessages,
-  createMessage,
   getMessageThread,
-  addReply
+  createMessage,
+  deleteMessage,
+  editMessage
 } from './controller';
 
 const messagingRouter = express.Router();
@@ -16,8 +17,7 @@ messagingRouter.route('/thread')
 .get(getMessageThread);
 
 messagingRouter.route('/:id')
-.get()
-.put(addReply)
-.delete();
+.put(editMessage)
+.delete(deleteMessage);
 
 export default messagingRouter;

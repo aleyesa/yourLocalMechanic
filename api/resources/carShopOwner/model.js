@@ -25,6 +25,10 @@ import mongoose from 'mongoose';
   carShopInfo: {
     type: Schema.Types.ObjectId,
     ref: 'CarShop'
+  },
+  messageBox: {
+    type: [Schema.Types.ObjectId],
+    ref: 'Message'
   }
 });
 

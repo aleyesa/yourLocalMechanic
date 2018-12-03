@@ -19,7 +19,7 @@ const Schema = mongoose.Schema;
     in client message box and the specified car shop owner.
 */
 
-const messageBoxSchema = new Schema({
+const messageSchema = new Schema([{
   message: String,
   senderId: String,
   receiverId: String,
@@ -27,7 +27,7 @@ const messageBoxSchema = new Schema({
     type: Date,
     default: Date.now()
   }
-});
+}]);
 // const inquireSchema = new Schema({
 //   question: String,
 //   solution: String,
@@ -38,9 +38,9 @@ const messageBoxSchema = new Schema({
 //   client: String
 // });
 
-const MessageBox = mongoose.model('MessageBox', messageBoxSchema);
+const Message = mongoose.model('Message', messageSchema);
 // const Inquire = mongoose.model('Inquire', inquireSchema);
 
 export {
-  MessageBox
+  Message
 };
