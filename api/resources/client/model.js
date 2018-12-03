@@ -1,23 +1,27 @@
 import mongoose from 'mongoose';
-import Receipt from '../receipt/model';
-import {
-  Inbox,
-  Inquire
- } from '../messaging/model';
 
+const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 //How to get notifications when an expert replies to an inquire?
 
 const Schema = mongoose.Schema;
 
 const clientSchema = new Schema({
+  firstName: String,
+  lastName: String,
   username: {
-    type: String,
-    required: 'username is required',
-    unique: true
+  type: String,
+  validate: {
+    validator: (username) => {
+      console.log(emailRegex.test(username));
+      return emailRegex.test(username);
   },
-  password: {
-    type: String,
-    required: 'password is required'
+  message: username => `${username.value} is not a valid username.`
+  }
+},
+password: String,
+  messageBox: {
+    type: [Schema.Types.ObjectId],
+    ref: 'Message'
   }
 });
 

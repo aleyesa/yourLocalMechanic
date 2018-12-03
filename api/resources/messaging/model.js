@@ -19,27 +19,35 @@ const Schema = mongoose.Schema;
     in client message box and the specified car shop owner.
 */
 
-const messageSchema = new Schema([{
+const messageSchema = new Schema({
   message: String,
-  senderId: String,
-  receiverId: String,
+  sender: {
+    client: {
+      type: Schema.Types.ObjectId,
+      ref: 'Client'
+    },
+    carshop: {
+      type: Schema.Types.ObjectId,
+      ref: 'CarShopOwner'
+    }
+  },
+  receiver: {
+    client: {
+      type: Schema.Types.ObjectId,
+      reference: 'Client'
+    },
+    carshop: {
+      type: Schema.Types.ObjectId,
+      reference: 'CarShopOwner'
+    }
+  },
   timestamp: {
     type: Date,
     default: Date.now()
   }
-}]);
-// const inquireSchema = new Schema({
-//   question: String,
-//   solution: String,
-//   done: {
-//     type: Boolean,
-//     default: false
-//   },
-//   client: String
-// });
+});
 
 const Message = mongoose.model('Message', messageSchema);
-// const Inquire = mongoose.model('Inquire', inquireSchema);
 
 export {
   Message

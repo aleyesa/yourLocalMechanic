@@ -10,7 +10,7 @@ const carShopSchema = new Schema({
   },
   carShopOwner: {
     type: Schema.Types.ObjectId,
-    reference: 'CarShopOwner'
+    ref: 'CarShopOwner'
   },
   shopEmail: {
     type: String,

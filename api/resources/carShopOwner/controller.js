@@ -20,6 +20,15 @@ const getAllCarShopOwner = (req, res) => {
 const getCarShopOwnerInfo = (req, res) => {
   CarShopOwner
   .findById(req.params.id)
+  .populate({
+    path: 'messageBox',
+    model: 'Message'
+  })
+  .populate({
+    path: 'carShopInfo',
+    select: 'shopName',
+    model: 'CarShop'
+  })
   .then(ownerInfo => {
     res.json(ownerInfo);
   })

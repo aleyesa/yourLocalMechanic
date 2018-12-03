@@ -5,7 +5,8 @@ import carShopRouter from './api/resources/carShop/router';
 import carShopOwnerRouter from './api/resources/carShopOwner/router';
 import messagingRouter from './api/resources/messaging/router';
 import phoneRouter from './api/resources/phone/router';
-import address from './api/resources/address/router';
+import addressRouter from './api/resources/address/router';
+import clientRouter from './api/resources/client/router';
 
 const app = express();
 
@@ -19,7 +20,8 @@ app.use('/api/carshop', carShopRouter);
 app.use('/api/carshopowner', carShopOwnerRouter);
 app.use('/api/message', messagingRouter);
 app.use('/api/phone', phoneRouter);
-app.use('/api/address', address);
+app.use('/api/address', addressRouter);
+app.use('/api/client', clientRouter);
 
 app.listen(8080, () => console.log('application connected to port 8080.'));
 

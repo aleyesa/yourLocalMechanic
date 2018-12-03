@@ -26,17 +26,18 @@ const createMessage = (req, res) => {
   .then(message =>
   {
     console.log('message has been added to the Message collection.');
-    CarShopOwner
-    .findByIdAndUpdate(req.body.ownerId, {
-      'messageBox': message._id,
-      'senderId': req.body.ownerId
-    })
-    .then(ownerInfo => {
-      console.log('message has been added to the specified CarShopOwner Collection.')
-      res.json(ownerInfo);
-    })
+    res.json(message);
+    // CarShopOwner
+    // .findByIdAndUpdate(req.body.ownerId, {
+    //   'messageBox': message._id,
+    //   'senderId': req.body.ownerId
+    // })
+    // .then(ownerInfo => {
+    //   console.log('message has been added to the specified CarShopOwner Collection.')
+    //   res.json(ownerInfo);
+    // })
   })
-  .catch(err => res.json('could not create message.'));
+  .catch(err => res.json(err));
 };
 
 const editMessage = (req, res) => {
