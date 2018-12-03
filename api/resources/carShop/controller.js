@@ -1,5 +1,6 @@
 import { CarShop } from './model';
 import { CarShopOwner } from '../carShopOwner/model';
+import { Address } from '../address/model';
 
 const getAllCarShopsForTest = (req, res) => {
   CarShop
@@ -32,24 +33,85 @@ const getCarShops = (req, res) => {
 
     console.log('city and state is present, now searching.');
 
-    CarShop
+    //use find query on address collection, return the ids,
+    //then use find query with address ids on car shop
+    //return the car shop info.
+
+    Address
     .find({
-      'location.address.city': city,
-      'location.address.state': state
+      'address.city': city,
+      'address.state': state
     })
-    .then(carshops => res.json(carshops))
-    .catch(err => res.json('no carshops found.'));
+    .select('_id')
+    .then(addresses => {
+
+      const addressId = [];
+
+      addresses.forEach(address => addressId.push(address._id));
+
+      CarShop
+      .find({'location': { 
+        $in: addressId
+      }
+      })
+      .populate({
+        path: 'carShopOwner',
+        select: 'firstName lastName', 
+        model: 'CarShopOwner'
+      })
+      .populate({
+        path: 'carShopPhone',
+        select: 'phone',
+        model: 'Phone'
+      })
+      .populate({
+        path: 'location', 
+        select: 'address',
+        model: 'Address'
+      })
+      .then(carshop => res.json(carshop))
+       .catch(err => res.json('no carshops found.'));
+    });
   
   }else if(zipcode) {
 
     console.log('zipcode is present, now searching.');
-    CarShop
+
+    Address
     .find({
-      'location.address.zipcode': zipcode
+      'address.zipcode': zipcode
     })
-    .then(carshops => res.json(carshops))
-    .catch(err => res.json('no carshops found.'));
-  
+    .select('_id')
+    .then(addresses => {
+
+      const addressId = [];
+
+      addresses.forEach(address => addressId.push(address._id));
+
+      CarShop
+      .find({'location': { 
+        $in: addressId
+      }
+      })
+      .populate({
+        path: 'carShopOwner',
+        select: 'firstName lastName', 
+        model: 'CarShopOwner'
+      })
+      .populate({
+        path: 'carShopPhone',
+        select: 'phone',
+        model: 'Phone'
+      })
+      .populate({
+        path: 'location', 
+        select: 'address',
+        model: 'Address'
+      })
+      .then(carshop => res.json(carshop))
+       .catch(err => res.json('no carshops found.'));
+    });
+
   }else {
 
     console.log('Please input city and state fields or a zipcode.');

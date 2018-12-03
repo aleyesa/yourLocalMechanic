@@ -21,6 +21,8 @@ $('.carShopSearchForm').on('submit', () => {
     }
   }
 
+  console.log(address);
+
   $.ajax({
     type: 'GET',
     url: `/api/carshop`,
