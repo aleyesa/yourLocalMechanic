@@ -11,8 +11,20 @@ const getAllMessages = (req, res) => {
 const getMessageThread = (req, res) => {
   Message
   .find({
-    senderId: req.body.senderId,
-    receiverId: req.body.receiverId
+    $or: [{
+      "sender.client": req.body.senderClient,
+      "receiver.carShop": req.body.receiverCarshop
+    },
+    {
+      "sender.carShop": req.body.senderCarshop,
+      "receiver.client": req.body.receiverClient
+    },
+    {
+      "sender.client": req.body.senderClient
+    },
+    {
+      "sender.carShop": req.body.senderCarshop
+    }]
   })
   .then(messages => res.json(messages))
   .catch(err => res.json(err));
