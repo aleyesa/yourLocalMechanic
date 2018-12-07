@@ -123,7 +123,21 @@ const getCarShops = (req, res) => {
 const getSpecificCarShop = (req, res) => {
   CarShop
   .findById(req.params.id)
-  .populate('email', 'username')
+  .populate({
+    path: 'carShopOwner',
+    select: 'firstName lastName', 
+    model: 'CarShopOwner'
+  })
+  .populate({
+    path: 'carShopPhone',
+    select: 'phone',
+    model: 'Phone'
+  })
+  .populate({
+    path: 'location', 
+    select: 'address',
+    model: 'Address'
+  })
   .then(carShop => {
     res.json(carShop);
   })

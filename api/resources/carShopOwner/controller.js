@@ -26,8 +26,15 @@ const getCarShopOwnerInfo = (req, res) => {
   })
   .populate({
     path: 'carShopInfo',
-    select: 'shopName',
-    model: 'CarShop'
+    model: 'CarShop',
+    populate: [{
+      path: 'carShopPhone',
+      model: 'Phone'
+    },
+    {
+      path: 'location',
+      model: 'Address'
+    }]
   })
   .then(ownerInfo => {
     res.json(ownerInfo);

@@ -1,15 +1,15 @@
-const clientLogin = () => {
+//when client logs in...
+const clientProfile = () => {
   window.sessionStorage.setItem('currUserId', '5c04d91aa127d60a14dacc02');
   populateClientInfo();
-  populateMessage();
+  updateClientInfo();
 };
 
-const carShopOwnerLogin = () => {
+//when car shop owner logs in...
+const carShopOwnerProfile = () => {
   //hold owner id to session storage.
   window.sessionStorage.setItem('currUserId', '5c04162d42d8bf2e10da5982');
   populateCarShopOwnerInfo();
-  populateCarShop();
-  populateMessage();
   updateCarShopOwnerInfo();
 };
 
@@ -51,6 +51,8 @@ const populateCarShopOwnerInfo = () => {
       if(res.carShopInfo._id) {
         window.sessionStorage.setItem('carShopId', res.carShopInfo._id);
       }
+      populateCarShop();
+      populateMessage();
     }
   });
 };
@@ -61,6 +63,35 @@ const populateCarShop = () => {
     url: `/api/carshop/${window.sessionStorage.getItem('carShopId')}`,
     success: (res) => {
       console.log(res);
+
+      let specialtiesHtml = '';
+      let specDescription = '';
+
+    //populate the specialties:
+    res.specialties.forEach(specialty => {
+      specialty.description.forEach(description => {
+        specDescription += `
+        <label for="specialty">Specialty:</label>
+        <input readonly
+          type="text" name="specialty" 
+          id="description" placeholder="${description}"
+        />
+        `
+      });
+      specialtiesHtml += `
+        <label for="repair">Repair:</label>
+        <input 
+        type="text" name="repair" 
+        id="repair" placeholder="${res.specialties[0].repair}"
+        />
+        ${specDescription}
+        <label for="cost">Cost:</label>
+        <input 
+        type="text" name="cost" 
+        id="cost" placeholder="${res.specialties[0].cost}"
+        />
+      `
+    });
     
     $('.carShopSection').html(
     `
@@ -73,23 +104,44 @@ const populateCarShop = () => {
       <label for="phone">Car Shop Phone:</label>
       <input 
         type="text" name="phone" 
-        id="phone" placeholder="${res.carShopPhone}"
+        id="phone" placeholder="${res.carShopPhone.phone}"
       />
       <label for="shopEmail">Car Shop Email:</label>
       <input 
         type="text" name="shopEmail" 
         id="shopEmail" placeholder="${res.shopEmail}"
       />
-      <label for="location">Location:</label>
+
+      <label for="streetNumber">Street Number:</label>
       <input 
-        type="text" name="location" 
-        id="location" placeholder="${res.location}"
+        type="text" name="streetNumber" 
+        id="streetNumber" placeholder="${res.location.address.street.streetNumber}"
       />
-      <label for="specialties">Specialties:</label>
+      <label for="streetName">Street Name:</label>
       <input 
-        type="text" name="specialties" 
-        id="specialties" placeholder="${res.specialties}"
+        type="text" name="streetName" 
+        id="streetName" placeholder="${res.location.address.street.streetName}"
       />
+      <label for="city">City:</label>
+      <input 
+        type="text" name="city" 
+        id="city" placeholder="${res.location.address.city}"
+      />
+      <label for="state">State:</label>
+      <input 
+        type="text" name="state" 
+        id="state" placeholder="${res.location.address.state}"
+      />
+      <label for="zipcode">Zipcode:</label>
+      <input 
+        type="text" name="zipcode" 
+        id="zipcode" placeholder="${res.location.address.zipcode}"
+      />
+
+
+      ${specialtiesHtml}
+      <input type="button" name="addSpecialties" id="addSpecialties" value="Add Specialties">
+
       <label for="labor">Labor:</label>
       <input 
         type="text" name="labor" 
@@ -116,7 +168,7 @@ const populateClientInfo = () => {
         <label for="firstName">First Name:</label>
         <input 
           type="text" name="firstName" 
-          id="firsName" placeholder="${res.firstName}"
+          id="firstName" placeholder="${res.firstName}"
         />
         <label for="lastName">Last Name:</label>
         <input 
@@ -133,11 +185,13 @@ const populateClientInfo = () => {
           type="text" name="password" 
           id="password" placeholder="${res.password}"
         />
-        <input type="button" id="updateUserBtn" value="Update"/>
+        <input type="submit" id="updateUserBtn" value="Update"/>
       </form>
       `
       );
+      populateMessage();
     }
+    
   });
 };
 
@@ -209,13 +263,66 @@ const updateCarShopOwnerInfo = () => {
 };
 
 const updateClientInfo = () => {
+  $('.userSection').on('submit', () => {
+    event.preventDefault();
+
+    const userInfoForm = $('.userSection form');
+    const formLength = userInfoForm[0].length;
+    const userInfo = {};
+
+    for(let i = 0; i < formLength; i++){
+      if(userInfoForm[0][i].type === 'text'){
+        if(userInfoForm[0][i].value){
+          userInfo[userInfoForm[0][i].id] = userInfoForm[0][i].value;
+        } 
+      }
+    };
+
+    $.ajax({
+      type: 'PUT',
+      url: `/api/client/${window.sessionStorage.getItem('currUserId')}`,
+      contentType: 'application/json',
+      data: JSON.stringify(userInfo),
+      success: res => {
+        console.log(userInfo);
+        console.log(res);
+      }
+    });
+  });
 
 };
 
+const updateCarShop = () => {
+
+  event.preventDefault();
+
+  const userInfoForm = $('.userSection form');
+  const formLength = userInfoForm[0].length;
+  const userInfo = {};
+
+  for(let i = 0; i < formLength; i++){
+    if(userInfoForm[0][i].type === 'text'){
+      if(userInfoForm[0][i].value){
+        userInfo[userInfoForm[0][i].id] = userInfoForm[0][i].value;
+      } 
+    }
+  };
+
+  $.ajax({
+    type: 'PUT',
+    url: `/api/carshop/${window.sessionStorage.getItem('currUserId')}`,
+    contentType: 'application/json',
+    data: JSON.stringify(userInfo),
+    success: res => {
+      console.log(userInfo);
+      console.log(res);
+    }
+  });
+};
 
 const runApi = () => {
-  // clientLogin();
-  carShopOwnerLogin();
+  // clientProfile();
+  carShopOwnerProfile();
 };
 
 runApi();

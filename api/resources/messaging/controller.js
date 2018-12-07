@@ -26,6 +26,27 @@ const getMessageThread = (req, res) => {
       "sender.carShop": req.body.senderCarshop
     }]
   })
+  .populate([{
+    path: 'sender.client',
+    model: 'Client'
+  },
+  {
+    path: 'sender.carshop',
+    model: 'CarShopOwner' 
+  },
+  {
+    path: 'receiver.client',
+    model: 'CarShopOwner' 
+  },
+  {
+    path: 'receiver.carshop',
+    model: 'CarShopOwner' 
+  }
+])
+  // .populate({
+  //   path: 'sender.carshop',
+  //   model: 'CarShopOwner'
+  // })
   .then(messages => res.json(messages))
   .catch(err => res.json(err));
 };
