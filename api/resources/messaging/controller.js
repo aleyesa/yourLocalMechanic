@@ -1,52 +1,70 @@
 import { Message } from './model';
-import { CarShopOwner } from '../carShopOwner/model';
 
 const getAllMessages = (req, res) => {
   Message
   .find()
+  .or([
+    {
+      "sender.client": req.query.senderClient
+    },
+    {
+      'sender.carShop': req.query.senderCarShop
+    }
+  ])
+  .populate([{
+    path: 'sender.client',
+    model: 'Client'
+  },
+  {
+    path: 'sender.carShop',
+    model: 'CarShopOwner' 
+  },
+  {
+    path: 'receiver.client',
+    model: 'Client' 
+  },
+  {
+    path: 'receiver.carShop',
+    model: 'CarShopOwner' 
+  }
+  ])
+  .sort('-timestamp')
   .then(messages => res.json(messages))
   .catch(err => res.json(err));
 };
 
 const getMessageThread = (req, res) => {
   Message
-  .find({
-    $or: [{
-      "sender.client": req.body.senderClient,
-      "receiver.carShop": req.body.receiverCarshop
-    },
+  .find()
+  .or([
     {
-      "sender.carShop": req.body.senderCarshop,
-      "receiver.client": req.body.receiverClient
-    },
-    {
-      "sender.client": req.body.senderClient
-    },
-    {
-      "sender.carShop": req.body.senderCarshop
-    }]
-  })
+      "sender.client": req.query.senderClient,
+      "receiver.carShop": req.query.receiverCarShop
+    }
+    ,
+    { 
+      "sender.carShop": req.query.senderCarShop,
+      "receiver.client": req.query.receiverClient
+    }
+  ])
   .populate([{
     path: 'sender.client',
     model: 'Client'
   },
   {
-    path: 'sender.carshop',
+    path: 'sender.carShop',
     model: 'CarShopOwner' 
   },
   {
     path: 'receiver.client',
-    model: 'CarShopOwner' 
+    model: 'Client' 
   },
   {
-    path: 'receiver.carshop',
+    path: 'receiver.carShop',
     model: 'CarShopOwner' 
   }
-])
-  // .populate({
-  //   path: 'sender.carshop',
-  //   model: 'CarShopOwner'
-  // })
+  ])
+  .sort('timestamp')
   .then(messages => res.json(messages))
   .catch(err => res.json(err));
 };

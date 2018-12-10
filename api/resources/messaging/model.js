@@ -26,7 +26,7 @@ const messageSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Client'
     },
-    carshop: {
+    carShop: {
       type: Schema.Types.ObjectId,
       ref: 'CarShopOwner'
     }
@@ -36,7 +36,7 @@ const messageSchema = new Schema({
       type: Schema.Types.ObjectId,
       reference: 'Client'
     },
-    carshop: {
+    carShop: {
       type: Schema.Types.ObjectId,
       reference: 'CarShopOwner'
     }

@@ -200,18 +200,32 @@ const populateMessage = () => {
     type: 'GET',
     url: `/api/message/thread`,
     data: {
-      senderCarshop: '5c04162d42d8bf2e10da5982'
+      senderCarshop: window.sessionStorage.getItem('currUserId')
     },
     success: (res) => {
+      let messagesHtml = '';
       console.log(res);
-      $('.messageSection').html(
-        `
-        <p>${res[0].message}</p>
-        <p>${res[0].sender}</p>
-        <p>${res[0].receiver}</p>
-        <p>${res[0].timestamp}</p>
-        `
-      );
+      res.forEach(message => {
+        if(message.sender.carshop) {
+          messagesHtml +=
+          `
+            <p>${message.message}</p>
+            <p>${message.sender.carshop.username}</p>
+            <p>${message.receiver.client.username}</p>
+            <p>${message.timestamp}</p>
+          `;
+      
+        } else {
+          messagesHtml +=
+            `
+              <p>${message.message}</p>
+              <p>${message.sender.client.username}</p>
+              <p>${message.receiver.carshop.username}</p>
+              <p>${message.timestamp}</p>
+            `;
+        }
+        $('.messageSection').html(messagesHtml);
+      });
     }
   });
 };
