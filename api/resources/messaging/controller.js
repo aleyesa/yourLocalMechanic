@@ -1,16 +1,15 @@
 import { Message } from './model';
+import { Client } from '../client/model';
+import { CarShopOwner } from '../carShopOwner/model';
 
 const getAllMessages = (req, res) => {
+
+  //first we do a find query to find the specific client
+  //and get the car shop id
+  //then we can use the other request to get the thread
+  console.log(req.query);
   Message
-  .find()
-  .or([
-    {
-      "sender.client": req.query.senderClient
-    },
-    {
-      'sender.carShop': req.query.senderCarShop
-    }
-  ])
+  .find(req.query)
   .populate([{
     path: 'sender.client',
     model: 'Client'
@@ -70,23 +69,67 @@ const getMessageThread = (req, res) => {
 };
 
 const createMessage = (req, res) => {
-  //get the user id thats loggged in.
-  //and set the senderId as the user id.
+  //Scenerio:
+  //a user is logged in:
+  //if client:
+    //the client finds a car shop
+    //sends a message and thus creates a document in the message collection
+    //when creating the message we push the created message id to the current client thats logged in
+    //the client should now have a list of messages sent out to the carshops
+
+  //if carShop:
+    //the carshop should receive a message from a client
+
   Message
   .create(req.body)
   .then(message =>
   {
-    console.log('message has been added to the Message collection.');
-    res.json(message);
-    // CarShopOwner
-    // .findByIdAndUpdate(req.body.ownerId, {
-    //   'messageBox': message._id,
-    //   'senderId': req.body.ownerId
-    // })
-    // .then(ownerInfo => {
-    //   console.log('message has been added to the specified CarShopOwner Collection.')
-    //   res.json(ownerInfo);
-    // })
+    if(message.sender.client) {
+      console.log('message has been added to the Message collection.');
+      Client
+      .findByIdAndUpdate(message.sender.client, 
+        { 
+          $push: {
+            messageBox: message._id
+          }
+        })
+        .then(client => {
+          console.log(`message has been added to ${client.username}`);
+        });
+
+        CarShopOwner
+        .findByIdAndUpdate(message.receiver.carShop, 
+        { 
+          $push: {
+            messageBox: message._id
+          }
+        })
+        .then(carShop => {
+          console.log(`${carShop.username} has received the message`);
+        });
+      } else {
+        CarShopOwner
+        .findByIdAndUpdate(message.sender.carShop, 
+          { 
+            $push: {
+              messageBox: message._id
+            }
+          })
+          .then(carShop => {
+            console.log(`message has been added to ${carShop.username}`);
+          });
+  
+          Client
+          .findByIdAndUpdate(message.receiver.client, 
+          { 
+            $push: {
+              messageBox: message._id
+            }
+          })
+          .then(message => {
+            res.json(`${message.username} has received the message`);
+          });
+      }
   })
   .catch(err => res.json(err));
 };
@@ -101,7 +144,49 @@ const editMessage = (req, res) => {
 const deleteMessage = (req, res) => {
   Message
   .findByIdAndDelete(req.params.id)
-  .then(thread => res.json('deleted thread.'))
+  .then(thread => { 
+    // res.json('deleted thread.');
+    if(thread.sender.client){
+      Client
+      .findByIdAndUpdate(thread.sender.client,
+      {
+        $pull: {
+          messageBox: thread._id
+        }
+      })
+      .then(client => console.log(`message deleted from senders end.`));
+
+      CarShopOwner
+      .findByIdAndUpdate(thread.receiver.carShop,
+        {
+          $pull: {
+            messageBox: thread._id
+          }
+        })
+        .then(carShop => console.log(`message deleted from receivers end.`));
+      } else {
+
+        CarShopOwner
+        .findByIdAndUpdate(thread.sender.carShop,
+        {
+          $pull: {
+            messageBox: thread._id
+          }
+        })
+        .then(carShop => console.log(`message deleted from senders end.`));
+  
+        Client
+        .findByIdAndUpdate(thread.receiver.client,
+          {
+            $pull: {
+              messageBox: thread._id
+            }
+          })
+          .then(client => console.log(`message deleted from receivers end.`));
+      }
+
+
+  })
   .catch(err => res.json('failed to delete message.'));
 };
 

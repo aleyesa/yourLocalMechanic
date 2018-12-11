@@ -19,10 +19,10 @@ const clientSchema = new Schema({
   }
 },
 password: String,
-  messageBox: {
-    type: [Schema.Types.ObjectId],
+  messageBox: [{
+    type: Schema.Types.ObjectId,
     ref: 'Message'
-  }
+  }]
 });
 
 const Client = mongoose.model('Client', clientSchema);

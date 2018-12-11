@@ -20,6 +20,7 @@ const Schema = mongoose.Schema;
 */
 
 const messageSchema = new Schema({
+  subject: String,
   message: String,
   sender: {
     client: {

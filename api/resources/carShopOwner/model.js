@@ -26,10 +26,10 @@ import mongoose from 'mongoose';
     type: Schema.Types.ObjectId,
     ref: 'CarShop'
   },
-  messageBox: {
-    type: [Schema.Types.ObjectId],
+  messageBox: [{
+    type: Schema.Types.ObjectId,
     ref: 'Message'
-  }
+  }]
 });
 
 const CarShopOwner = mongoose.model('CarShopOwner', carShopOwnerSchema);

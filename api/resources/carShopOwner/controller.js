@@ -4,15 +4,15 @@ import { CarShopOwner } from './model';
 const getAllCarShopOwner = (req, res) => {
   CarShopOwner
   .find()
-  .populate({
-    path: 'messageBox',
-    model: 'Message'
-  })
-  .populate({
-    path: 'carShopInfo',
-    select: 'shopName',
-    model: 'CarShop'
-  })
+  // .populate({
+  //   path: 'messageBox',
+  //   model: 'Message'
+  // })
+  // .populate({
+  //   path: 'carShopInfo',
+  //   select: 'shopName',
+  //   model: 'CarShop'
+  // })
   .then(owner => res.json(owner))
   .catch(err => res.json('could not find any car shop owners.'));
 };

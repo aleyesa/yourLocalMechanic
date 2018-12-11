@@ -1,7 +1,11 @@
 //when client logs in...
 const clientProfile = () => {
   window.sessionStorage.setItem('currUserId', '5c04d91aa127d60a14dacc02');
+  let data = {
+    'sender.client': window.sessionStorage.getItem('currUserId')
+  }
   populateClientInfo();
+  populateMessage(data);
   updateClientInfo();
 };
 
@@ -9,7 +13,12 @@ const clientProfile = () => {
 const carShopOwnerProfile = () => {
   //hold owner id to session storage.
   window.sessionStorage.setItem('currUserId', '5c04162d42d8bf2e10da5982');
+  let data = {
+    'receiver.carShop': window.sessionStorage.getItem('currUserId')
+  }
   populateCarShopOwnerInfo();
+  populateCarShop();
+  populateMessage(data);
   updateCarShopOwnerInfo();
 };
 
@@ -51,8 +60,6 @@ const populateCarShopOwnerInfo = () => {
       if(res.carShopInfo._id) {
         window.sessionStorage.setItem('carShopId', res.carShopInfo._id);
       }
-      populateCarShop();
-      populateMessage();
     }
   });
 };
@@ -189,58 +196,43 @@ const populateClientInfo = () => {
       </form>
       `
       );
-      populateMessage();
     }
     
   });
 };
 
-const populateMessage = () => {
+const populateMessage = (currUser) => {
   $.ajax({
     type: 'GET',
-    url: `/api/message/thread`,
-    data: {
-      senderCarshop: window.sessionStorage.getItem('currUserId')
-    },
+    url: `/api/message`,
+    data: currUser,
     success: (res) => {
       let messagesHtml = '';
       console.log(res);
       res.forEach(message => {
-        if(message.sender.carshop) {
+        if(message.receiver.carShop) {
           messagesHtml +=
           `
             <p>${message.message}</p>
-            <p>${message.sender.carshop.username}</p>
-            <p>${message.receiver.client.username}</p>
+            <p>${message.sender.client.username}</p>
+            <p>${message.receiver.carShop.username}</p>
             <p>${message.timestamp}</p>
           `;
       
         } else {
-          messagesHtml +=
-            `
-              <p>${message.message}</p>
-              <p>${message.sender.client.username}</p>
-              <p>${message.receiver.carshop.username}</p>
-              <p>${message.timestamp}</p>
-            `;
+          // messagesHtml +=
+          //   `
+          //     <p>${message.message}</p>
+          //     <p>${message.sender.client.username}</p>
+          //     <p>${message.receiver.carShop.username}</p>
+          //     <p>${message.timestamp}</p>
+          //   `;
         }
         $('.messageSection').html(messagesHtml);
       });
     }
   });
 };
-
-//then use the other request that finds the sender and 
-//the receiver
-
-//Update Profile:
-/*
-  - fields that the user is able to update
-  - button that allows updating info
-  - a call to the api to update the info.
-*/
-
-//Update Car shop owners user info
 
 const updateCarShopOwnerInfo = () => {
   /*listen if the update button has been pressed
@@ -303,7 +295,6 @@ const updateClientInfo = () => {
       }
     });
   });
-
 };
 
 const updateCarShop = () => {
@@ -335,8 +326,8 @@ const updateCarShop = () => {
 };
 
 const runApi = () => {
-  // clientProfile();
-  carShopOwnerProfile();
+  clientProfile();
+  // carShopOwnerProfile();
 };
 
 runApi();

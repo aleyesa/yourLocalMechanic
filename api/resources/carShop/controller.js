@@ -144,6 +144,11 @@ const getSpecificCarShop = (req, res) => {
   .catch(err => res.json('could not find the carshop.'))
 };
 
+//event listener for adding a list of descriptions to the type of repair:
+//text field and button, when user presses button we push to array.
+//to push we go to the specialty array and find the specific repair, then find 
+//the description and simply push/pop the new piece of data
+
 //*have to populate car shop owner name, phone, and address
 const addCarShop = (req, res) => {
 
