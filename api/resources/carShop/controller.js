@@ -1,6 +1,7 @@
 import { CarShop } from './model';
 import { CarShopOwner } from '../carShopOwner/model';
 import { Address } from '../address/model';
+import { Phone } from '../phone/model';
 
 const getAllCarShopsForTest = (req, res) => {
   CarShop
@@ -173,7 +174,29 @@ const updateCarShopInfo = (req, res) => {
 const removeCarShop = (req, res) => {
   CarShop
   .findByIdAndDelete(req.params.id)
-  .then(carShop => res.json('car shop has been removed.'))
+  .then(carShop => {
+
+    CarShopOwner
+    .findByIdAndUpdate(carShop.carShopOwner._id, {
+        $unset: { 
+          carShopInfo: ""
+        }
+    })
+    .then(owner => console.log('car shop has been removed to the car shop owner.'))
+    .catch(err => console.log('failed to remove car shop from car shop owner.'));
+
+    Address
+    .findByIdAndDelete(carShop.location._id)
+    .then(address => console.log('address removed.'))
+    .catch(err => console.log('failed to remove address from collection.'));
+
+    Phone
+    .findByIdAndDelete(carShop.carShopPhone._id)
+    .then(phone => console.log('phone has been removed.'))
+    .catch(err => console.log('failed to remove phone from collection.'));
+
+    res.json('car shop has been removed.');
+  })
   .catch(err => res.json('could not remove your carshop from list.'));
 };
 
