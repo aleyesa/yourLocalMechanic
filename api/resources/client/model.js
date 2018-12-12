@@ -22,6 +22,11 @@ password: String,
   messageBox: [{
     type: Schema.Types.ObjectId,
     ref: 'Message'
+  }],
+  carShopMessages: [{
+    type: Schema.Types.ObjectId,
+    ref: 'CarShopOwner',
+    unique: true
   }]
 });
 

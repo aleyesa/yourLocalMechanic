@@ -29,6 +29,11 @@ import mongoose from 'mongoose';
   messageBox: [{
     type: Schema.Types.ObjectId,
     ref: 'Message'
+  }],
+  clientMessages: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Client',
+    unique: true
   }]
 });
 

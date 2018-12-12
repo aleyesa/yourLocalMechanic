@@ -9,7 +9,7 @@ const getAllMessages = (req, res) => {
   //then we can use the other request to get the thread
   console.log(req.query);
   Message
-  .find(req.query)
+  .find()
   .populate([{
     path: 'sender.client',
     model: 'Client'
@@ -27,7 +27,7 @@ const getAllMessages = (req, res) => {
     model: 'CarShopOwner' 
   }
   ])
-  .sort('-timestamp')
+  .sort('timestamp')
   .then(messages => res.json(messages))
   .catch(err => res.json(err));
 };
@@ -86,48 +86,50 @@ const createMessage = (req, res) => {
   {
     if(message.sender.client) {
       console.log('message has been added to the Message collection.');
+      console.log(message);
       Client
       .findByIdAndUpdate(message.sender.client, 
         { 
-          $push: {
-            messageBox: message._id
+          $addToSet: {
+            carShopMessages: message.receiver.carShop
           }
         })
         .then(client => {
-          console.log(`message has been added to ${client.username}`);
+          console.log(`car shop added to carShopMessages.`);
         });
 
         CarShopOwner
         .findByIdAndUpdate(message.receiver.carShop, 
         { 
-          $push: {
-            messageBox: message._id
+          $addToSet: {
+            clientMessages: message.sender.client
           }
         })
         .then(carShop => {
-          console.log(`${carShop.username} has received the message`);
+          console.log(`client has been added to clientMessages.`);
         });
       } else {
+        console.log(message);
         CarShopOwner
         .findByIdAndUpdate(message.sender.carShop, 
           { 
-            $push: {
-              messageBox: message._id
+            $addToSet: {
+              clientMessages: message.receiver.client
             }
           })
           .then(carShop => {
-            console.log(`message has been added to ${carShop.username}`);
+            console.log(`client has been added to clientMessages.`);
           });
   
           Client
           .findByIdAndUpdate(message.receiver.client, 
           { 
-            $push: {
-              messageBox: message._id
+            $addToSet: {
+              carShopMessages: message.sender.carShop
             }
           })
           .then(message => {
-            res.json(`${message.username} has received the message`);
+            res.json(`carshop has been added to carShopMessages.`);
           });
       }
   })
@@ -145,7 +147,6 @@ const deleteMessage = (req, res) => {
   Message
   .findByIdAndDelete(req.params.id)
   .then(thread => { 
-    // res.json('deleted thread.');
     if(thread.sender.client){
       Client
       .findByIdAndUpdate(thread.sender.client,

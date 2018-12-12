@@ -5,7 +5,6 @@ const getAllClients = (req, res) => {
   .find()
   .then(clients => {
     res.json(clients);
-    console.log(clients[0].messageBox);
   })
   .catch(err => res.json(err));
 };
@@ -15,7 +14,12 @@ const getClientInfo = (req, res) => {
   .findById(req.params.id)
   .populate({
     path: 'messageBox',
-    model: 'Message'
+    model: 'Message',
+    options: { 
+      sort: {
+      'timestamp': 1
+      }
+    }
   })
   .then(client => res.json(client))
   .catch(err => res.json(err));

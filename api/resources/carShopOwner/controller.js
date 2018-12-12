@@ -1,5 +1,6 @@
 import { CarShop } from '../carShop/model';
 import { CarShopOwner } from './model';
+import { removeCarShop } from '../carShop/controller';
 
 const getAllCarShopOwner = (req, res) => {
   CarShopOwner
@@ -22,7 +23,12 @@ const getCarShopOwnerInfo = (req, res) => {
   .findById(req.params.id)
   .populate({
     path: 'messageBox',
-    model: 'Message'
+    model: 'Message',
+    options: { 
+      sort: {
+      'timestamp': 1
+      }
+    }
   })
   .populate({
     path: 'carShopInfo',
@@ -59,6 +65,8 @@ const updateCarShopOwnerInfo = (req, res) => {
 };
 
 const deleteCarShopOwnerAccount = (req, res) => {
+  removeCarShop(req, res);
+
   CarShopOwner
   .findByIdAndDelete(req.params.id)
   .then(account => res.json('Car shop owner has been removed.'))
