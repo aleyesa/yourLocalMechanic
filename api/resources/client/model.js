@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-//How to get notifications when an expert replies to an inquire?
 
 const Schema = mongoose.Schema;
 
 const clientSchema = new Schema({
+
   firstName: String,
   lastName: String,
   username: {
@@ -17,17 +17,13 @@ const clientSchema = new Schema({
   },
   message: username => `${username.value} is not a valid username.`
   }
-},
-password: String,
-  messageBox: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Message'
-  }],
-  carShopMessages: [{
-    type: Schema.Types.ObjectId,
-    ref: 'CarShopOwner',
-    unique: true
-  }]
+  },
+  password: String,
+    carShopMessages: [{
+      type: Schema.Types.ObjectId,
+      ref: 'CarShopOwner'
+    }]
+    
 });
 
 const Client = mongoose.model('Client', clientSchema);

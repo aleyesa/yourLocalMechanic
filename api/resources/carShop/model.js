@@ -4,6 +4,7 @@ const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+")
 const Schema = mongoose.Schema;
 
 const carShopSchema = new Schema({
+
   shopName: {
     type: String,
     required: [true, 'A car shop name is required.']
@@ -40,6 +41,7 @@ const carShopSchema = new Schema({
     }
   }],
   labor: String
+  
 });
 
 const CarShop = mongoose.model('CarShop', carShopSchema);

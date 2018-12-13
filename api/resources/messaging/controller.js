@@ -4,10 +4,6 @@ import { CarShopOwner } from '../carShopOwner/model';
 
 const getAllMessages = (req, res) => {
 
-  //first we do a find query to find the specific client
-  //and get the car shop id
-  //then we can use the other request to get the thread
-  console.log(req.query);
   Message
   .find()
   .populate([{
@@ -30,20 +26,22 @@ const getAllMessages = (req, res) => {
   .sort('timestamp')
   .then(messages => res.json(messages))
   .catch(err => res.json(err));
+
 };
 
 const getMessageThread = (req, res) => {
+
   Message
   .find()
   .or([
     {
-      "sender.client": req.query.senderClient,
-      "receiver.carShop": req.query.receiverCarShop
+      "sender.client": req.query.client,
+      "receiver.carShop": req.query.carShop
     }
     ,
     { 
-      "sender.carShop": req.query.senderCarShop,
-      "receiver.client": req.query.receiverClient
+      "sender.carShop": req.query.carShop,
+      "receiver.client": req.query.client
     }
   ])
   .populate([{
@@ -64,131 +62,146 @@ const getMessageThread = (req, res) => {
   }
   ])
   .sort('timestamp')
-  .then(messages => res.json(messages))
+  .then(messages => { 
+    if(messages.length == 0) {
+      res.json('No conversations were found.');
+    } else {
+      res.json(messages);
+    }
+  })
   .catch(err => res.json(err));
+
 };
 
 const createMessage = (req, res) => {
-  //Scenerio:
-  //a user is logged in:
-  //if client:
-    //the client finds a car shop
-    //sends a message and thus creates a document in the message collection
-    //when creating the message we push the created message id to the current client thats logged in
-    //the client should now have a list of messages sent out to the carshops
-
-  //if carShop:
-    //the carshop should receive a message from a client
 
   Message
   .create(req.body)
-  .then(message =>
-  {
+  .then(message =>  {
+
     if(message.sender.client) {
-      console.log('message has been added to the Message collection.');
-      console.log(message);
       Client
       .findByIdAndUpdate(message.sender.client, 
-        { 
-          $addToSet: {
-            carShopMessages: message.receiver.carShop
-          }
-        })
-        .then(client => {
-          console.log(`car shop added to carShopMessages.`);
-        });
+      { 
+        $addToSet: {
+          carShopMessages: message.receiver.carShop
+        }
+      })
+      .then(client => {
+        console.log(`car shop added to carShopMessages.`);
+      })
+      .catch(err => console.log('failed to add car shop to carShopMessages.'));
 
-        CarShopOwner
-        .findByIdAndUpdate(message.receiver.carShop, 
+
+      CarShopOwner
+      .findByIdAndUpdate(message.receiver.carShop, 
+      { 
+        $addToSet: {
+          clientMessages: message.sender.client
+        }
+      })
+      .then(carShop => {
+        console.log(`client has been added to clientMessages.`);
+      })
+      .catch(err => console.log('failed to add client to clientMessages.'));
+
+    } else {
+      
+      CarShopOwner
+      .findByIdAndUpdate(message.sender.carShop, 
         { 
           $addToSet: {
-            clientMessages: message.sender.client
+            clientMessages: message.receiver.client
           }
         })
         .then(carShop => {
           console.log(`client has been added to clientMessages.`);
-        });
-      } else {
-        console.log(message);
-        CarShopOwner
-        .findByIdAndUpdate(message.sender.carShop, 
-          { 
-            $addToSet: {
-              clientMessages: message.receiver.client
-            }
-          })
-          .then(carShop => {
-            console.log(`client has been added to clientMessages.`);
-          });
-  
-          Client
-          .findByIdAndUpdate(message.receiver.client, 
-          { 
-            $addToSet: {
-              carShopMessages: message.sender.carShop
-            }
-          })
-          .then(message => {
-            res.json(`carshop has been added to carShopMessages.`);
-          });
-      }
+        })
+        .catch(err => console.log('failed to add client to clientMessages.'));
+
+        Client
+        .findByIdAndUpdate(message.receiver.client, 
+        { 
+          $addToSet: {
+            carShopMessages: message.sender.carShop
+          }
+        })
+        .then(message => {
+          console.log(`carshop has been added to carShopMessages.`);
+        })
+        .catch(err => console.log('failed to add car shop to carShopMessages.'));
+        } 
+
+        res.json('message was created.');
+
   })
   .catch(err => res.json(err));
+
 };
 
 const editMessage = (req, res) => {
+
   Message
   .findByIdAndUpdate(req.params.id, req.body)
   .then(editedMessage => res.json(editedMessage))
   .catch(err => res.json('failed to edit message.'));
+
 };
 
 const deleteMessage = (req, res) => {
+
   Message
   .findByIdAndDelete(req.params.id)
-  .then(thread => { 
-    if(thread.sender.client){
-      Client
-      .findByIdAndUpdate(thread.sender.client,
-      {
-        $pull: {
-          messageBox: thread._id
-        }
-      })
-      .then(client => console.log(`message deleted from senders end.`));
+  .then(message => { 
 
-      CarShopOwner
-      .findByIdAndUpdate(thread.receiver.carShop,
-        {
-          $pull: {
-            messageBox: thread._id
-          }
-        })
-        .then(carShop => console.log(`message deleted from receivers end.`));
-      } else {
-
-        CarShopOwner
-        .findByIdAndUpdate(thread.sender.carShop,
-        {
-          $pull: {
-            messageBox: thread._id
-          }
-        })
-        .then(carShop => console.log(`message deleted from senders end.`));
-  
-        Client
-        .findByIdAndUpdate(thread.receiver.client,
-          {
-            $pull: {
-              messageBox: thread._id
-            }
-          })
-          .then(client => console.log(`message deleted from receivers end.`));
-      }
-
+    res.json(message);
 
   })
   .catch(err => res.json('failed to delete message.'));
+
+};
+
+const deleteConversation = (req, res) => {
+
+  Message
+  .find()
+  .or([
+    {
+      "sender.client": req.query.client,
+      "receiver.carShop": req.query.carShop
+    }
+    ,
+    { 
+      "sender.carShop": req.query.carShop,
+      "receiver.client": req.query.client
+    }
+  ])
+  .deleteMany()
+  .then(thread => {
+
+    Client
+    .findByIdAndUpdate(req.query.client,
+    {
+      $pull: {
+        carShopMessages: req.query.carShop
+      }
+    })
+    .then(client => console.log(`car shop conversation was removed.`));
+
+    CarShopOwner
+    .findByIdAndUpdate(req.query.carShop,
+      {
+        $pull: {
+          clientMessages: req.query.client
+        }
+      })
+      .then(carShop => console.log(`client conversation was removed.`));
+    
+    res.json('conversation was deleted.');
+
+  })
+  .catch(err => res.json('failed to remove conversation.'));
+
 };
 
 export {
@@ -196,5 +209,6 @@ export {
   getMessageThread,
   createMessage,
   editMessage,
-  deleteMessage
+  deleteMessage,
+  deleteConversation
 };

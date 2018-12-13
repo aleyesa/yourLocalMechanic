@@ -3,8 +3,9 @@ import {
   getAllMessages,
   getMessageThread,
   createMessage,
+  editMessage,
   deleteMessage,
-  editMessage
+  deleteConversation
 } from './controller';
 
 const messagingRouter = express.Router();
@@ -14,7 +15,8 @@ messagingRouter.route('/')
 .post(createMessage);
 
 messagingRouter.route('/thread')
-.get(getMessageThread);
+.get(getMessageThread)
+.delete(deleteConversation);
 
 messagingRouter.route('/:id')
 .put(editMessage)

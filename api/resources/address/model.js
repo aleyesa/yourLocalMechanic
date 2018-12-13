@@ -28,6 +28,7 @@ const addressSchema = new Schema({
         required: [true, 'Input the zipcode.']
       }
     }
+    
 });
 
 const Address = mongoose.model('Address', addressSchema);

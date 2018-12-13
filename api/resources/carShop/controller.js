@@ -4,6 +4,7 @@ import { Address } from '../address/model';
 import { Phone } from '../phone/model';
 
 const getAllCarShopsForTest = (req, res) => {
+
   CarShop
   .find()
   .populate({
@@ -23,20 +24,20 @@ const getAllCarShopsForTest = (req, res) => {
   })
   .then(carShops => res.json(carShops))
   .catch(err => {
+
     res.json('no carshops found.');
+
   });
+
 };
 
 const getCarShops = (req, res) => {
+
   const {city, state, zipcode} = req.query;
 
   if(city && state && !zipcode) {
 
     console.log('city and state is present, now searching.');
-
-    //use find query on address collection, return the ids,
-    //then use find query with address ids on car shop
-    //return the car shop info.
 
     Address
     .find({
@@ -111,6 +112,7 @@ const getCarShops = (req, res) => {
       })
       .then(carshop => res.json(carshop))
        .catch(err => res.json('no carshops found.'));
+
     });
 
   }else {
@@ -122,6 +124,7 @@ const getCarShops = (req, res) => {
 };
 
 const getSpecificCarShop = (req, res) => {
+
   CarShop
   .findById(req.params.id)
   .populate({
@@ -142,15 +145,10 @@ const getSpecificCarShop = (req, res) => {
   .then(carShop => {
     res.json(carShop);
   })
-  .catch(err => res.json('could not find the carshop.'))
+  .catch(err => res.json('could not find the carshop.'));
+
 };
 
-//event listener for adding a list of descriptions to the type of repair:
-//text field and button, when user presses button we push to array.
-//to push we go to the specialty array and find the specific repair, then find 
-//the description and simply push/pop the new piece of data
-
-//*have to populate car shop owner name, phone, and address
 const addCarShop = (req, res) => {
 
     CarShop
@@ -162,25 +160,29 @@ const addCarShop = (req, res) => {
       .catch(err => res.json('could not find car owner.'));
     })
     .catch(err => res.json(err));
+
 };
 
 const updateCarShopInfo = (req, res) => {
+
   CarShop
   .findByIdAndUpdate(req.params.id, req.body)
   .then(updatedInfo => res.json(updatedInfo))
   .catch(err => res.json('could not update your info.'));
+
 };
 
 const removeCarShop = (req, res) => {
+
   CarShop
   .findByIdAndDelete(req.params.id)
   .then(carShop => {
 
     CarShopOwner
     .findByIdAndUpdate(carShop.carShopOwner._id, {
-        $unset: { 
-          carShopInfo: ""
-        }
+      $unset: { 
+        carShopInfo: ""
+      }
     })
     .then(owner => console.log('car shop has been removed to the car shop owner.'))
     .catch(err => console.log('failed to remove car shop from car shop owner.'));
@@ -196,14 +198,14 @@ const removeCarShop = (req, res) => {
     .catch(err => console.log('failed to remove phone from collection.'));
 
     res.json('car shop has been removed.');
+
   })
   .catch(err => res.json('could not remove your carshop from list.'));
+
 };
 
 export {
-
   getAllCarShopsForTest,
-  
   getCarShops,
   getSpecificCarShop,
   addCarShop,

@@ -4,6 +4,7 @@ const phoneNumberRegex = /^\d{10}$/;
 const Schema = mongoose.Schema;
 
 const phoneSchema = new Schema({
+
   phone: {
     type: String,
     validate: {
@@ -15,6 +16,7 @@ const phoneSchema = new Schema({
     },
     required: [true, 'Not a valid phone number, please try again.']
   }
+  
 });
 
 const Phone = mongoose.model('Phone', phoneSchema);

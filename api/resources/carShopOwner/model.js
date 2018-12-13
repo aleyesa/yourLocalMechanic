@@ -7,18 +7,18 @@ import mongoose from 'mongoose';
  /*
   - add rules for password
  */
-
  const carShopOwnerSchema = new Schema({
-    firstName: String,
-    lastName: String,
-    username: {
+
+  firstName: String,
+  lastName: String,
+  username: {
     type: String,
     validate: {
       validator: (username) => {
         console.log(emailRegex.test(username));
         return emailRegex.test(username);
-    },
-    message: username => `${username.value} is not a valid username.`
+      },
+      message: username => `${username.value} is not a valid username.`
     }
   },
   password: String,
@@ -26,15 +26,11 @@ import mongoose from 'mongoose';
     type: Schema.Types.ObjectId,
     ref: 'CarShop'
   },
-  messageBox: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Message'
-  }],
   clientMessages: [{
     type: Schema.Types.ObjectId,
-    ref: 'Client',
-    unique: true
+    ref: 'Client'
   }]
+  
 });
 
 const CarShopOwner = mongoose.model('CarShopOwner', carShopOwnerSchema);
