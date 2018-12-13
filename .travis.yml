@@ -1,0 +1,9 @@
+language: node_js
+node_js: node
+deploy:
+  provider: heroku
+  api_key:
+    secure: LkNJmpngC+ONdtglY41DbA+QV9a5AgGPDVIawytpMToz/KaK46HXko3GlYtSW4AGwSQHyGiCA5cA56/P7GAIYgQYUVhppUFR8AyiSovGxZhxSDL9gzAZQegrfYLr7+xHmNg2qtbacmwdC2Yvd0h0aoI++UhKSHWUEkxy/hrQUv+tUDK5J/Uk6OMSSnlFawjEbILoznBqk61uFH0Xj26YvB9EyhAjnEN0rH4pbfr7IjklJmiOdUHpsxfvnFuM9bvuhsLzUjSbqyTQfaeg5Dyqe9W7ZTuH0rhehp+8WORY5b5KeUtMIlTGcKTzbsD9GvO4otu2nLId9ksWJWRZHd7b9arNaKUncHUQkTz+JrfyBPiFi+UbIYLgwKAHj9u8vdj0hK32vfCu19n0cIkEVr476q5Emun7W75REv8noaPwjykJsl5r+Ov4iw0Bg2cQmm0JazkZrolwKXFyCZq2w5B7d4L32wKPmyW1Jj+fsuTjPB9jlVCng6SNmEgS73fTGNnqgkV1x3y2GyPrmtgPKx/QBwpWldRpA/T7oWLWlg6iHfgaMEzvyHiyUegLfLri44hLwUHZZ6v+wRgX48y/sp+LnJzD6HVDd6tmxiApkn0TS9KBjjlQSHuMk5gEnG2ymQVh2XxD8S0IsllKL9WOLlFDjV+1IukGcxMoE/9eip1nu2g=
+  app: warm-reef-54219
+  on:
+    repo: aleyesa/yourLocalMechanic

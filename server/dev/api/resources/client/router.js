@@ -1,5 +1,8 @@
 import express from 'express';
 import {
+  jwtAuthenticate
+} from '../../../middleware/passportMiddleware';
+import {
   getAllClients,
   getClientInfo,
   createClient,

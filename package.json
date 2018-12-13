@@ -4,20 +4,36 @@
   "description": "If you have any issues with your automobile, we willhave the solutions. We are a company with expert mechanics stationed in your local area.",
   "main": "server.js",
   "scripts": {
-    "test": "mocha",
-    "start": "nodemon server --exec babel-node"
+    "start": "npm run build && node dist/server",
+    "test": "mocha ./server/test --require @babel/register",
+    "build": "babel server/dev -d dist",
+    "serve": "nodemon ./server/dev/server --exec babel-node",
+    "serve:dist": "npm run build && npm run serve"
   },
   "author": "Aaron Leyesa",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
     "express": "^4.16.3",
+    "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.3.2",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
     "zipcodes": "^8.0.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.2.0",
     "@babel/core": "^7.1.2",
     "@babel/node": "^7.0.0",
-    "@babel/preset-env": "^7.1.0"
+    "@babel/preset-env": "^7.1.0",
+    "@babel/register": "^7.0.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
+    "coffeescript": "^2.3.2",
+    "faker": "^4.1.0",
+    "mocha": "^5.2.0"
   }
 }
