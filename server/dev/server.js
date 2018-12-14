@@ -8,9 +8,13 @@ import {
 } from './config/config';
 import api from './api/api';
 import appMiddleware from './middleware/appMiddleware';
+// import createFakeDocs from './api/data/data';
 
 const app = express();
 let server;
+
+//fix deprecation warning
+mongoose.set('useCreateIndex', true);
 
 appMiddleware(app, express);
 api(app);
@@ -21,6 +25,7 @@ if (require.main === module) {
   .connect(PRODUCTION_DATABASE || TEST_DATABASE, 
   { useNewUrlParser: true }, err => {
     console.log('db connected.');
+    // createFakeDocs();
     if (err) {
       return console.log(err);
     }

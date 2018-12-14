@@ -24,8 +24,7 @@ const getAllCarShopsForTest = (req, res) => {
   })
   .then(carShops => res.json(carShops))
   .catch(err => {
-
-    res.json('no carshops found.');
+    res.status(400).json('no carshops found.');
 
   });
 
@@ -41,8 +40,16 @@ const getCarShops = (req, res) => {
 
     Address
     .find({
-      'address.city': city,
-      'address.state': state
+      'address.city': 
+      {
+        $regex: city, 
+        $options: 'i'
+      },
+      'address.state': 
+      {
+        $regex: state, 
+        $options: 'i'
+      }
     })
     .select('_id')
     .then(addresses => {
@@ -72,7 +79,7 @@ const getCarShops = (req, res) => {
         model: 'Address'
       })
       .then(carshop => res.json(carshop))
-       .catch(err => res.json('no carshops found.'));
+       .catch(err => res.status(400).json('no carshops found.'));
     });
   
   }else if(zipcode) {
@@ -81,7 +88,10 @@ const getCarShops = (req, res) => {
 
     Address
     .find({
-      'address.zipcode': zipcode
+      'address.zipcode':     {
+        $regex: zipcode, 
+        $options: 'i'
+      }
     })
     .select('_id')
     .then(addresses => {
@@ -111,7 +121,7 @@ const getCarShops = (req, res) => {
         model: 'Address'
       })
       .then(carshop => res.json(carshop))
-       .catch(err => res.json('no carshops found.'));
+       .catch(err => res.status(400).json('no carshops found.'));
 
     });
 
@@ -145,7 +155,7 @@ const getSpecificCarShop = (req, res) => {
   .then(carShop => {
     res.json(carShop);
   })
-  .catch(err => res.json('could not find the carshop.'));
+  .catch(err => res.status(400).json('could not find the carshop.'));
 
 };
 
@@ -159,7 +169,7 @@ const addCarShop = (req, res) => {
       .then(owner => res.json(owner))
       .catch(err => res.json('could not find car owner.'));
     })
-    .catch(err => res.json(err));
+    .catch(err => res.status(400).json(err));
 
 };
 
@@ -168,7 +178,7 @@ const updateCarShopInfo = (req, res) => {
   CarShop
   .findByIdAndUpdate(req.params.id, req.body)
   .then(updatedInfo => res.json(updatedInfo))
-  .catch(err => res.json('could not update your info.'));
+  .catch(err => res.status(400).json('could not update your info.'));
 
 };
 
@@ -200,7 +210,7 @@ const removeCarShop = (req, res) => {
     res.json('car shop has been removed.');
 
   })
-  .catch(err => res.json('could not remove your carshop from list.'));
+  .catch(err => res.status(400).json('could not remove your carshop from list.'));
 
 };
 

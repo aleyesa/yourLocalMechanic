@@ -13,12 +13,12 @@ import {
 const carShopOwnerRouter = express.Router();
 
 carShopOwnerRouter.route('/')
-.get(getAllCarShopOwner)
-.post(createAccount, jwtAuthenticate);
+.get(jwtAuthenticate, getAllCarShopOwner)
+.post(createAccount);
 
 carShopOwnerRouter.route('/:id')
-.get(getCarShopOwnerInfo)
-.put(updateCarShopOwnerInfo)
-.delete(deleteCarShopOwnerAccount);
+.get(jwtAuthenticate, getCarShopOwnerInfo)
+.put(jwtAuthenticate, updateCarShopOwnerInfo)
+.delete(jwtAuthenticate, deleteCarShopOwnerAccount);
 
 export default carShopOwnerRouter;

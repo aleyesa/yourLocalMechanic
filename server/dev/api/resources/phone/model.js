@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const phoneNumberRegex = /^\d{10}$/;
+const phoneNumberRegex = /^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$/;
 const Schema = mongoose.Schema;
 
 const phoneSchema = new Schema({

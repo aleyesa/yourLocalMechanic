@@ -18,7 +18,10 @@ var _appMiddleware = _interopRequireDefault(require("./middleware/appMiddleware"
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express.default)();
-var server;
+var server; //fix deprecation warning
+
+_mongoose.default.set('useCreateIndex', true);
+
 (0, _appMiddleware.default)(app, _express.default);
 (0, _api.default)(app);
 

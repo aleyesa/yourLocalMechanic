@@ -1,5 +1,8 @@
 import express from 'express';
 import {
+  jwtAuthenticate
+} from '../../../middleware/passportMiddleware';
+import {
   getAllAddresses,
   getAddressById,
   addAddress,
@@ -10,12 +13,12 @@ import {
 const addressRouter = express.Router();
 
 addressRouter.route('/')
-.get(getAllAddresses)
-.post(addAddress);
+.get(jwtAuthenticate, getAllAddresses)
+.post(jwtAuthenticate, addAddress);
 
 addressRouter.route('/:id')
-.get(getAddressById)
-.put(updateAddress)
-.delete(removeAddress);
+.get(jwtAuthenticate, getAddressById)
+.put(jwtAuthenticate, updateAddress)
+.delete(jwtAuthenticate, removeAddress);
 
 export default addressRouter;

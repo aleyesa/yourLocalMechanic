@@ -1,5 +1,7 @@
 import express from 'express';
-
+import {
+  jwtAuthenticate
+} from '../../../middleware/passportMiddleware';
 import {
   getAllCarShopsForTest,
   getCarShops,
@@ -16,11 +18,11 @@ carShopRouter.route('/all')
 
 carShopRouter.route('/')
 .get(getCarShops)
-.post(addCarShop);
+.post(jwtAuthenticate, addCarShop);
 
 carShopRouter.route('/:id')
 .get(getSpecificCarShop)
-.put(updateCarShopInfo)
-.delete(removeCarShop);
+.put(jwtAuthenticate, updateCarShopInfo)
+.delete(jwtAuthenticate, removeCarShop);
 
 export default carShopRouter;

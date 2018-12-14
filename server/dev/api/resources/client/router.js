@@ -13,12 +13,12 @@ import {
 const clientRouter = express.Router();
 
 clientRouter.route('/')
-.get(getAllClients)
+.get(jwtAuthenticate, getAllClients)
 .post(createClient);
 
 clientRouter.route('/:id')
-.get(getClientInfo)
-.put(updateClient)
-.delete(deleteClient);
+.get(jwtAuthenticate, getClientInfo)
+.put(jwtAuthenticate, updateClient)
+.delete(jwtAuthenticate, deleteClient);
 
 export default clientRouter;

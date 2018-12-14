@@ -25,7 +25,7 @@ const getAllMessages = (req, res) => {
   ])
   .sort('timestamp')
   .then(messages => res.json(messages))
-  .catch(err => res.json(err));
+  .catch(err => res.status(400).json(err));
 
 };
 
@@ -69,7 +69,7 @@ const getMessageThread = (req, res) => {
       res.json(messages);
     }
   })
-  .catch(err => res.json(err));
+  .catch(err => res.status(400).json(err));
 
 };
 
@@ -135,7 +135,7 @@ const createMessage = (req, res) => {
         res.json('message was created.');
 
   })
-  .catch(err => res.json(err));
+  .catch(err => res.status(400).json(err));
 
 };
 
@@ -144,7 +144,7 @@ const editMessage = (req, res) => {
   Message
   .findByIdAndUpdate(req.params.id, req.body)
   .then(editedMessage => res.json(editedMessage))
-  .catch(err => res.json('failed to edit message.'));
+  .catch(err => res.status(400).json('failed to edit message.'));
 
 };
 
@@ -157,7 +157,7 @@ const deleteMessage = (req, res) => {
     res.json(message);
 
   })
-  .catch(err => res.json('failed to delete message.'));
+  .catch(err => res.status(400).json('failed to delete message.'));
 
 };
 
@@ -200,7 +200,7 @@ const deleteConversation = (req, res) => {
     res.json('conversation was deleted.');
 
   })
-  .catch(err => res.json('failed to remove conversation.'));
+  .catch(err => res.status(400).json('failed to remove conversation.'));
 
 };
 

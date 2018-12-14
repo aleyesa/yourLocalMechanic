@@ -7,9 +7,6 @@ const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+")
 
 const Schema = mongoose.Schema;
 
- /*
-  - add rules for password
- */
 const carShopOwnerSchema = new Schema({
 
   firstName: String,

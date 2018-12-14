@@ -7,7 +7,7 @@ import messagingRouter from './resources/messaging/router';
 import authRouter from './resources/auth/authRouter';
 
 export default (app) => {
-  app.use('/api/carshopowner', authRouter)
+  app.use('/api/auth', authRouter)
   app.use('/api/carshop', carShopRouter);
   app.use('/api/client', clientRouter);
   app.use('/api/address', addressRouter);

@@ -1,5 +1,8 @@
 import express from 'express';
 import {
+  jwtAuthenticate
+} from '../../../middleware/passportMiddleware';
+import {
   getAllPhoneNumbers,
   getPhoneNumber,
   addPhoneNumber,
@@ -10,12 +13,12 @@ import {
 const phoneRouter = express.Router();
 
 phoneRouter.route('/')
-.get(getAllPhoneNumbers)
-.post(addPhoneNumber);
+.get(jwtAuthenticate, getAllPhoneNumbers)
+.post(jwtAuthenticate, addPhoneNumber);
 
 phoneRouter.route('/:id')
-.get(getPhoneNumber)
-.put(updatePhoneNumber)
-.delete(removePhoneNumber);
+.get(jwtAuthenticate, getPhoneNumber)
+.put(jwtAuthenticate, updatePhoneNumber)
+.delete(jwtAuthenticate, removePhoneNumber);
 
 export default phoneRouter;

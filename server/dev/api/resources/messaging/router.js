@@ -1,5 +1,8 @@
 import express from 'express';
 import {
+  jwtAuthenticate
+} from '../../../middleware/passportMiddleware';
+import {
   getAllMessages,
   getMessageThread,
   createMessage,
@@ -11,15 +14,15 @@ import {
 const messagingRouter = express.Router();
 
 messagingRouter.route('/')
-.get(getAllMessages)
-.post(createMessage);
+.get(jwtAuthenticate, getAllMessages)
+.post(jwtAuthenticate, createMessage);
 
 messagingRouter.route('/thread')
-.get(getMessageThread)
-.delete(deleteConversation);
+.get(jwtAuthenticate, getMessageThread)
+.delete(jwtAuthenticate, deleteConversation);
 
 messagingRouter.route('/:id')
-.put(editMessage)
-.delete(deleteMessage);
+.put(jwtAuthenticate, editMessage)
+.delete(jwtAuthenticate, deleteMessage);
 
 export default messagingRouter;

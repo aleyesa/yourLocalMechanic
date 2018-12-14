@@ -17,9 +17,12 @@ var _router5 = _interopRequireDefault(require("./resources/carShop/router"));
 
 var _router6 = _interopRequireDefault(require("./resources/messaging/router"));
 
+var _authRouter = _interopRequireDefault(require("./resources/auth/authRouter"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _default = function _default(app) {
+  app.use('/api/carshopowner', _authRouter.default);
   app.use('/api/carshop', _router5.default);
   app.use('/api/client', _router2.default);
   app.use('/api/address', _router3.default);

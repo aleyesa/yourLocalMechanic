@@ -5,15 +5,9 @@ const Schema = mongoose.Schema;
 const addressSchema = new Schema({
 
     address: {
-      street: {
-        streetNumber: {
+      streetAddress: {
         type: String,
-        required: [true, 'Input the street number']
-        },
-        streetName: {
-          type: String,
-          required: [true, 'Input the streetName.']
-        }
+        required: [true, 'Input the street address.']
       },
       city: {
         type: String,

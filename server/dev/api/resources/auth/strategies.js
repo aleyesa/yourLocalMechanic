@@ -9,41 +9,55 @@ const { Strategy, ExtractJwt } = JwtStrategy;
 const localStrategy = new LocalStrategy.Strategy((username, password, callbackfn) => {
   CarShopOwner
   .findOne( { username } )
-  .then(user => {
+  .then(userInfo => {
 
-    user.comparePw(password, user.password)
-    .then(user => {
-      if(user) {
-        console.log('Login was successful.');
-        return callbackfn(null, user);
-      }else {
-        console.log('Login was not successful, invalid password.');
-        return callbackfn(null, false);
-      }
+    if(!userInfo){
+      
+      Client
+      .findOne( { username } )
+      .then(userInfo => {
 
-    })
-    .catch(err => console.log('failed to log in as car shop owner.'));
+        user.comparePw(password, userInfo.password)
+        .then(user => {
+
+          if(user) {
+
+            console.log('Login was successful.');
+            return callbackfn(null, userInfo);
+
+          }else {
+
+            console.log('Login was not successful, invalid password.');
+            return callbackfn(null, false);
+
+          }
+
+        })
+        .catch(err => console.log('failed to log in as car shop owner.'));
+      })
+      .catch(err => console.log(err));
+
+    } else {
+
+      userInfo.comparePw(password, userInfo.password)
+      .then(user => {
+
+        if(user) {
+          console.log('Login was successful.');
+          return callbackfn(null, userInfo);
+
+        }else {
+
+          console.log('Login was not successful, invalid password.');
+          return callbackfn(null, false);
+          
+        }
+
+      })
+      .catch(err => console.log('failed to log in as car shop owner.'));
+    }
   })
   .catch(err => console.log(err));
-
-  // Client
-  // .findOne( { username } )
-  // .then(user => {
-
-  //   user.comparePw(password, user.password)
-  //   .then(user => {
-  //     if(user) {
-  //       console.log('Login was successful.');
-  //       return callbackfn(null, user);
-  //     }else {
-  //       console.log('Login was not successful, invalid password.');
-  //       return callbackfn(null, false);
-  //     }
-
-  //   })
-  //   .catch(err => console.log('failed to log in as car shop owner.'));
-  // })
-  // .catch(err => console.log(err));
 
 });
 
