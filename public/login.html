@@ -12,46 +12,42 @@
 </head>
 <body>
   <header>
-    <h1>Sign Up</h1>
+    <h1>Car Shop Login</h1>
   </header>
-
+  <nav>
+    <ul>
+      <li>
+        <a href="index.html">Search</a>
+      </li>
+      <li>
+        <!-- when specific user signs in we change the 
+        href link for profile for specified user. -->
+        <a class="profileLink" href="profile.html">Profile</a>
+      </li>
+      <li>
+        <a href="#">Inbox</a>
+      </li>
+      <li>
+        <a href="Login.html">Login</a>
+      </li>
+    </ul>
+  </nav>
   <nav>
     <ul>
       <li>Client</li>
       <li>Car Shop Owner</li>
     </ul>
   </nav>
-  <section class="clientLogin">
-    <form>
-      <label for="firstName">First name:</label>
-      <input type="text" placeholder="first name">
-      <label for="lastName">Last name:</label>
-      <input type="text" placeholder="last name">
-      <label for="username">Userame:</label>
-      <input type="text" placeholder="email">
-      <label for="password">Password:</label>
-      <input type="text" placeholder="password">
-      <input type="submit" class="login" value="Login">
-      <input type="submit" class="signUp" value="Sign Up">
-    </form>
-  </section>
-  <section class="carShopOwnerLogin">
-    <form>
-      <label for="username">Userame:</label>
-      <input type="text" placeholder="email">
-      <label for="password">Password:</label>
-      <input type="text" placeholder="password">
-      <input type="submit" class="login" value="Login">
-      <input type="submit" class="signUp" value="Sign Up">
-    </form>
-  </section>
 
-  <section class="tester">
+  <a href="clientLogin.html">Client</a>
+  <a href="carShopOwnerLogin.html">Car Shop Owner</a>
+
+  <!-- <section class="tester">
     <form>
       <label for="description" id="dLabel">Description:</label>
       <input type="text" name="description" id="description"/>
       <input type="submit" value="add">
-    </form>
+    </form> -->
 
   </section>
   <script src="login.js"></script>

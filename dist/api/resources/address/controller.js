@@ -21,7 +21,7 @@ var getAddressById = function getAddressById(req, res) {
   _model.Address.findById(req.params.id).then(function (address) {
     return res.json(address);
   }).catch(function (err) {
-    return res.json('could not find specific address.');
+    return res.status(400).json('could not find specific address.');
   });
 };
 
@@ -31,7 +31,7 @@ var addAddress = function addAddress(req, res) {
   _model.Address.create(req.body).then(function (createdAddress) {
     return res.json(createdAddress);
   }).catch(function (err) {
-    return res.json('failed to add the address.');
+    return res.status(400).json('failed to add the address.');
   });
 };
 
@@ -41,7 +41,7 @@ var updateAddress = function updateAddress(req, res) {
   _model.Address.findByIdAndUpdate(req.params.id, req.body).then(function (updatedAddress) {
     return res.json(updatedAddress);
   }).catch(function (err) {
-    return res.json('failed to update address.');
+    return res.status(400).json('failed to update address.');
   });
 };
 
@@ -51,7 +51,7 @@ var removeAddress = function removeAddress(req, res) {
   _model.Address.findByIdAndDelete(req.params.id).then(function (removedAddress) {
     return res.json('address has been removed.');
   }).catch(function (err) {
-    return res.json('failed to remove address.');
+    return res.status(400).json('failed to remove address.');
   });
 };
 

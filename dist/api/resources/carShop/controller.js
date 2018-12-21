@@ -29,7 +29,7 @@ var getAllCarShopsForTest = function getAllCarShopsForTest(req, res) {
   }).then(function (carShops) {
     return res.json(carShops);
   }).catch(function (err) {
-    res.json('no carshops found.');
+    res.status(400).json('no carshops found.');
   });
 };
 
@@ -45,8 +45,14 @@ var getCarShops = function getCarShops(req, res) {
     console.log('city and state is present, now searching.');
 
     _model3.Address.find({
-      'address.city': city,
-      'address.state': state
+      'address.city': {
+        $regex: city,
+        $options: 'i'
+      },
+      'address.state': {
+        $regex: state,
+        $options: 'i'
+      }
     }).select('_id').then(function (addresses) {
       var addressId = [];
       addresses.forEach(function (address) {
@@ -72,14 +78,17 @@ var getCarShops = function getCarShops(req, res) {
       }).then(function (carshop) {
         return res.json(carshop);
       }).catch(function (err) {
-        return res.json('no carshops found.');
+        return res.status(400).json('no carshops found.');
       });
     });
   } else if (zipcode) {
     console.log('zipcode is present, now searching.');
 
     _model3.Address.find({
-      'address.zipcode': zipcode
+      'address.zipcode': {
+        $regex: zipcode,
+        $options: 'i'
+      }
     }).select('_id').then(function (addresses) {
       var addressId = [];
       addresses.forEach(function (address) {
@@ -105,7 +114,7 @@ var getCarShops = function getCarShops(req, res) {
       }).then(function (carshop) {
         return res.json(carshop);
       }).catch(function (err) {
-        return res.json('no carshops found.');
+        return res.status(400).json('no carshops found.');
       });
     });
   } else {
@@ -132,7 +141,7 @@ var getSpecificCarShop = function getSpecificCarShop(req, res) {
   }).then(function (carShop) {
     res.json(carShop);
   }).catch(function (err) {
-    return res.json('could not find the carshop.');
+    return res.status(400).json('could not find the carshop.');
   });
 };
 
@@ -148,7 +157,7 @@ var addCarShop = function addCarShop(req, res) {
       return res.json('could not find car owner.');
     });
   }).catch(function (err) {
-    return res.json(err);
+    return res.status(400).json(err);
   });
 };
 
@@ -158,7 +167,7 @@ var updateCarShopInfo = function updateCarShopInfo(req, res) {
   _model.CarShop.findByIdAndUpdate(req.params.id, req.body).then(function (updatedInfo) {
     return res.json(updatedInfo);
   }).catch(function (err) {
-    return res.json('could not update your info.');
+    return res.status(400).json('could not update your info.');
   });
 };
 
@@ -190,7 +199,7 @@ var removeCarShop = function removeCarShop(req, res) {
 
     res.json('car shop has been removed.');
   }).catch(function (err) {
-    return res.json('could not remove your carshop from list.');
+    return res.status(400).json('could not remove your carshop from list.');
   });
 };
 

@@ -12,15 +12,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Schema = _mongoose.default.Schema;
 var addressSchema = new Schema({
   address: {
-    street: {
-      streetNumber: {
-        type: String,
-        required: [true, 'Input the street number']
-      },
-      streetName: {
-        type: String,
-        required: [true, 'Input the streetName.']
-      }
+    streetAddress: {
+      type: String,
+      required: [true, 'Input the street address.']
     },
     city: {
       type: String,

@@ -21,7 +21,10 @@ const validateLogin = (req, res) => {
   
   const authToken = createAuthToken(req.user._id);
 
-  res.status(200).json({authToken});
+  res.status(200).json({
+    currUserId: req.user._id,
+    authToken
+  });
 
 };
 

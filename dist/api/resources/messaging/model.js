@@ -37,7 +37,24 @@ var messageSchema = new Schema({
     type: Date,
     default: Date.now()
   }
-});
+}); // const messageSchema = new Schema({
+//   subject: String,
+//   message: String,
+//   users: {
+//     client: {
+//       type: Schema.Types.ObjectId,
+//       ref: 'Client'
+//     },
+//     carShop: {
+//       type: Schema.Types.ObjectId,
+//       ref: 'CarShopOwner'
+//     }
+//   },
+//   timestamp: {
+//     type: Date,
+//     default: Date.now()
+//   }
+// });
 
 var Message = _mongoose.default.model('Message', messageSchema);
 

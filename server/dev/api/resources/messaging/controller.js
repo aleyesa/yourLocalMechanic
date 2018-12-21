@@ -44,6 +44,14 @@ const getMessageThread = (req, res) => {
       "receiver.client": req.query.client
     }
   ])
+  // Message
+  // .find()
+  // .and([
+  //   {
+  //     "user.client": req.query.client,
+  //     "user.carShop": req.query.carShop
+  //   }
+  // ])
   .populate([{
     path: 'sender.client',
     model: 'Client'

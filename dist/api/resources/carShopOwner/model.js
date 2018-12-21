@@ -14,10 +14,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // mongoose.Promise = global.Promise;
 var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 var Schema = _mongoose.default.Schema;
-/*
- - add rules for password
-*/
-
 var carShopOwnerSchema = new Schema({
   firstName: String,
   lastName: String,

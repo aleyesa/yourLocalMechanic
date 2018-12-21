@@ -1,0 +1,68 @@
+<!DOCTYPE <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Node Capstone</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+  <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+</head>
+<body>
+  <header>
+    <h1>Your Local Mechanic</h1>
+    <h2>Find car repair specialists in your area!</h2>
+  </header>
+  <h2>Car Shop Registratiion</h1>
+  <nav>
+    <ul>
+      <li>
+        <a href="index.html">Search</a>
+      </li>
+      <li>
+        <!-- when specific user signs in we change the 
+        href link for profile for specified user. -->
+        <a class="profileLink" href="profile.html">Profile</a>
+      </li>
+      <li>
+        <a href="#">Inbox</a>
+      </li>
+      <li>
+        <a href="Login.html">Login</a>
+      </li>
+    </ul>
+  </nav>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about_us.html">About us</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="productReviews.html">Product Reviews</a></li>
+    </ul>
+    <section class="cSORegSec">
+    <form class="signUp">
+      <fieldset>
+        <label for="firstName">First Name:</label>
+        <input type="text" name="firstName" id="firstName"/>
+        <label for="lastName">Last Name:</label>
+        <input type="text" name="lastName" id="lastName"/>
+        <label for="user">Username:</label>
+        <input type="text" name="user" id="username"/>
+        <label for="password">Password:</label>
+        <input type="text" name="password" id="password"/>
+        <input type="submit" value="Login">
+      </fieldset>
+    </form>
+  </section>
+    <button class="testReq">Test protected request</button>
+    <section class="test">
+      <p></p>
+    </section>
+  </nav>
+  <script src="carShopOwner.js"></script>
+</body>
+</html>

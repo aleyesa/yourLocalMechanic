@@ -8,20 +8,6 @@ import { Address } from '../resources/address/model';
 import { Phone } from '../resources/phone/model';
 import { CarShop } from '../resources/carShop/model';
 
-const removeDocuments = (Collection) => {
-
-  Collection
-  .remove({}, (err) => {
-    if(err) {
-      console.log(err)
-    } else {
-      console.log('removed all documents')
-    }
-  })
-  .catch(err => console.log(err));
-
-};
-
 const createFakeDocs = () => {
 
   for(let i = 0; i < 10 ; i++) {
@@ -96,7 +82,7 @@ const createFakeDocs = () => {
 
     });
 
-    let messageDocs2 = new Message({
+      let messageDocs2 = new Message({
 
       subject: "CarShop to Client",
       message: "CarShop to Client",
@@ -110,7 +96,6 @@ const createFakeDocs = () => {
         client: clientDoc._id
     
       }
-
     });
 
     addressDoc.save();
@@ -125,18 +110,11 @@ const createFakeDocs = () => {
 
     clientDoc.carShopMessages = [carShopOwnerDoc._id];
     clientDoc.save();
-
-
-
+    
   }
 
 };
 
-removeDocuments(CarShopOwner);
-removeDocuments(Client);
-removeDocuments(Address);
-removeDocuments(Phone);
-removeDocuments(CarShop);
-removeDocuments(Message);
+mongoose.connection.dropDatabase();
 
 export default createFakeDocs;

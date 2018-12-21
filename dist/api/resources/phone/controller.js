@@ -11,7 +11,7 @@ var getAllPhoneNumbers = function getAllPhoneNumbers(req, res) {
   _model.Phone.find().then(function (phoneNumber) {
     return res.json(phoneNumber);
   }).catch(function (err) {
-    return res.json('no phone numbers found.');
+    return res.status(400).json('no phone numbers found.');
   });
 };
 
@@ -21,7 +21,7 @@ var getPhoneNumber = function getPhoneNumber(req, res) {
   _model.Phone.findById(req.params.id).then(function (phoneNumber) {
     return res.json(phoneNumber);
   }).catch(function (err) {
-    return res.json('could not find phone number.');
+    return res.status(400).json('could not find phone number.');
   });
 };
 
@@ -31,7 +31,7 @@ var addPhoneNumber = function addPhoneNumber(req, res) {
   _model.Phone.create(req.body).then(function (phoneNumber) {
     return res.json(phoneNumber);
   }).catch(function (err) {
-    return res.json('failed to add phone number.');
+    return res.status(400).json('failed to add phone number.');
   });
 };
 
@@ -41,7 +41,7 @@ var updatePhoneNumber = function updatePhoneNumber(req, res) {
   _model.Phone.findByIdAndUpdate(req.params.id, req.body).then(function (phoneNumber) {
     return res.json(phoneNumber);
   }).catch(function (err) {
-    return res.json('failed to update phoneNumber.');
+    return res.status(400).json('failed to update phoneNumber.');
   });
 };
 
@@ -51,7 +51,7 @@ var removePhoneNumber = function removePhoneNumber(req, res) {
   _model.Phone.findByIdAndDelete(req.params.id).then(function (phoneNumber) {
     return res.json('The phone Number was deleted');
   }).catch(function (err) {
-    return res.json('failed to remove phone number.');
+    return res.status(400).json('failed to remove phone number.');
   });
 };
 

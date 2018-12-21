@@ -28,13 +28,15 @@ const getCarShopOwnerInfo = (req, res) => {
   CarShopOwner
   .findById(req.params.id)
   .populate({
-    path: 'messageBox',
-    model: 'Message',
-    options: { 
-      sort: {
-      'timestamp': 1
-      }
-    }
+    path: 'clientMessages',
+    select: 'firstName lastName',
+    model: 'Client'
+    // ,
+    // options: { 
+    //   sort: {
+    //   'timestamp': 1
+    //   }
+    // }
   })
   .populate({
     path: 'carShopInfo',
@@ -73,18 +75,21 @@ const createAccount = (req, res) => {
         if(!user) {
 
           console.log(`The user '${user.username} has already been taken.`);
+          res.json('username already taken.');
 
         }else {
 
           if( req.body.password !== req.body.password.trim() ) {
 
             console.log('no spaces allowed in the beginning or end of password.');
+            res.json('no spaces allowed in the beginning or end of password.');
 
           }else {
 
             if( req.body.password.length < 8 ) {
 
               console.log('Password needs to be at least 8 characters long.');
+              res.json('Password needs to be at least 8 characters long.');
 
             }else { 
 
@@ -99,7 +104,8 @@ const createAccount = (req, res) => {
             }
           }
         }
-      });
+      })
+      .catch(err => res.json('failed to create account.'));
 
     }else {
       console.log('username or password is not a string value.');

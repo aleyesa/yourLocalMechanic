@@ -15,7 +15,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var clientRouter = _express.default.Router();
 
-clientRouter.route('/').get(_controller.getAllClients).post(_controller.createClient);
-clientRouter.route('/:id').get(_controller.getClientInfo).put(_controller.updateClient).delete(_controller.deleteClient);
+clientRouter.route('/').get(_passportMiddleware.jwtAuthenticate, _controller.getAllClients).post(_controller.createClient);
+clientRouter.route('/:id').get(_passportMiddleware.jwtAuthenticate, _controller.getClientInfo).put(_passportMiddleware.jwtAuthenticate, _controller.updateClient).delete(_passportMiddleware.jwtAuthenticate, _controller.deleteClient);
 var _default = clientRouter;
 exports.default = _default;

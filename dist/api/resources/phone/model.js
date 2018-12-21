@@ -9,7 +9,7 @@ var _mongoose = _interopRequireDefault(require("mongoose"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var phoneNumberRegex = /^\d{10}$/;
+var phoneNumberRegex = /^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$/;
 var Schema = _mongoose.default.Schema;
 var phoneSchema = new Schema({
   phone: {

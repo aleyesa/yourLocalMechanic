@@ -11,71 +11,46 @@ const clientProfile = () => {
 
 //when car shop owner logs in...
 const carShopOwnerProfile = () => {
+  const csoId = sessionStorage.getItem('currUserId');
+  const authToken = sessionStorage.getItem('csoToken');
   //hold owner id to session storage.
-  window.sessionStorage.setItem('currUserId', '5c04162d42d8bf2e10da5982');
-  let data = {
-    'receiver.carShop': window.sessionStorage.getItem('currUserId')
-  }
-  populateCarShopOwnerInfo();
-  populateCarShop();
-  populateMessage(data);
+
+  populateCarShopOwnerInfo(csoId, authToken);
+
+  
+  $('.messageSection').on('click', '.msgThread', function() {
+    // event.preventDefault();
+    // event.stopPropagation();
+
+    const selClientId = $(this).children('p[hidden]').text();
+
+    let data = {
+      'carShop': csoId,
+      'client': selClientId
+    };
+    populateMessage(data, authToken);
+
+  });
+
   updateCarShopOwnerInfo();
+
 };
 
-const populateCarShopOwnerInfo = () => {
+const populateCarShopOwnerInfo = (csoId, authToken) => {
   $.ajax({
     type: "GET",
-    url: `/api/carshopowner/${window.sessionStorage.getItem('currUserId')}`,
+    url: `/api/carshopowner/${csoId}`,
+    headers: {
+      Authorization: `Bearer ${authToken}`
+    },
     success: function (res) {
-      console.log(res);
-      $('.userSection').html(
-      `
-      <p class="userId" hidden>${res._id}</p>
-      <form>
-        <label for="firstName">First Name:</label>
-        <input 
-          type="text" name="firstName" 
-          id="firstName" placeholder="${res.firstName}"
-        />
-        <label for="lastName">Last Name:</label>
-        <input 
-          type="text" name="lastName" 
-          id="lastName" placeholder="${res.lastName}"
-        />
-        <label for="username">Username:</label>
-        <input 
-          type="text" name="username" 
-          id="username" placeholder="${res.username}"
-        />  
-        <label for="password">password:</label>
-        <input 
-          type="text" name="password" 
-          id="password" placeholder="${res.password}"
-        />
-        <input type="submit" id="updateUserBtn" value="Update"/>
-      </form>
-      `
-      );
-      
-      if(res.carShopInfo._id) {
-        window.sessionStorage.setItem('carShopId', res.carShopInfo._id);
-      }
-    }
-  });
-};
 
-const populateCarShop = () => {
-  $.ajax({
-    type: 'GET',
-    url: `/api/carshop/${window.sessionStorage.getItem('carShopId')}`,
-    success: (res) => {
-      console.log(res);
-
-      let specialtiesHtml = '';
-      let specDescription = '';
+    let specialtiesHtml = '';
+    let specDescription = '';
+    let clients = '';
 
     //populate the specialties:
-    res.specialties.forEach(specialty => {
+    res.carShopInfo.specialties.forEach(specialty => {
       specialty.description.forEach(description => {
         specDescription += `
         <label for="specialty">Specialty:</label>
@@ -89,83 +64,129 @@ const populateCarShop = () => {
         <label for="repair">Repair:</label>
         <input 
         type="text" name="repair" 
-        id="repair" placeholder="${res.specialties[0].repair}"
+        id="repair" placeholder="${res.carShopInfo.specialties[0].repair}"
         />
         ${specDescription}
         <label for="cost">Cost:</label>
         <input 
         type="text" name="cost" 
-        id="cost" placeholder="${res.specialties[0].cost}"
+        id="cost" placeholder="${res.carShopInfo.specialties[0].cost}"
         />
       `
     });
+
+      $('.userSection').html(
+      `
+      <p class="userId" hidden>${res._id}</p>
+      <form>
+        <label for="firstName">First Name:</label>
+        <input 
+          type="text" name="firstName" 
+          id="firstName" placeholder="${res.firstName}"
+        />
+        <label for="lastName">Last Name:</label>
+        <input 
+          type="text" name="lastName" 
+          id="lastName" placeholder="${res.lastName}"
+        />
+        <label for="username">Username:</label>
+        <input 
+          type="text" name="username" 
+          id="username" placeholder="${res.username}"
+        />  
+        <label for="password">password:</label>
+        <input 
+          type="text" name="password" 
+          id="password" placeholder="${res.password}"
+        />
+        <input type="submit" id="updateUserBtn" value="Update"/>
+      </form>
+      `
+      );
+
+      $('.carShopSection').html(
+        `
+        <form>
+          <label for="carShop">Car Shop Name:</label>
+          <input 
+            type="text" name="carShop" 
+            id="carShop" placeholder="${res.carShopInfo.shopName}"
+          />
+          <label for="phone">Car Shop Phone:</label>
+          <input 
+            type="text" name="phone" 
+            id="phone" placeholder="${res.carShopInfo.carShopPhone.phone}"
+          />
+          <label for="shopEmail">Car Shop Email:</label>
+          <input 
+            type="text" name="shopEmail" 
+            id="shopEmail" placeholder="${res.carShopInfo.shopEmail}"
+          />
+          <label for="streetAddress">Street Address:</label>
+          <input 
+            type="text" name="streetName" 
+            id="streetName" placeholder="${res.carShopInfo.location.address.streetAddress}"
+          />
+          <label for="city">City:</label>
+          <input 
+            type="text" name="city" 
+            id="city" placeholder="${res.carShopInfo.location.address.city}"
+          />
+          <label for="state">State:</label>
+          <input 
+            type="text" name="state" 
+            id="state" placeholder="${res.carShopInfo.location.address.state}"
+          />
+          <label for="zipcode">Zipcode:</label>
+          <input 
+            type="text" name="zipcode" 
+            id="zipcode" placeholder="${res.carShopInfo.location.address.zipcode}"
+          />
     
-    $('.carShopSection').html(
-    `
-    <form>
-      <label for="carShop">Car Shop Name:</label>
-      <input 
-        type="text" name="carShop" 
-        id="carShop" placeholder="${res.shopName}"
-      />
-      <label for="phone">Car Shop Phone:</label>
-      <input 
-        type="text" name="phone" 
-        id="phone" placeholder="${res.carShopPhone.phone}"
-      />
-      <label for="shopEmail">Car Shop Email:</label>
-      <input 
-        type="text" name="shopEmail" 
-        id="shopEmail" placeholder="${res.shopEmail}"
-      />
+    
+          ${specialtiesHtml}
+          <input type="button" name="addSpecialties" id="addSpecialties" value="Add Specialties">
+    
+          <label for="labor">Labor:</label>
+          <input 
+            type="text" name="labor" 
+            id="labor" placeholder="${res.carShopInfo.labor}"
+          />
+          <input type="submit" id="updateShopBtn" value="Update">
+        </form>
+        `
+        );
 
-      <label for="streetNumber">Street Number:</label>
-      <input 
-        type="text" name="streetNumber" 
-        id="streetNumber" placeholder="${res.location.address.street.streetNumber}"
-      />
-      <label for="streetName">Street Name:</label>
-      <input 
-        type="text" name="streetName" 
-        id="streetName" placeholder="${res.location.address.street.streetName}"
-      />
-      <label for="city">City:</label>
-      <input 
-        type="text" name="city" 
-        id="city" placeholder="${res.location.address.city}"
-      />
-      <label for="state">State:</label>
-      <input 
-        type="text" name="state" 
-        id="state" placeholder="${res.location.address.state}"
-      />
-      <label for="zipcode">Zipcode:</label>
-      <input 
-        type="text" name="zipcode" 
-        id="zipcode" placeholder="${res.location.address.zipcode}"
-      />
+        
+        res.clientMessages.forEach(client => {
+            
+          clients +=
+          `
+          <section class="client">
+            <button class="msgThread">
+              <p hidden>${client._id}</p>
+              <p>${client.firstName} ${client.lastName}</p>
+            </button>
+          </section>
+          `
+        });
 
-
-      ${specialtiesHtml}
-      <input type="button" name="addSpecialties" id="addSpecialties" value="Add Specialties">
-
-      <label for="labor">Labor:</label>
-      <input 
-        type="text" name="labor" 
-        id="labor" placeholder="${res.labor}"
-      />
-      <input type="submit" id="updateShopBtn" value="Update">
-    </form>
-    `
-    );
+        $('.messageSection').html(clients);
+      
+      if(res.carShopInfo._id) {
+        sessionStorage.setItem('carShopId', res.carShopInfo._id);
+      }
     }
   });
 };
 
-const populateClientInfo = () => {
+const populateClientInfo = (clientId, authToken) => {
   $.ajax({
     type: "GET",
-    url: `/api/client/${window.sessionStorage.getItem('currUserId')}`,
+    url: `/api/client/${clientId}`,
+    headers: {
+      Authorization: `Bearer ${authToken}`
+    },
     success: function (res) {
       console.log(res);
       $('.userSection').html(
@@ -201,35 +222,58 @@ const populateClientInfo = () => {
   });
 };
 
-const populateMessage = (currUser) => {
+const populateMessage = (data, authToken) => {
   $.ajax({
     type: 'GET',
-    url: `/api/message`,
-    data: currUser,
+    url: `/api/message/thread`,
+    headers: {
+      Authorization: `Bearer ${authToken}`
+    },
+    data: data,
     success: (res) => {
       let messagesHtml = '';
-      console.log(res);
       res.forEach(message => {
-        if(message.receiver.carShop) {
+        if(message.sender.client) {
+
           messagesHtml +=
           `
-            <p>${message.message}</p>
-            <p>${message.sender.client.username}</p>
-            <p>${message.receiver.carShop.username}</p>
-            <p>${message.timestamp}</p>
+          <section class="carShopMsg">
+            <p>From: ${message.sender.client.username}</p>
+            <p>To: ${message.receiver.carShop.username}</p>
+            <p>Time: ${message.timestamp}</p>
+            <p>Subject: ${message.subject}</p>
+            <p>Message: ${message.message}</p>
+            <button class="editMsg">Edit</button>
+            <button class="delMsg">Delete</button>
+          </section>
           `;
       
         } else {
-          // messagesHtml +=
-          //   `
-          //     <p>${message.message}</p>
-          //     <p>${message.sender.client.username}</p>
-          //     <p>${message.receiver.carShop.username}</p>
-          //     <p>${message.timestamp}</p>
-          //   `;
+
+          messagesHtml +=
+          `
+          <section class="clientMsg">
+            <p>From: ${message.sender.carShop.username}</p>
+            <p>To: ${message.receiver.client.username}</p>
+            <p>Time: ${message.timestamp}</p>
+            <p>Subject: ${message.subject}</p>
+            <p>Message: ${message.message}</p>
+            <button class="editMsg">Edit</button>
+            <button class="delMsg">Delete</button>
+          </section>
+          `;
         }
-        $('.messageSection').html(messagesHtml);
+
       });
+
+      $('.messageThread').html(
+      `
+        <button class="addMsg">Add Message</button>
+        <button class="delMsg">Delete</button>
+        ${messagesHtml}
+      `
+        );
+
     }
   });
 };
@@ -326,8 +370,8 @@ const updateCarShop = () => {
 };
 
 const runApi = () => {
-  clientProfile();
-  // carShopOwnerProfile();
+  // clientProfile();
+  carShopOwnerProfile();
 };
 
 runApi();

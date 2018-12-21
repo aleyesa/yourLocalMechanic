@@ -17,6 +17,7 @@ var _appMiddleware = _interopRequireDefault(require("./middleware/appMiddleware"
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// import createFakeDocs from './api/data/data';
 var app = (0, _express.default)();
 var server; //fix deprecation warning
 
@@ -29,7 +30,7 @@ if (require.main === module) {
   _mongoose.default.connect(_config.PRODUCTION_DATABASE || _config.TEST_DATABASE, {
     useNewUrlParser: true
   }, function (err) {
-    console.log('db connected.');
+    console.log('db connected.'); // createFakeDocs();
 
     if (err) {
       return console.log(err);

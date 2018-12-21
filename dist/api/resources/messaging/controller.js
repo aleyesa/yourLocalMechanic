@@ -27,7 +27,7 @@ var getAllMessages = function getAllMessages(req, res) {
   }]).sort('timestamp').then(function (messages) {
     return res.json(messages);
   }).catch(function (err) {
-    return res.json(err);
+    return res.status(400).json(err);
   });
 };
 
@@ -40,7 +40,15 @@ var getMessageThread = function getMessageThread(req, res) {
   }, {
     "sender.carShop": req.query.carShop,
     "receiver.client": req.query.client
-  }]).populate([{
+  }]) // Message
+  // .find()
+  // .and([
+  //   {
+  //     "user.client": req.query.client,
+  //     "user.carShop": req.query.carShop
+  //   }
+  // ])
+  .populate([{
     path: 'sender.client',
     model: 'Client'
   }, {
@@ -59,7 +67,7 @@ var getMessageThread = function getMessageThread(req, res) {
       res.json(messages);
     }
   }).catch(function (err) {
-    return res.json(err);
+    return res.status(400).json(err);
   });
 };
 
@@ -111,7 +119,7 @@ var createMessage = function createMessage(req, res) {
 
     res.json('message was created.');
   }).catch(function (err) {
-    return res.json(err);
+    return res.status(400).json(err);
   });
 };
 
@@ -121,7 +129,7 @@ var editMessage = function editMessage(req, res) {
   _model.Message.findByIdAndUpdate(req.params.id, req.body).then(function (editedMessage) {
     return res.json(editedMessage);
   }).catch(function (err) {
-    return res.json('failed to edit message.');
+    return res.status(400).json('failed to edit message.');
   });
 };
 
@@ -131,7 +139,7 @@ var deleteMessage = function deleteMessage(req, res) {
   _model.Message.findByIdAndDelete(req.params.id).then(function (message) {
     res.json(message);
   }).catch(function (err) {
-    return res.json('failed to delete message.');
+    return res.status(400).json('failed to delete message.');
   });
 };
 
@@ -163,7 +171,7 @@ var deleteConversation = function deleteConversation(req, res) {
 
     res.json('conversation was deleted.');
   }).catch(function (err) {
-    return res.json('failed to remove conversation.');
+    return res.status(400).json('failed to remove conversation.');
   });
 };
 

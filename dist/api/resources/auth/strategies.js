@@ -22,37 +22,41 @@ var Strategy = _passportJwt.default.Strategy,
 var localStrategy = new _passportLocal.default.Strategy(function (username, password, callbackfn) {
   _model.CarShopOwner.findOne({
     username: username
-  }).then(function (user) {
-    user.comparePw(password, user.password).then(function (user) {
-      if (user) {
-        console.log('Login was successful.');
-        return callbackfn(null, user);
-      } else {
-        console.log('Login was not successful, invalid password.');
-        return callbackfn(null, false);
-      }
-    }).catch(function (err) {
-      return console.log('failed to log in as car shop owner.');
-    });
+  }).then(function (userInfo) {
+    if (!userInfo) {
+      _model2.Client.findOne({
+        username: username
+      }).then(function (userInfo) {
+        user.comparePw(password, userInfo.password).then(function (user) {
+          if (user) {
+            console.log('Login was successful.');
+            return callbackfn(null, userInfo);
+          } else {
+            console.log('Login was not successful, invalid password.');
+            return callbackfn(null, false);
+          }
+        }).catch(function (err) {
+          return console.log('failed to log in as car shop owner.');
+        });
+      }).catch(function (err) {
+        return console.log(err);
+      });
+    } else {
+      userInfo.comparePw(password, userInfo.password).then(function (user) {
+        if (user) {
+          console.log('Login was successful.');
+          return callbackfn(null, userInfo);
+        } else {
+          console.log('Login was not successful, invalid password.');
+          return callbackfn(null, false);
+        }
+      }).catch(function (err) {
+        return console.log('failed to log in as car shop owner.');
+      });
+    }
   }).catch(function (err) {
     return console.log(err);
-  }); // Client
-  // .findOne( { username } )
-  // .then(user => {
-  //   user.comparePw(password, user.password)
-  //   .then(user => {
-  //     if(user) {
-  //       console.log('Login was successful.');
-  //       return callbackfn(null, user);
-  //     }else {
-  //       console.log('Login was not successful, invalid password.');
-  //       return callbackfn(null, false);
-  //     }
-  //   })
-  //   .catch(err => console.log('failed to log in as car shop owner.'));
-  // })
-  // .catch(err => console.log(err));
-
+  });
 });
 exports.localStrategy = localStrategy;
 var jwtStrategy = new Strategy({
