@@ -17,7 +17,7 @@ const localStrategy = new LocalStrategy.Strategy((username, password, callbackfn
       .findOne( { username } )
       .then(userInfo => {
 
-        user.comparePw(password, userInfo.password)
+        userInfo.comparePw(password, userInfo.password)
         .then(user => {
 
           if(user) {

@@ -1,4 +1,4 @@
-$('.carShopOwnerLogin').on('submit', () => {
+$('.clientLogin').on('submit', () => {
   event.preventDefault();
 
   const login = {
@@ -14,13 +14,13 @@ $('.carShopOwnerLogin').on('submit', () => {
     dataType: "json",
     success: function (res) {
       console.log(res);
-      sessionStorage.setItem('csoToken', res.authToken);
-      sessionStorage.setItem('csoId', res.currUserId);
+      sessionStorage.setItem('clientToken', res.authToken);
+      sessionStorage.setItem('clientId', res.currUserId);
     }
   });
 });
 
-$('.cSORegSec').on('submit', () => {
+$('.clientRegSec').on('submit', () => {
   event.preventDefault();
 
   const signUp = {
@@ -32,7 +32,7 @@ $('.cSORegSec').on('submit', () => {
 
   $.ajax({
     type: "POST",
-    url: "/api/carshopowner",
+    url: "/api/client",
     data: JSON.stringify(signUp),
     contentType: 'application/json',
     dataType: "json",

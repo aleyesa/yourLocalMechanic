@@ -14,6 +14,10 @@ const messageSchema = new Schema({
     carShop: {
       type: Schema.Types.ObjectId,
       ref: 'CarShopOwner'
+    },
+    removedMsg: {
+      type: Boolean,
+      default: false
     }
   },
   receiver: {
@@ -24,6 +28,10 @@ const messageSchema = new Schema({
     carShop: {
       type: Schema.Types.ObjectId,
       reference: 'CarShopOwner'
+    },
+    removedMsg: {
+      type: Boolean,
+      default: false
     }
   },
   timestamp: {

@@ -40,3 +40,7 @@ h2 {
 form {
   text-align: center;
 }
+
+.msgSystem {
+  display: none;
+}

@@ -25,6 +25,7 @@ var createAuthToken = function createAuthToken(userId) {
 var validateLogin = function validateLogin(req, res) {
   var authToken = createAuthToken(req.user._id);
   res.status(200).json({
+    currUserId: req.user._id,
     authToken: authToken
   });
 }; //request a new JWT with a laster expiry date. A valid, non-expired JWT is required.

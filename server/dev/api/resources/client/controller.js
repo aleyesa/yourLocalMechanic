@@ -16,13 +16,15 @@ const getClientInfo = (req, res) => {
   Client
   .findById(req.params.id)
   .populate({
-    path: 'messageBox',
-    model: 'Message',
-    options: { 
-      sort: {
-      'timestamp': 1
-      }
-    }
+    path: 'carShopMessages',
+    select: 'firstName lastName',
+    model: 'CarShopOwner'
+    // ,
+    // options: { 
+    //   sort: {
+    //   'timestamp': 1
+    //   }
+    // }
   })
   .then(client => res.json(client))
   .catch(err => res.status(400).json(err));

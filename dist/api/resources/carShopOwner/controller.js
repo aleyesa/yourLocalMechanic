@@ -27,13 +27,15 @@ exports.getAllCarShopOwner = getAllCarShopOwner;
 
 var getCarShopOwnerInfo = function getCarShopOwnerInfo(req, res) {
   _model.CarShopOwner.findById(req.params.id).populate({
-    path: 'messageBox',
-    model: 'Message',
-    options: {
-      sort: {
-        'timestamp': 1
-      }
-    }
+    path: 'clientMessages',
+    select: 'firstName lastName',
+    model: 'Client' // ,
+    // options: { 
+    //   sort: {
+    //   'timestamp': 1
+    //   }
+    // }
+
   }).populate({
     path: 'carShopInfo',
     model: 'CarShop',

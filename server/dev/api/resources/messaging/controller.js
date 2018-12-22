@@ -29,8 +29,14 @@ const getAllMessages = (req, res) => {
 
 };
 
-const getMessageThread = (req, res) => {
+const getMessageById = (req, res) => {
+  Message
+  .findById(req.params.id)
+  .then(msg => res.json(msg))
+  .catch(err => res.json(err));
+};
 
+const getMessageThread = (req, res) => {
   Message
   .find()
   .or([
@@ -175,32 +181,31 @@ const deleteConversation = (req, res) => {
   .find()
   .or([
     {
-      "sender.client": req.query.client,
-      "receiver.carShop": req.query.carShop
+      "sender.client": req.body.client,
+      "receiver.carShop": req.body.carShop
     }
     ,
     { 
-      "sender.carShop": req.query.carShop,
-      "receiver.client": req.query.client
+      "sender.carShop": req.body.carShop,
+      "receiver.client": req.body.client
     }
   ])
   .deleteMany()
   .then(thread => {
-
     Client
-    .findByIdAndUpdate(req.query.client,
+    .findByIdAndUpdate(req.body.client,
     {
       $pull: {
-        carShopMessages: req.query.carShop
+        carShopMessages: req.body.carShop
       }
     })
     .then(client => console.log(`car shop conversation was removed.`));
 
     CarShopOwner
-    .findByIdAndUpdate(req.query.carShop,
+    .findByIdAndUpdate(req.body.carShop,
       {
         $pull: {
-          clientMessages: req.query.client
+          clientMessages: req.body.client
         }
       })
       .then(carShop => console.log(`client conversation was removed.`));
@@ -214,6 +219,7 @@ const deleteConversation = (req, res) => {
 
 export {
   getAllMessages,
+  getMessageById,
   getMessageThread,
   createMessage,
   editMessage,

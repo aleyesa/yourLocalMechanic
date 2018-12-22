@@ -4,6 +4,7 @@ import {
 } from '../../../middleware/passportMiddleware';
 import {
   getAllMessages,
+  getMessageById,
   getMessageThread,
   createMessage,
   editMessage,
@@ -22,6 +23,7 @@ messagingRouter.route('/thread')
 .delete(jwtAuthenticate, deleteConversation);
 
 messagingRouter.route('/:id')
+.get(jwtAuthenticate, getMessageById)
 .put(jwtAuthenticate, editMessage)
 .delete(jwtAuthenticate, deleteMessage);
 

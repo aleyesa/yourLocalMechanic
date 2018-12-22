@@ -35,6 +35,7 @@ $('.carShopSearchForm').on('submit', () => {
       response.map(info => {
         console.log(info);
         const {
+          _id,
           shopName,
           carShopOwner,
           shopEmail,
@@ -42,7 +43,7 @@ $('.carShopSearchForm').on('submit', () => {
         } = info;
 
         const {
-          street,
+          streetAddress,
           city,
           state,
           zipcode
@@ -50,20 +51,50 @@ $('.carShopSearchForm').on('submit', () => {
 
         carshops += 
         `
+        <section class="carShop">
           <p>${shopName}</p>
-          <p>${carShopOwner}</p>
+          <p>${carShopOwner.firstName} ${carShopOwner.lastName}</p>
           <p>${shopEmail}</p>
-          <p>${street} 
+          <p>${streetAddress} 
             ${city}
             ${state}
             ${zipcode}   
           </p>
           <p>Specialties Here</p>
           <p>${labor}</p>
+          <button class="sendMsg">
+            <p hidden>${carShopOwner._id}</p>
+            <p>Send Message</p>
+          </button>
+        </section>
         `
       });
 
       $('.carShops').html(carshops);
     }
   });
+});
+
+let csoId = '';
+
+$('.carShops').on('click', '.sendMsg', function(event) {
+  csoId = $(this).children('p[hidden]').text();
+
+  $('.msgSystem').css('display', 'block');
+
+});
+
+$('.msgSystem').on('submit', () => {
+  event.preventDefault();
+
+  let clientToken = sessionStorage.getItem('clientToken');
+  let newMsgRecSend = {
+    subject: $('.subject').val(),
+    message: $('.newMsg').val(),
+    'sender.client': sessionStorage.getItem('clientId'),
+    'receiver.carShop': csoId
+  
+  };
+  addMessage(newMsgRecSend, clientToken);
+  $('.msgSystem').css('display', 'none');
 });

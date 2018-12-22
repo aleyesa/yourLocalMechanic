@@ -15,7 +15,7 @@
     <h1>Your Local Mechanic</h1>
     <h2>Find car repair specialists in your area!</h2>
   </header>
-  <h2>Client Login:</h1>
+  <h2>Owner Profile</h1>
   <nav>
     <ul>
       <li>
@@ -36,29 +36,19 @@
   </nav>
   <nav>
     <ul>
-      <li>Client</li>
-      <li>Car Shop Owner</li>
+      <li><a href="profile.html">Personal Info</a></li>
+      <li><a href="carShopProfile.html">Car Shop</a></li>
+      <li><a href="messages.html">Messages</a></li>
     </ul>
-    <a href="clientSignUp.html">No account register here</a>
   </nav>
-  <section class="clientLogin">
-    <form>
-      <label for="username">Username:</label>
-      <input type="text" name="username" id="username" placeholder="name@email.com"/>
-      <label for="password">Password:</label>
-      <input type="text" name="password" id="password" placeholder="password">
-      <input type="submit" class="login" value="Login"/>
-    </form>
-  </section>
-
-  <section class="tester">
-    <form>
-      <label for="description" id="dLabel">Description:</label>
-      <input type="text" name="description" id="description"/>
-      <input type="submit" value="add">
-    </form>
-
-  </section>
-  <script src="client.js"></script>
+  <form class="msgForm">
+    <input type="text" class="subject" placeholder="subject"/>
+    <input type="text" class="newMsg" placeholder="message"/>
+    <button type="submit">
+      <p>Send</p>
+    </button>
+  </form>
+  <section class="messageThread"></section>
+  <script src="profile.js"></script>
 </body>
 </html>
