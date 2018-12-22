@@ -78,9 +78,15 @@ $('.carShopSearchForm').on('submit', () => {
 let csoId = '';
 
 $('.carShops').on('click', '.sendMsg', function(event) {
+  if(sessionStorage.getItem('clientToken')) {
   csoId = $(this).children('p[hidden]').text();
 
   $('.msgSystem').css('display', 'block');
+
+  } else {
+    console.log('Please sign in or register on a client account to send messages to car shops.');
+    console.log('Register here.');
+  }
 
 });
 
@@ -97,4 +103,6 @@ $('.msgSystem').on('submit', () => {
   };
   addMessage(newMsgRecSend, clientToken);
   $('.msgSystem').css('display', 'none');
+
 });
+

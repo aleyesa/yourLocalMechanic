@@ -57,6 +57,7 @@ const carShopOwnerProfile = () => {
   let newMsgRecSend = {};
 
   populateCarShopOwnerInfo(csoId, authToken);
+  addCarShop();
 
   $('.messageSection').on('click', '.msgThread', function() {
 
@@ -228,6 +229,78 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
           if(res.carShopInfo._id) {
             sessionStorage.setItem('carShopId', res.carShopInfo._id);
           }
+      } else {
+
+        $('.carShopSection').html(
+          `
+          <h2>Add your Car Shop:</h2>
+          <form>
+            <label for="carShop">Car Shop Name:</label>
+            <input 
+              type="text" name="carShop" 
+              id="carShop" placeholder="car shop name"
+            />
+            <label for="phone">Car Shop Phone:</label>
+            <input 
+              type="text" name="phone" 
+              id="phone" placeholder="111-222-3333"
+            />
+            <label for="shopEmail">Car Shop Email:</label>
+            <input 
+              type="text" name="shopEmail" 
+              id="shopEmail" placeholder="emailname@email.com"
+            />
+            <label for="streetAddress">Street Address:</label>
+            <input 
+              type="text" name="streetName" 
+              id="streetName" placeholder="1111 street name"
+            />
+            <label for="city">City:</label>
+            <input 
+              type="text" name="city" 
+              id="city" placeholder="Gilbert"
+            />
+            <label for="state">State:</label>
+            <input 
+              type="text" name="state" 
+              id="state" placeholder="AZ"
+            />
+            <label for="zipcode">Zipcode:</label>
+            <input 
+              type="text" name="zipcode" 
+              id="zipcode" placeholder="85298"
+            />
+            <section class="specialtySection">
+            </section>
+            <label for="repair">Repair:</label>
+            <input 
+            type="text" name="repair" 
+            id="repair" placeholder="Type of repair"
+            />
+            <label for="description">Description:</label>
+            <ul class="tempDesc"></ul>
+            <input
+              type="text" name="description" 
+              id="description" placeholder="description of repair"
+            />
+            <input type="button" name="addDescr" id="addDescr" value="Add Description"/>
+
+            <label for="cost">Cost:</label>
+            <input 
+            type="text" name="cost" 
+            id="cost" placeholder="cost of repair"
+            />
+            <input type="button" name="addSpecialties" id="addSpecialties" value="Add Specialties">
+      
+            <label for="labor">Labor:</label>
+            <input 
+              type="text" name="labor" 
+              id="labor" placeholder="cost of labor"
+            />
+            <input type="submit" id="saveShopBtn" value="Save Car Shop">
+          </form>
+          `
+          );
       }
 
       res.clientMessages.forEach(client => {
@@ -443,18 +516,69 @@ const updateClientInfo = (clientId, clientToken) => {
   });
 };
 
+const addCarShop = () => {
+  console.log($('.carShopSection').children('form'));
+  let specialty = [];
+  let specialtyHtml = '';
+  let descHtml = '';
+  let description = [];
+  $('.carShopSection').on('click', '#addDescr', () => {
+    description.push($('#description').val());
+    console.log(description);
+    description.forEach((descr) => {
+      descHtml +=
+      `
+      <li>${descr}</li>
+      `;
+    });
+
+    $('.tempDesc').html(descHtml);
+
+    descHtml = '';
+
+  });
+
+  $('.carShopSection').on('click', '#delDescr', () => {
+
+  });
+
+  $('.carShopSection').on('click', '#addSpecialties', () => {
+    specialty.push({
+      repair: $('#repair').val(),
+      description: description,
+      cost: $('#cost').val()
+    });
+
+    console.log(specialty);
+
+    description = [];
+
+  });
+
+
+
+  /*
+  [
+  repair: string
+  description: []
+  cost: string
+  ]
+  */
+
+};
+
 const updateCarShop = () => {
 
   event.preventDefault();
 
-  const userInfoForm = $('.userSection form');
-  const formLength = userInfoForm[0].length;
-  const userInfo = {};
+  const carShopForm = $('.carShopSection form');
+  const formLength = carShopForm[0].length;
+  const carShop = {};
 
   for(let i = 0; i < formLength; i++){
-    if(userInfoForm[0][i].type === 'text'){
-      if(userInfoForm[0][i].value){
-        userInfo[userInfoForm[0][i].id] = userInfoForm[0][i].value;
+    if(carShopForm[0][i].type === 'text'){
+      if(carShopForm[0][i].value){
+        carShop[carShopForm[0][i].id] = carShopForm[0][i].value;
       } 
     }
   };
