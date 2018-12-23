@@ -98,7 +98,7 @@ const carShopOwnerProfile = () => {
 
   });
 
-  updateCarShopOwnerInfo();
+  // updateCarShopOwnerInfo();
 
 };
 
@@ -523,12 +523,16 @@ const addCarShop = () => {
   let descHtml = '';
   let description = [];
   $('.carShopSection').on('click', '#addDescr', () => {
+    event.preventDefault();
     description.push($('#description').val());
     console.log(description);
     description.forEach((descr) => {
       descHtml +=
       `
-      <li>${descr}</li>
+      <li>
+        <p>${descr}</p>
+        <button id="delTempDesc">X</button>
+      </li>
       `;
     });
 
@@ -536,9 +540,19 @@ const addCarShop = () => {
 
     descHtml = '';
 
+    //find all entries of the item thats being deleted, pop, then reintroduce to array.
   });
 
-  $('.carShopSection').on('click', '#delDescr', () => {
+  $('.carShopSection').on('click', '#delTempDesc', function(event) {
+    event.preventDefault();
+    
+    let selDesc = $(this).siblings('p').text();
+    let notselDesc = description.filter(d => d != selDesc);
+    let popSameSelDesc = description.filter(d => d === selDesc);
+    $(this).closest('li').remove();
+    popSameSelDesc.pop();
+    description = notselDesc.concat(popSameDesc);
+    console.log(description);
 
   });
 
@@ -554,16 +568,6 @@ const addCarShop = () => {
     description = [];
 
   });
-
-
-
-  /*
-  [
-  repair: string
-  description: []
-  cost: string
-  ]
-  */
 
 };
 
