@@ -526,6 +526,7 @@ const addCarShop = () => {
     event.preventDefault();
     description.push($('#description').val());
     console.log(description);
+    specialty.description = description;
     description.forEach((descr) => {
       descHtml +=
       `
@@ -547,29 +548,68 @@ const addCarShop = () => {
     event.preventDefault();
     
     let selDesc = $(this).siblings('p').text();
-    let notselDesc = description.filter(d => d != selDesc);
+    let notselDesc = description.filter(d => d != selDesc); 
     let popSameSelDesc = description.filter(d => d === selDesc);
     $(this).closest('li').remove();
     popSameSelDesc.pop();
-    description = notselDesc.concat(popSameDesc);
+    description = notselDesc.concat(popSameSelDesc);
     console.log(description);
 
   });
 
   $('.carShopSection').on('click', '#addSpecialties', () => {
-    specialty.push({
-      repair: $('#repair').val(),
-      description: description,
-      cost: $('#cost').val()
+    //specialty:
+    /*
+    When user adds a specialty we should: 
+    
+    -add the current info to the specialty
+    -empty specialty
+    */
+
+
+    // specialty.push({
+    //   repair: $('#repair').val(),
+    //   description: description,
+    //   cost: $('#cost').val()
+    // });
+    // console.log(description);
+
+    // console.log(specialty);
+    let {
+      repair,
+      description,
+      cost
+    } = specialty;
+
+    description.forEach(d => {
+      descHtml += 
+      `
+        <li>${d}</li>
+      `
     });
 
-    console.log(specialty);
+    repair = $('#repair').val();
+    description = description;
+    cost = $('#cost').val();
+    
+    specialtyHtml += 
+    `
+    <p>${repair}</p>
+    <ul>
+    ${descHtml}
+    </ul>
+    <p>${cost}</p>
+    `;
 
-    description = [];
+    console.log(specialtyHtml);
+    $('.specialtySection').html(specialtyHtml);
+    console.log(specialty);
+    console.log(repair);
+    // description = [];
 
   });
-
 };
+
 
 const updateCarShop = () => {
 
