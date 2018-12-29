@@ -518,7 +518,7 @@ const updateClientInfo = (clientId, clientToken) => {
 
 const addCarShop = () => {
   console.log($('.carShopSection').children('form'));
-  let specialty = [];
+  const specialties = [];
   let specialtyHtml = '';
   let descHtml = '';
   let description = [];
@@ -526,7 +526,7 @@ const addCarShop = () => {
     event.preventDefault();
     description.push($('#description').val());
     console.log(description);
-    specialty.description = description;
+
     description.forEach((descr) => {
       descHtml +=
       `
@@ -558,28 +558,9 @@ const addCarShop = () => {
   });
 
   $('.carShopSection').on('click', '#addSpecialties', () => {
-    //specialty:
-    /*
-    When user adds a specialty we should: 
-    
-    -add the current info to the specialty
-    -empty specialty
-    */
 
-
-    // specialty.push({
-    //   repair: $('#repair').val(),
-    //   description: description,
-    //   cost: $('#cost').val()
-    // });
-    // console.log(description);
-
-    // console.log(specialty);
-    let {
-      repair,
-      description,
-      cost
-    } = specialty;
+    let repair = $('#repair').val();
+    let cost = $('#cost').val();
 
     description.forEach(d => {
       descHtml += 
@@ -587,10 +568,6 @@ const addCarShop = () => {
         <li>${d}</li>
       `
     });
-
-    repair = $('#repair').val();
-    description = description;
-    cost = $('#cost').val();
     
     specialtyHtml += 
     `
@@ -601,11 +578,22 @@ const addCarShop = () => {
     <p>${cost}</p>
     `;
 
+    specialties.push({
+      repair,
+      description,
+      cost
+    }
+    );
+
+    console.log(specialties);
+
     console.log(specialtyHtml);
     $('.specialtySection').html(specialtyHtml);
-    console.log(specialty);
-    console.log(repair);
-    // description = [];
+
+
+    // console.log(specialty);
+    // console.log(repair);
+    description = [];
 
   });
 };
