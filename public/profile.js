@@ -270,8 +270,8 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
               type="text" name="zipcode" 
               id="zipcode" placeholder="85298"
             />
-            <section class="specialtySection">
-            </section>
+            <ul class="specialtySection">
+            </ul>
             <label for="repair">Repair:</label>
             <input 
             type="text" name="repair" 
@@ -458,7 +458,6 @@ const updateCarShopOwnerInfo = () => {
   */
   $('.userSection').on('submit', () => {
     event.preventDefault();
-
     const ownerInfoForm = $('.userSection form');
     const formLength = ownerInfoForm[0].length;
     const userInfo = {};
@@ -540,6 +539,8 @@ const addCarShop = () => {
     $('.tempDesc').html(descHtml);
 
     descHtml = '';
+    
+    $('#description').val('');
 
     //find all entries of the item thats being deleted, pop, then reintroduce to array.
   });
@@ -571,11 +572,14 @@ const addCarShop = () => {
     
     specialtyHtml += 
     `
-    <p>${repair}</p>
-    <ul>
-    ${descHtml}
-    </ul>
-    <p>${cost}</p>
+    <li class="specialty">
+      ${repair}
+      <ul>
+      ${descHtml}
+      </ul>
+      <p>${cost}</p>
+      <input type="button" class="delSpecialty" value="Remove specialty"/>
+    </li>
     `;
 
     specialties.push({
@@ -588,14 +592,29 @@ const addCarShop = () => {
     console.log(specialties);
 
     console.log(specialtyHtml);
-    $('.specialtySection').html(specialtyHtml);
+    $('.specialtySection').html(
+    `
+    <h2>Specialty:</h2>
+    ${specialtyHtml}
+    `);
 
 
     // console.log(specialty);
     // console.log(repair);
     description = [];
+    $('#repair').val('');
+    $('#cost').val('');
+    $('.tempDesc li').remove();
+    descHtml = '';
 
   });
+
+  $('.carShopSection').on('click', '.delSpecialty', function() {
+    event.preventDefault();
+    // $(this).closest('p').remove();
+    $(this).parent().remove();
+  });
+
 };
 
 
