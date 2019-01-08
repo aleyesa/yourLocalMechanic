@@ -521,6 +521,7 @@ const addCarShop = () => {
   let specialtyHtml = '';
   let descHtml = '';
   let description = [];
+
   $('.carShopSection').on('click', '#addDescr', () => {
     event.preventDefault();
     description.push($('#description').val());
@@ -562,25 +563,14 @@ const addCarShop = () => {
 
     let repair = $('#repair').val();
     let cost = $('#cost').val();
+ 
 
-    description.forEach(d => {
-      descHtml += 
-      `
-        <li>${d}</li>
-      `
-    });
-    
-    specialtyHtml += 
-    `
-    <li class="specialty">
-      ${repair}
-      <ul>
-      ${descHtml}
-      </ul>
-      <p>${cost}</p>
-      <input type="button" class="delSpecialty" value="Remove specialty"/>
-    </li>
-    `;
+    // description.forEach(d => {
+    //   descHtml += 
+    //   `
+    //     <li>${d}</li>
+    //   `
+    // });
 
     specialties.push({
       repair,
@@ -588,6 +578,31 @@ const addCarShop = () => {
       cost
     }
     );
+
+    specialties.forEach((specialty, index) => {
+
+      console.log(index);
+      specialty.description.forEach(d => {
+        descHtml += 
+        `
+          <li>${d}</li>
+        `
+      });
+    
+      specialtyHtml += 
+      `
+      <li class="specialty">
+        <p id="index" hidden>${index}</p>
+        <p id="repair" >${specialty.repair}</p>
+        <ul>
+        ${descHtml}
+        </ul>
+        <p id="cost">${specialty.cost}</p>
+        <input type="button" class="delSpecialty" value="Remove specialty"/>
+      </li>
+      `;
+      
+    });
 
     console.log(specialties);
 
@@ -606,17 +621,54 @@ const addCarShop = () => {
     $('#cost').val('');
     $('.tempDesc li').remove();
     descHtml = '';
+    index++;
+    specialtyHtml = '';
+
+    /*
+      instead of adding the specialties right then and there
+      we should create a function present in this function that does the specialty html adding
+      so that we can refresh the index of the specialty, so that the index does reset from 0 +
+    */
 
   });
 
   $('.carShopSection').on('click', '.delSpecialty', function() {
     event.preventDefault();
     // $(this).closest('p').remove();
-    $(this).parent().remove();
+    // $(this).parent().remove();
+
+      //Tasks:
+  //1) Conditional statement to check if specialty list is empty
+  //  if it is put in a paragraph saying no specialties added.
+  //2) remove specialty from array here:
+  //get all values first, then use .includes.
+  let currIndex = $(this).parent().find('#index').text();
+  let currRepair = $(this).parent().find('#repair').text();
+    
+  // console.log(specialties.filter(specialty => { 
+  //     specialty.index != currIndex;
+  //   }));
+  console.log(specialties);
+  console.log(currRepair);
+  const updatedSpecialties = specialties.filter((s, i) => 
+    // console.log(s.repair);
+    // s.repair !== currRepair
+    currIndex != i
+);
+
+  console.log(specialties[currIndex]);
+  console.log(updatedSpecialties);
+  // console.log($(this).parent().remove());
+
+
+
+
   });
 
-};
+  //if no li in unordered list of specialties input a p element that says there is none shown.
 
+
+};
 
 const updateCarShop = () => {
 
