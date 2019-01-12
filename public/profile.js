@@ -517,6 +517,7 @@ const updateClientInfo = (clientId, clientToken) => {
 
 const addCarShop = () => {
   console.log($('.carShopSection').children('form'));
+
   const specialties = [];
   let specialtyHtml = '';
   let descHtml = '';
@@ -559,18 +560,10 @@ const addCarShop = () => {
 
   });
 
-  $('.carShopSection').on('click', '#addSpecialties', () => {
+  $('.carShopSection').on('click', '#addSpecialties', function(event) {
 
     let repair = $('#repair').val();
     let cost = $('#cost').val();
- 
-
-    // description.forEach(d => {
-    //   descHtml += 
-    //   `
-    //     <li>${d}</li>
-    //   `
-    // });
 
     specialties.push({
       repair,
@@ -579,49 +572,44 @@ const addCarShop = () => {
     }
     );
 
-    specialties.forEach((specialty, index) => {
+    console.log(specialties);
 
-      console.log(index);
-      specialty.description.forEach(d => {
+    specialties.forEach((specialty1, index) => {
+      
+      specialty1.description.forEach(d => {
         descHtml += 
         `
           <li>${d}</li>
         `
       });
-    
+      console.log(descHtml);
+
+
       specialtyHtml += 
       `
       <li class="specialty">
         <p id="index" hidden>${index}</p>
-        <p id="repair" >${specialty.repair}</p>
+        <p class="repair" >${specialty1.repair}</p>
         <ul>
         ${descHtml}
         </ul>
-        <p id="cost">${specialty.cost}</p>
+        <p class="cost">${specialty1.cost}</p>
         <input type="button" class="delSpecialty" value="Remove specialty"/>
       </li>
       `;
+
+      descHtml = '';
       
     });
 
-    console.log(specialties);
+    $('.specialtySection').html(specialtyHtml);
 
-    console.log(specialtyHtml);
-    $('.specialtySection').html(
-    `
-    <h2>Specialty:</h2>
-    ${specialtyHtml}
-    `);
-
-
-    // console.log(specialty);
-    // console.log(repair);
     description = [];
+    console.log(description);
     $('#repair').val('');
     $('#cost').val('');
     $('.tempDesc li').remove();
     descHtml = '';
-    index++;
     specialtyHtml = '';
 
     /*
@@ -656,6 +644,7 @@ const addCarShop = () => {
     currIndex != i
 );
 
+  //adding a specialty doesnt show the repair name.
   console.log(specialties[currIndex]);
   console.log(updatedSpecialties);
   // console.log($(this).parent().remove());
