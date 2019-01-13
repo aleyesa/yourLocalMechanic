@@ -518,7 +518,7 @@ const updateClientInfo = (clientId, clientToken) => {
 const addCarShop = () => {
   console.log($('.carShopSection').children('form'));
 
-  const specialties = [];
+  let specialties = [];
   let specialtyHtml = '';
   let descHtml = '';
   let description = [];
@@ -618,6 +618,7 @@ const addCarShop = () => {
       so that we can refresh the index of the specialty, so that the index does reset from 0 +
     */
 
+    console.log(specialties);
   });
 
   $('.carShopSection').on('click', '.delSpecialty', function() {
@@ -648,6 +649,9 @@ const addCarShop = () => {
   console.log(specialties[currIndex]);
   console.log(updatedSpecialties);
   // console.log($(this).parent().remove());
+  specialties = updatedSpecialties;
+
+  console.log(specialties);
 
 
 
