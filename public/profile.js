@@ -651,7 +651,40 @@ const addCarShop = () => {
   // console.log($(this).parent().remove());
   specialties = updatedSpecialties;
 
+  specialties.forEach((specialty1, index) => {
+      
+    specialty1.description.forEach(d => {
+      descHtml += 
+      `
+        <li>${d}</li>
+      `
+    });
+    console.log(descHtml);
+
+
+    specialtyHtml += 
+    `
+    <li class="specialty">
+      <p id="index" hidden>${index}</p>
+      <p class="repair" >${specialty1.repair}</p>
+      <ul>
+      ${descHtml}
+      </ul>
+      <p class="cost">${specialty1.cost}</p>
+      <input type="button" class="delSpecialty" value="Remove specialty"/>
+    </li>
+    `;
+
+    descHtml = '';
+    
+  });
+
+  //if specialties array is empty remove whole spec section and input that there is no specialties shown in car shop
+  $('.specialtySection').html(specialtyHtml);
+  console.log(specialtyHtml);
   console.log(specialties);
+
+  specialtyHtml = '';
 
 
 
