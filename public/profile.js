@@ -271,7 +271,11 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
               id="zipcode" placeholder="85298"
             />
             <ul class="specialtySection">
+            <h2>Specialties:</h2>
+            <p>There is no specialties listed for this car shop</p>
             </ul>
+            <fieldset>
+            <legend>Add Specialties:</legend>
             <label for="repair">Repair:</label>
             <input 
             type="text" name="repair" 
@@ -298,6 +302,7 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
               id="labor" placeholder="cost of labor"
             />
             <input type="submit" id="saveShopBtn" value="Save Car Shop">
+            </fieldset>
           </form>
           `
           );
@@ -602,7 +607,20 @@ const addCarShop = () => {
       
     });
 
-    $('.specialtySection').html(specialtyHtml);
+    if(!specialties) {
+      $('.specialtySection').html(
+      `
+      <h2>Specialties:</h2>
+      <p>There is no specialties listed for this car shop</p>
+      `
+      );
+    } else {
+      $('.specialtySection').html(
+        `
+        <h2>Specialties:</h2>
+        ${specialtyHtml}
+        `);
+    }
 
     description = [];
     console.log(description);
@@ -680,19 +698,28 @@ const addCarShop = () => {
   });
 
   //if specialties array is empty remove whole spec section and input that there is no specialties shown in car shop
-  $('.specialtySection').html(specialtyHtml);
   console.log(specialtyHtml);
   console.log(specialties);
 
   specialtyHtml = '';
-
-
-
+  if(!specialties) {
+    $('.specialtySection').html(
+    `
+    <h2>Specialties:</h2>
+    <p>There is no specialties listed for this car shop</p>
+    `
+    );
+  } else {
+    $('.specialtySection').html(
+      `
+      <h2>Specialties:</h2>
+      ${specialtyHtml}
+      `);
+  }
 
   });
 
   //if no li in unordered list of specialties input a p element that says there is none shown.
-
 
 };
 
