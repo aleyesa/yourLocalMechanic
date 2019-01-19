@@ -295,14 +295,13 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
             id="cost" placeholder="cost of repair"
             />
             <input type="button" name="addSpecialties" id="addSpecialties" value="Add Specialties">
-      
+            </fieldset>
             <label for="labor">Labor:</label>
             <input 
               type="text" name="labor" 
               id="labor" placeholder="cost of labor"
             />
             <input type="submit" id="saveShopBtn" value="Save Car Shop">
-            </fieldset>
           </form>
           `
           );
@@ -521,12 +520,50 @@ const updateClientInfo = (clientId, clientToken) => {
 };
 
 const addCarShop = () => {
-  console.log($('.carShopSection').children('form'));
+  /*
+  To add a car shop we need:
+
+  To add the car shop info which includes:
+  - car shop name
+  - car shop owner name
+  - shop email
+  - car shop phone
+  - location
+  - An array of specialties[DONE]
+  - labor price
+
+  -once the user has added all the information they can save the car
+  -shop
+  -Then once we have the object of all the required information
+  we can do an ajax request from our car shop api to create the
+  car shop for the car shop owner.
+  */
 
   let specialties = [];
   let specialtyHtml = '';
   let descHtml = '';
   let description = [];
+
+  /*
+  -create an event listener that checks if user has clicked on the submit
+  button(aka #saveShopBtn)
+  */
+
+  $('.carShopSection').on('submit', () => {
+    event.preventDefault();
+ /*
+  -this event listener gets the values of the required info and updates
+  the html, plus we have an object of the carshop that we will send 
+  to our api to create or update the car shop.
+  */
+
+    console.log('save car shop event listener is working.');
+  });
+
+  // const carShop = {
+  //   shopName: 
+  //   carShopOwner:
+  // }
 
   $('.carShopSection').on('click', '#addDescr', () => {
     event.preventDefault();
@@ -701,22 +738,25 @@ const addCarShop = () => {
   console.log(specialtyHtml);
   console.log(specialties);
 
-  specialtyHtml = '';
-  if(!specialties) {
+  if(specialties.length === 0) {
     $('.specialtySection').html(
     `
     <h2>Specialties:</h2>
     <p>There is no specialties listed for this car shop</p>
     `
     );
+    console.log('no specialties listed.');
   } else {
     $('.specialtySection').html(
       `
       <h2>Specialties:</h2>
       ${specialtyHtml}
       `);
+      console.log('there are specialties listed');
+      console.log(specialties);
   }
 
+  specialtyHtml = '';
   });
 
   //if no li in unordered list of specialties input a p element that says there is none shown.
@@ -860,3 +900,4 @@ const runApi = () => {
 };
 
 runApi();
+
