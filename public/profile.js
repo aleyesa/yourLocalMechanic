@@ -644,7 +644,7 @@ const addCarShop = () => {
       
     });
 
-    if(!specialties) {
+    if(specialties.length == 0) {
       $('.specialtySection').html(
       `
       <h2>Specialties:</h2>
