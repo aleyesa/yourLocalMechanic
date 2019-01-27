@@ -245,6 +245,7 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
               type="text" name="phone" 
               id="phone" placeholder="111-222-3333"
             />
+            <button class="addPhoneBtn">Add phone</button>
             <label for="shopEmail">Car Shop Email:</label>
             <input 
               type="text" name="shopEmail" 
@@ -519,6 +520,11 @@ const updateClientInfo = (clientId, clientToken) => {
   });
 };
 
+//request for adding 
+const addAddress = () => {
+
+};
+
 const addCarShop = () => {
   /*
   To add a car shop we need:
@@ -543,11 +549,33 @@ const addCarShop = () => {
   let specialtyHtml = '';
   let descHtml = '';
   let description = [];
+  let phoneId = '';
+
+  const csoToken = sessionStorage.getItem('csoToken');
 
   /*
   -create an event listener that checks if user has clicked on the submit
   button(aka #saveShopBtn)
   */
+
+  //request for adding phone
+  $('.carShopSection').on('click', '.addPhoneBtn', () => {
+
+    $.ajax({
+      type: 'POST',
+      url: `/api/phone`,
+      headers: {
+      Authorization: `Bearer ${sessionStorage.getItem('csoToken')}`
+      },
+      contentType: 'application/json',
+      data: JSON.stringify(
+        {
+          phone: $('#phone').val()
+        }),
+      success: res => 
+        phoneId = res._id
+    });
+  });
 
   $('.carShopSection').on('submit', () => {
     event.preventDefault();
@@ -557,6 +585,35 @@ const addCarShop = () => {
   to our api to create or update the car shop.
   */
 
+  
+    const carShopName = $('#carShop').val();
+    const phone = $('#phone').val();
+    const shopEmail = $('#shopEmail').val();
+    const streetName = $('#streetName').val();
+    const city = $('#city').val();
+    const state = $('#state').val();
+    const zipcode = $('#zipcode').val();
+    const labor = $('#labor').val();
+
+    const carShopInfo = 
+    {
+
+      shopName: carShopName,
+      // carShopOwner: {
+      //   type: Schema.Types.ObjectId,
+      //   ref: 'CarShopOwner'
+      // },
+      shopEmail: shopEmail,
+      carShopPhone: phoneId,
+      // location: {
+        
+      // },
+      specialties: specialties,
+      labor: labor
+
+    }
+
+    console.log(carShopInfo);
     console.log('save car shop event listener is working.');
   });
 
@@ -759,7 +816,7 @@ const addCarShop = () => {
   specialtyHtml = '';
   });
 
-  //if no li in unordered list of specialties input a p element that says there is none shown.
+  
 
 };
 
