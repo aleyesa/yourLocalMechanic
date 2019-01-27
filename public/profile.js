@@ -186,6 +186,7 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
               type="text" name="phone" 
               id="phone" placeholder="${res.carShopInfo.carShopPhone.phone}"
             />
+            <button class="updateLocation>Update Location</button>
             <label for="shopEmail">Car Shop Email:</label>
             <input 
               type="text" name="shopEmail" 
@@ -211,6 +212,7 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
               type="text" name="zipcode" 
               id="zipcode" placeholder="${res.carShopInfo.location.address.zipcode}"
             />
+            <button class="editLocation">Update Location</button>
       
       
             ${specialtiesHtml}
@@ -271,6 +273,7 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
               type="text" name="zipcode" 
               id="zipcode" placeholder="85298"
             />
+            <button class="addLocation">Add Location</button>
             <ul class="specialtySection">
             <h2>Specialties:</h2>
             <p>There is no specialties listed for this car shop</p>
