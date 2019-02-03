@@ -523,11 +523,6 @@ const updateClientInfo = (clientId, clientToken) => {
   });
 };
 
-//request for adding 
-const addAddress = () => {
-
-};
-
 const addCarShop = () => {
   /*
   To add a car shop we need:
@@ -553,6 +548,7 @@ const addCarShop = () => {
   let descHtml = '';
   let description = [];
   let phoneId = '';
+  let locationId = '';
 
   const csoToken = sessionStorage.getItem('csoToken');
 
@@ -563,6 +559,7 @@ const addCarShop = () => {
 
   //request for adding phone
   $('.carShopSection').on('click', '.addPhoneBtn', () => {
+    event.preventDefault();
 
     $.ajax({
       type: 'POST',
@@ -580,6 +577,38 @@ const addCarShop = () => {
     });
   });
 
+  //request for adding 
+  $('.carShopSection').on('click', '.addLocation', () => {
+    event.preventDefault();
+    const streetName = $('#streetName').val();
+    const city = $('#city').val();
+    const state = $('#state').val();
+    const zipcode = $('#zipcode').val();
+    console.log('add location button works');
+    $.ajax({
+      type: 'POST',
+      url: `/api/address`,
+      headers: {
+      Authorization: `Bearer ${sessionStorage.getItem('csoToken')}`
+      },
+      contentType: 'application/json',
+      data: JSON.stringify(
+        {
+          address: {
+            streetAddress: streetName,
+            city: city,
+            state: state,
+            zipcode: zipcode
+          }
+        }),
+      success: res => 
+        locationId = res._id
+    });
+    
+  });
+
+
+
   $('.carShopSection').on('submit', () => {
     event.preventDefault();
  /*
@@ -592,25 +621,18 @@ const addCarShop = () => {
     const carShopName = $('#carShop').val();
     const phone = $('#phone').val();
     const shopEmail = $('#shopEmail').val();
-    const streetName = $('#streetName').val();
-    const city = $('#city').val();
-    const state = $('#state').val();
-    const zipcode = $('#zipcode').val();
+
     const labor = $('#labor').val();
+    // console.log(locationId);
 
     const carShopInfo = 
     {
 
       shopName: carShopName,
-      // carShopOwner: {
-      //   type: Schema.Types.ObjectId,
-      //   ref: 'CarShopOwner'
-      // },
+      carShopOwner: sessionStorage.getItem('csoId'),
       shopEmail: shopEmail,
       carShopPhone: phoneId,
-      // location: {
-        
-      // },
+      location: locationId,
       specialties: specialties,
       labor: labor
 
@@ -618,6 +640,19 @@ const addCarShop = () => {
 
     console.log(carShopInfo);
     console.log('save car shop event listener is working.');
+
+    $.ajax({
+      type: 'POST',
+      url: `/api/carshop`,
+      headers: {
+      Authorization: `Bearer ${sessionStorage.getItem('csoToken')}`
+      },
+      contentType: 'application/json',
+      data: JSON.stringify(carShopInfo),
+      success: res => 
+        console.log(res)
+    });
+
   });
 
   // const carShop = {
