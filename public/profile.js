@@ -175,6 +175,7 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
         
         $('.carShopSection').html(
           `
+          <p class="carShopId" hidden>${res.carShopInfo._id}</p>
           <form>
             <label for="carShop">Car Shop Name:</label>
             <input 
@@ -225,6 +226,8 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
             />
             <input type="submit" id="updateShopBtn" value="Update">
           </form>
+
+          <button class="delCarShopBtn">Delete Car Shop</button>
           `
           );
 
@@ -572,8 +575,10 @@ const addCarShop = () => {
         {
           phone: $('#phone').val()
         }),
-      success: res => 
-        phoneId = res._id
+      success: res => {
+        phoneId = res._id;
+        console.log('Phone was added successfully.');
+      }
     });
   });
 
@@ -601,8 +606,10 @@ const addCarShop = () => {
             zipcode: zipcode
           }
         }),
-      success: res => 
-        locationId = res._id
+      success: res => {
+        locationId = res._id;
+        console.log('Location was added successfully.');
+      }
     });
     
   });
@@ -619,11 +626,11 @@ const addCarShop = () => {
 
   
     const carShopName = $('#carShop').val();
-    const phone = $('#phone').val();
     const shopEmail = $('#shopEmail').val();
 
     const labor = $('#labor').val();
     // console.log(locationId);
+    console.log(specialties);
 
     const carShopInfo = 
     {
@@ -649,11 +656,32 @@ const addCarShop = () => {
       },
       contentType: 'application/json',
       data: JSON.stringify(carShopInfo),
-      success: res => 
-        console.log(res)
+      success: res => {
+        console.log(res);
+        console.log('Car Shop was added successfully.');
+      }
     });
 
   });
+
+  // const deleteCarShop = () => {
+    $('.carShopSection').on('click', '.delCarShopBtn', () => {
+      console.log('Delete Car Shop Button works.');
+
+      $.ajax({
+        type: 'DELETE',
+        url: `/api/carshop/${$('.carShopId').text()}`,
+        headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('csoToken')}`
+        },
+        success: res => {
+          console.log(res);
+          console.log('Car Shop was deleted successfully.');
+        }
+      });
+
+    });
+  // };
 
   // const carShop = {
   //   shopName: 
@@ -698,7 +726,7 @@ const addCarShop = () => {
   });
 
   $('.carShopSection').on('click', '#addSpecialties', function(event) {
-
+    event.preventDefault();
     let repair = $('#repair').val();
     let cost = $('#cost').val();
 
