@@ -99,6 +99,7 @@ const carShopOwnerProfile = () => {
   });
 
   // updateCarShopOwnerInfo();
+  updateCarShop();
 
 };
 
@@ -111,7 +112,7 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
     },
     success: function (res) {
 
-    console.log(res);  
+    console.log(res.carShopInfo.location._id);  
     let specialtiesHtml = '';
     let specDescription = '';
     let clients = '';
@@ -187,7 +188,6 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
               type="text" name="phone" 
               id="phone" placeholder="${res.carShopInfo.carShopPhone.phone}"
             />
-            <button class="updateLocation>Update Location</button>
             <label for="shopEmail">Car Shop Email:</label>
             <input 
               type="text" name="shopEmail" 
@@ -217,7 +217,6 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
       
       
             ${specialtiesHtml}
-            <input type="button" name="addSpecialties" id="addSpecialties" value="Add Specialties">
       
             <label for="labor">Labor:</label>
             <input 
@@ -645,6 +644,8 @@ const addCarShop = () => {
 
     }
 
+    console.log(specialties);
+
     console.log(carShopInfo);
     console.log('save car shop event listener is working.');
 
@@ -676,7 +677,6 @@ const addCarShop = () => {
         },
         success: res => {
           console.log(res);
-          console.log('Car Shop was deleted successfully.');
         }
       });
 
@@ -887,31 +887,71 @@ const addCarShop = () => {
 };
 
 const updateCarShop = () => {
+  
+  $('.carShopSection').on('click', '.editLocation', () => {
 
-  event.preventDefault();
+    event.preventDefault();
+    const carShopForm = $('.carShopSection form');
+    const carShop = {};
+    const carShopLocation = {};
 
-  const carShopForm = $('.carShopSection form');
-  const formLength = carShopForm[0].length;
-  const carShop = {};
+    for(let i = 0; i < carShopForm[0].length; i++){
+      if(carShopForm[0][i].type === 'text'){
+        if(carShopForm[0][i].value){
+          carShop[carShopForm[0][i].id] = carShopForm[0][i].value;
+        } 
+      }
+    };
 
-  for(let i = 0; i < formLength; i++){
-    if(carShopForm[0][i].type === 'text'){
-      if(carShopForm[0][i].value){
-        carShop[carShopForm[0][i].id] = carShopForm[0][i].value;
-      } 
+    console.log(carShop);
+
+    if(carShop.streetName) {
+      carShopLocation.streetName = carShop.streetName;
     }
-  };
 
-  $.ajax({
-    type: 'PUT',
-    url: `/api/carshop/${window.sessionStorage.getItem('currUserId')}`,
-    contentType: 'application/json',
-    data: JSON.stringify(userInfo),
-    success: res => {
-      console.log(userInfo);
-      console.log(res);
+    if(carShop.city){
+      carShopLocation.city = carShop.city;
     }
+
+    if(carShop.state) {
+      carShopLocation.state = carShop.state;
+    }
+
+    if(carShop.zipcode) {
+      carShopLocation.zipcode = carShop.zipcode;
+    }
+
+    console.log(carShopLocation);
+
+    console.log(
+      streetName + '\n' +
+      city + '\n' +
+      state + '\n' +
+      zipcode 
+    );
   });
+
+  // $.ajax({
+  //   type: 'PUT',
+  //   url: `/api/carshop/${window.sessionStorage.getItem('currUserId')}`,
+  //   contentType: 'application/json',
+  //   data: JSON.stringify(carShopLocation),
+  //   success: res => {
+  //     console.log(userInfo);
+  //     console.log(res);
+  //   }
+  // });
+
+  // $.ajax({
+  //   type: 'PUT',
+  //   url: `/api/carshop/${window.sessionStorage.getItem('currUserId')}`,
+  //   contentType: 'application/json',
+  //   data: JSON.stringify(userInfo),
+  //   success: res => {
+  //     console.log(userInfo);
+  //     console.log(res);
+  //   }
+  // });
 };
 
 const getMessageById = (msgId, currUserType, authToken) => {
