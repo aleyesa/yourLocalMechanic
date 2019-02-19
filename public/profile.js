@@ -193,10 +193,11 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
               type="text" name="shopEmail" 
               id="shopEmail" placeholder="${res.carShopInfo.shopEmail}"
             />
+            <p id="addressId" hidden>${res.carShopInfo.location._id}</p>
             <label for="streetAddress">Street Address:</label>
             <input 
-              type="text" name="streetName" 
-              id="streetName" placeholder="${res.carShopInfo.location.address.streetAddress}"
+              type="text" name="streetAddress" 
+              id="streetAddress" placeholder="${res.carShopInfo.location.address.streetAddress}"
             />
             <label for="city">City:</label>
             <input 
@@ -905,8 +906,8 @@ const updateCarShop = () => {
 
     console.log(carShop);
 
-    if(carShop.streetName) {
-      carShopLocation.streetName = carShop.streetName;
+    if(carShop.streetAddress) {
+      carShopLocation.streetAddress = carShop.streetAddress;
     }
 
     if(carShop.city){
@@ -923,24 +924,23 @@ const updateCarShop = () => {
 
     console.log(carShopLocation);
 
-    console.log(
-      streetName + '\n' +
-      city + '\n' +
-      state + '\n' +
-      zipcode 
-    );
+    // $.ajax({
+    //   type: 'PUT',
+    //   url: `/api/address/${$('#addressId').text()}`,
+    //   headers: {
+    //     Authorization: `Bearer ${sessionStorage.getItem('csoToken')}`
+    //     },
+    //   contentType: 'application/json',
+    //   data: JSON.stringify({
+    //     address: carShopLocation
+    //   }),
+    //   success: res => {
+    //     console.log(res);
+    //   }
+    // });
   });
 
-  // $.ajax({
-  //   type: 'PUT',
-  //   url: `/api/carshop/${window.sessionStorage.getItem('currUserId')}`,
-  //   contentType: 'application/json',
-  //   data: JSON.stringify(carShopLocation),
-  //   success: res => {
-  //     console.log(userInfo);
-  //     console.log(res);
-  //   }
-  // });
+
 
   // $.ajax({
   //   type: 'PUT',
