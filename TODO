@@ -1,4 +1,11 @@
 Current tasks:
 
 
-[] Find a solution with location overwriting other data.
+[O] Find a solution with location overwriting other data.
+[] Edit specialties:
+    - I want to create a way to show current specialties
+        - should give 2 options: 
+          1. Delete
+          2. Update specialties
+    - I want to create a way to add new specialties in the current car shop.
+        - possibly we can reuse the code from creating a car shop when adding a specialty.

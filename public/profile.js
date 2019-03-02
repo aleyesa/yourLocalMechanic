@@ -224,6 +224,7 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
               type="text" name="labor" 
               id="labor" placeholder="${res.carShopInfo.labor}"
             />
+            <button class="editSpecialties">Edit Specialties</button>
             <input type="submit" id="updateShopBtn" value="Update">
           </form>
 
@@ -945,6 +946,11 @@ const updateCarShop = () => {
         console.log(res);
       }
     });
+  });
+
+  $('.carShopSection').on('click', '.editSpecialties', () => {
+    event.preventDefault();
+    console.log('edit specialties button has been pressed.');
   });
 
 
