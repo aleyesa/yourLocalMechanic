@@ -28,11 +28,15 @@ const addAddress = (req, res) => {
 };
 
 const updateAddress = (req, res) => {
-
   Address
   .findByIdAndUpdate(req.params.id, req.body)
-  .then(updatedAddress => res.json(updatedAddress))
-  .catch(err => res.status(400).json('failed to update address.'));
+  .then(address => {
+    res.json(address)
+  });
+
+
+
+  
 
 };
 

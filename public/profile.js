@@ -922,22 +922,29 @@ const updateCarShop = () => {
       carShopLocation.zipcode = carShop.zipcode;
     }
 
-    console.log(carShopLocation);
+    const currentAddressInfo = {
+        streetAddress: $('#streetAddress').attr('placeholder'),
+        city: $('#city').attr('placeholder'),
+        state: $('#state').attr('placeholder'),
+        zipcode: $('#zipcode').attr('placeholder')
+    };
 
-    // $.ajax({
-    //   type: 'PUT',
-    //   url: `/api/address/${$('#addressId').text()}`,
-    //   headers: {
-    //     Authorization: `Bearer ${sessionStorage.getItem('csoToken')}`
-    //     },
-    //   contentType: 'application/json',
-    //   data: JSON.stringify({
-    //     address: carShopLocation
-    //   }),
-    //   success: res => {
-    //     console.log(res);
-    //   }
-    // });
+    const updatedCS = Object.assign(currentAddressInfo, carShop);
+
+    $.ajax({
+      type: 'PUT',
+      url: `/api/address/${$('#addressId').text()}`,
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('csoToken')}`
+        },
+      contentType: 'application/json',
+      data: JSON.stringify({
+        address: updatedCS
+      }),
+      success: res => {
+        console.log(res);
+      }
+    });
   });
 
 
