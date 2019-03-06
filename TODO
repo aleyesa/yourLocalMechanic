@@ -6,6 +6,23 @@ Current tasks:
     - I want to create a way to show current specialties
         - should give 2 options: 
           1. Delete
+          [] Convert current data to be in a list format.
+          []  Add a delete button to the end of each of the specialties.
+          []  Create an event listener to check if the delete button has been pressed.
+            [] Removing the chosen specialty:
+              [] We need to have an an array of objects holding the different specialties.
+              [] We need to somehow find the chosen specialty
+              [] Remove chosen specialty from array of objects holding different specialties.
           2. Update specialties
+          [O] Have form for updating specialties.
+          [] Create an event listener when update button has been pressed.
+            [] Temporarily hold the data that has input in given text field.
+            [] Create an ajax function to update database.
+        * convert it to list format so i can simply delete.
+          3. Go back to main car shop info page once done updating
+          [] Have a "return" button to stop updating
+          [] Once return button has been pressed give notification.
     - I want to create a way to add new specialties in the current car shop.
-        - possibly we can reuse the code from creating a car shop when adding a specialty.
+        - [O] possibly we can reuse the code from creating a car shop when adding a specialty.
+
+    

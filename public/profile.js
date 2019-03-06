@@ -216,7 +216,6 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
             />
             <button class="editLocation">Update Location</button>
       
-      
             ${specialtiesHtml}
       
             <label for="labor">Labor:</label>
@@ -225,6 +224,7 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
               id="labor" placeholder="${res.carShopInfo.labor}"
             />
             <button class="editSpecialties">Edit Specialties</button>
+            <section class="editSpecialtySection"></section>
             <input type="submit" id="updateShopBtn" value="Update">
           </form>
 
@@ -951,6 +951,38 @@ const updateCarShop = () => {
   $('.carShopSection').on('click', '.editSpecialties', () => {
     event.preventDefault();
     console.log('edit specialties button has been pressed.');
+
+    $('.editSpecialtySection').html(
+    `
+      <fieldset>
+      <legend>Add Specialties:</legend>
+      <label for="repair">Repair:</label>
+      <input 
+      type="text" name="repair" 
+      id="repair" placeholder="Type of repair"
+      />
+      <label for="description">Description:</label>
+      <ul class="tempDesc"></ul>
+      <input
+        type="text" name="description" 
+        id="description" placeholder="description of repair"
+      />
+      <input type="button" name="addDescr" id="addDescr" value="Add Description"/>
+
+      <label for="cost">Cost:</label>
+      <input 
+      type="text" name="cost" 
+      id="cost" placeholder="cost of repair"
+      />
+      <input type="button" name="addSpecialties" id="addSpecialties" value="Add Specialties">
+      </fieldset>
+      <label for="labor">Labor:</label>
+      <input 
+        type="text" name="labor" 
+        id="labor" placeholder="cost of labor"
+      />
+    `);
+   
   });
 
 
