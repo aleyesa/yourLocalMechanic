@@ -214,11 +214,16 @@ const removeCarShop = (req, res) => {
 
 };
 
+const removeSpecialty = (req, res) => {
+    res.json('test');
+};
+
 export {
   getAllCarShopsForTest,
   getCarShops,
   getSpecificCarShop,
   addCarShop,
   updateCarShopInfo,
-  removeCarShop
+  removeCarShop,
+  removeSpecialty
 };

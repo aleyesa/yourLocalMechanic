@@ -112,10 +112,14 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
     },
     success: function (res) {
 
-    console.log(res.carShopInfo.location._id);  
     let specialtiesHtml = '';
+    let uCurrSpecHtml = '';
+    let uCurrSpecDesc = '';
     let specDescription = '';
     let clients = '';
+
+    console.log(res);
+    console.log(res);
 
       $('.userSection').html(
       `
@@ -156,7 +160,11 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
                 type="text" name="specialty" 
                 id="description" placeholder="${description}"
               />
-              `
+              `;
+              uCurrSpecDesc += `
+              <h2>Specialty:</h2>
+              <p id="uDesc">${description}</p>
+              `;
             });
             specialtiesHtml += `
               <label for="repair">Repair:</label>
@@ -171,6 +179,17 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
               id="cost" placeholder="${res.carShopInfo.specialties[0].cost}"
               />
             `
+            uCurrSpecHtml += `
+            <li>
+              <h2>Repair:</h2>
+              <p id="uRepair">${res.carShopInfo.specialties[0].repair}
+              <button id="uDelSpecialty">X</button>
+              </p>
+              ${uCurrSpecDesc}
+              <p>Cost:</p>
+              <p id="uCost">${res.carShopInfo.specialties[0].cost}</p>
+            </li>
+            `;
         });
     
         
@@ -215,15 +234,24 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
               id="zipcode" placeholder="${res.carShopInfo.location.address.zipcode}"
             />
             <button class="editLocation">Update Location</button>
-      
+
+            <section class="currentSpecialtiesSection">
             ${specialtiesHtml}
-      
             <label for="labor">Labor:</label>
             <input 
               type="text" name="labor" 
               id="labor" placeholder="${res.carShopInfo.labor}"
             />
+            </section>
+      
             <button class="editSpecialties">Edit Specialties</button>
+            <section class="uCurrSpecialtySection" hidden>
+            <ul class="uCurrSpecList">
+            ${uCurrSpecHtml}
+            </ul>
+            <p>Labor</p>
+            <p id="uLabor">${res.carShopInfo.labor}</p>
+            </section>
             <section class="editSpecialtySection"></section>
             <input type="submit" id="updateShopBtn" value="Update">
           </form>
@@ -889,6 +917,10 @@ const addCarShop = () => {
 };
 
 const updateCarShop = () => {
+
+  //create a variable that holds current array of specialties:
+  const currSpecialties = [];
+
   
   $('.carShopSection').on('click', '.editLocation', () => {
 
@@ -951,7 +983,13 @@ const updateCarShop = () => {
   $('.carShopSection').on('click', '.editSpecialties', () => {
     event.preventDefault();
     console.log('edit specialties button has been pressed.');
-
+    const uSpecialty = $('.uCurrSpecList');
+    console.log(uSpecialty[0]);
+    // uSpecialty[0].forEach((specialty, i) => {
+    //   console.log(specialty);
+    // }); 
+    $('.currentSpecialtiesSection').hide();
+    $('.uCurrSpecialtySection').show();
     $('.editSpecialtySection').html(
     `
       <fieldset>
@@ -982,8 +1020,14 @@ const updateCarShop = () => {
         id="labor" placeholder="cost of labor"
       />
     `);
+    
+    $('.uCurrSpecialtySection').on('click', '#uDelSpecialty', () => {
+      event.preventDefault();
+      console.log('udeletespecialty has been pressed.');
+    });
    
   });
+
 
 
 
