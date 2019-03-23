@@ -215,7 +215,21 @@ const removeCarShop = (req, res) => {
 };
 
 const removeSpecialty = (req, res) => {
-    res.json('test');
+  CarShop
+  .findOne({
+    "specialties.description": req.body.num
+  })
+  .then(cs => {
+    console.log(cs.specialties);
+    cs.specialties.id("5c8535743425fd295ce2f775").remove();
+    console.log(cs.specialties);
+    cs.save((err) => {
+      if(err) return handleError(err);
+      console.log("subDocument removed");
+      
+    });
+    res.json(cs.specialties);
+  });
 };
 
 export {

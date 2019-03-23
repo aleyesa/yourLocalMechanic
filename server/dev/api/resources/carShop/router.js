@@ -17,10 +17,8 @@ const carShopRouter = express.Router();
 carShopRouter.route('/all')
 .get(getAllCarShopsForTest);
 
-carShopRouter.route('/uSpec')
-.get((req, res) => {
-  res.json('test');
-});
+carShopRouter.route('/remSpec')
+.get(removeSpecialty);
 
 carShopRouter.route('/')
 .get(getCarShops)
@@ -30,12 +28,5 @@ carShopRouter.route('/:id')
 .get(getSpecificCarShop)
 .put(jwtAuthenticate, updateCarShopInfo)
 .delete(jwtAuthenticate, removeCarShop);
-
-// carShopRouter.route('/t')
-// .get((req, res) => {
-//   console.log('cookies');
-// });
-
-
 
 export default carShopRouter;

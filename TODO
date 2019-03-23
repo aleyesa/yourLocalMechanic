@@ -9,14 +9,8 @@ Current tasks:
           [Sort of] Convert current data to be in a list format.
           [O]  Add a delete button to the end of each of the specialties.
           [O]  Create an event listener to check if the delete button has been pressed.
-            [] Removing the chosen specialty:
-              ***Somehow get specialty id
-              ** GET remove specialty api working
-              [In Progress] We need to have an an array of objects holding the different specialties.
-                *line 984
-                *Need to figure out array tree to get each li in specialty.
-              [] We need to somehow find the chosen specialty
-              [] Remove chosen specialty from array of objects holding different specialties.
+            [O] Removing the chosen specialty:
+              [O] Api created to remove specialties
           2. Update specialties
           [O] Have form for updating specialties.
           [] Create an event listener when update button has been pressed.
