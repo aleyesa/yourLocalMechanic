@@ -214,19 +214,32 @@ const removeCarShop = (req, res) => {
 
 };
 
+const addSpecialty = (req, res) => {
+  CarShop
+  .findById(req.body.csId)
+  .then(cs => {
+    cs.specialties.push(req.body.specs);
+    cs.save((err) => {
+      if(err) {
+        return handleError(err);
+      }
+        console.log("a sub document has been added.");
+    });
+    res.json(cs.specialties);
+  });
+  
+};
+
 const removeSpecialty = (req, res) => {
   CarShop
-  .findOne({
-    "specialties.description": req.body.num
-  })
+  .findById(req.body.csId)
   .then(cs => {
     console.log(cs.specialties);
-    cs.specialties.id("5c8535743425fd295ce2f775").remove();
+    cs.specialties.id(req.body.specialtyId).remove();
     console.log(cs.specialties);
     cs.save((err) => {
       if(err) return handleError(err);
       console.log("subDocument removed");
-      
     });
     res.json(cs.specialties);
   });
@@ -239,5 +252,6 @@ export {
   addCarShop,
   updateCarShopInfo,
   removeCarShop,
+  addSpecialty,
   removeSpecialty
 };

@@ -7,6 +7,7 @@ import {
   getCarShops,
   getSpecificCarShop,
   addCarShop,
+  addSpecialty,
   removeCarShop,
   removeSpecialty,
   updateCarShopInfo
@@ -17,8 +18,9 @@ const carShopRouter = express.Router();
 carShopRouter.route('/all')
 .get(getAllCarShopsForTest);
 
-carShopRouter.route('/remSpec')
-.get(removeSpecialty);
+carShopRouter.route('/updateSpecialty')
+.put(addSpecialty)
+.delete(removeSpecialty);
 
 carShopRouter.route('/')
 .get(getCarShops)
