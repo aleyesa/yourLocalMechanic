@@ -23,4 +23,4 @@ Current tasks:
     - I want to create a way to add new specialties in the current car shop.
         - [O] possibly we can reuse the code from creating a car shop when adding a specialty.
 
-    
+    *Line 173-179 Needs to address other index in the array.

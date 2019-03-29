@@ -170,18 +170,19 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
               <label for="repair">Repair:</label>
               <input 
               type="text" name="repair" 
-              id="repair" placeholder="${res.carShopInfo.specialties[0].repair}"
+              id="repair" placeholder="${specialty.repair}"
               />
               ${specDescription}
               <label for="cost">Cost:</label>
               <input 
               type="text" name="cost" 
-              id="cost" placeholder="${res.carShopInfo.specialties[0].cost}"
+              id="cost" placeholder="${specialty.cost}"
               />
             `
             uCurrSpecHtml += `
             <li>
               <h2>Repair:</h2>
+              <p id="specId"hidden>${res.carShopInfo.specialties[0]._id}</p>
               <p id="uRepair">${res.carShopInfo.specialties[0].repair}
               <button id="uDelSpecialty">X</button>
               </p>
