@@ -119,7 +119,6 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
     let clients = '';
 
     console.log(res);
-    console.log(res);
 
       $('.userSection').html(
       `
@@ -153,6 +152,8 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
       if(res.carShopInfo) {
         //populate the specialties:
           res.carShopInfo.specialties.forEach(specialty => {
+            specDescription = '';
+            uCurrSpecDesc = '';
             specialty.description.forEach(description => {
               specDescription += `
               <label for="specialty">Specialty:</label>
@@ -166,6 +167,7 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
               <p id="uDesc">${description}</p>
               `;
             });
+
             specialtiesHtml += `
               <label for="repair">Repair:</label>
               <input 
@@ -182,13 +184,13 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
             uCurrSpecHtml += `
             <li>
               <h2>Repair:</h2>
-              <p id="specId"hidden>${res.carShopInfo.specialties[0]._id}</p>
-              <p id="uRepair">${res.carShopInfo.specialties[0].repair}
+              <p id="specId"hidden>${specialty._id}</p>
+              <p id="uRepair">${specialty.repair}
               <button id="uDelSpecialty">X</button>
               </p>
               ${uCurrSpecDesc}
               <p>Cost:</p>
-              <p id="uCost">${res.carShopInfo.specialties[0].cost}</p>
+              <p id="uCost">${specialty.cost}</p>
             </li>
             `;
         });

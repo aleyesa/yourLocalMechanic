@@ -24,3 +24,4 @@ Current tasks:
         - [O] possibly we can reuse the code from creating a car shop when adding a specialty.
 
     *Line 173-179 Needs to address other index in the array.
+    *html preinting out duplicate description of specialty.
