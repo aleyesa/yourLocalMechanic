@@ -1024,9 +1024,10 @@ const updateCarShop = () => {
       />
     `);
     
-    $('.uCurrSpecialtySection').on('click', '#uDelSpecialty', () => {
+    $('.uCurrSpecialtySection').on('click', '#uDelSpecialty', function(event) {
       event.preventDefault();
       console.log('udeletespecialty has been pressed.');
+      console.log($(this).parent().siblings('#specId').html());
     });
    
   });
