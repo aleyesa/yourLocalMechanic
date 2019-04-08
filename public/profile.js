@@ -1026,8 +1026,29 @@ const updateCarShop = () => {
     
     $('.uCurrSpecialtySection').on('click', '#uDelSpecialty', function(event) {
       event.preventDefault();
+      let specId = $(this).parent().siblings('#specId').text();
       console.log('udeletespecialty has been pressed.');
-      console.log($(this).parent().siblings('#specId').html());
+      let carShopId = $('.carShopSection').find('.carShopId').text();
+      console.log(carShopId);
+      console.log(specId);
+
+      $.ajax({
+        type: 'DELETE',
+        url: '/api/carshop/updateSpecialty',
+        headers: {
+          Authorization: `Bearer${sessionStorage.getItem('csoToken')}`
+        },
+        contentType: 'application/json',
+        data: JSON.stringify({
+          csId: carShopId,
+          specialtyId: specId
+        }),
+        success: () => {
+          console.log('specialty has been deleted');
+        }
+      });
+
+
     });
    
   });
