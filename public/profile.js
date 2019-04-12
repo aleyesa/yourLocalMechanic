@@ -1043,7 +1043,27 @@ const updateCarShop = () => {
           csId: carShopId,
           specialtyId: specId
         }),
-        success: () => {
+        success: (res) => {
+          currSpecHtml = '';
+          console.log(res);
+          res.forEach(specialty => {
+            currDescrHtml = '';
+            specialty.description.forEach(descr => {
+              currDescrHtml += 
+              `
+                <p>${descr}</p>
+              `
+            });
+            currSpecHtml +=
+            `
+              <p>${specialty.cost}</p>
+              <p>${currDescrHtml}</p>
+              <p>${specialty.repair}</p>
+            `
+          });
+
+          console.log(currSpecHtml);
+          // $('.uCurrSpecialtySection').html('<p>Specialty has been deleted.</p>');
           console.log('specialty has been deleted');
         }
       });

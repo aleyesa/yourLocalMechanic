@@ -26,4 +26,7 @@ Current tasks:
     *Line 173-179 Needs to address other index in the array.
     *html preinting out duplicate description of specialty.
 
-    -Create an ajax function to remove specified specialty from database.
+    -[DONE]Create an ajax function to remove specified specialty from database.
+
+    -remove specified specialty html.
+    [] use response from ajax request to update html.
