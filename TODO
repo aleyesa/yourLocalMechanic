@@ -30,3 +30,6 @@ Current tasks:
 
     -remove specified specialty html.
     [] use response from ajax request to update html.
+    [] somehow get labor to work with specialty section
+    [] fix spec id when deleting a specialty 
+    *has to deal with specId concatanation

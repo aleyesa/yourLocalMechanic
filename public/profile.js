@@ -1027,6 +1027,7 @@ const updateCarShop = () => {
     $('.uCurrSpecialtySection').on('click', '#uDelSpecialty', function(event) {
       event.preventDefault();
       let specId = $(this).parent().siblings('#specId').text();
+      console.log($(this).parent().siblings().html());
       console.log('udeletespecialty has been pressed.');
       let carShopId = $('.carShopSection').find('.carShopId').text();
       console.log(carShopId);
@@ -1044,30 +1045,40 @@ const updateCarShop = () => {
           specialtyId: specId
         }),
         success: (res) => {
+
           currSpecHtml = '';
           console.log(res);
           res.forEach(specialty => {
-            currDescrHtml = '';
+            uCurrSpecDesc = '';
             specialty.description.forEach(descr => {
-              currDescrHtml += 
+              uCurrSpecDesc += 
               `
-                <p>${descr}</p>
+                <h2>Specialty:</h2>
+                <p id="uDesc">${descr}</p>
               `
             });
             currSpecHtml +=
-            `
-              <p>${specialty.cost}</p>
-              <p>${currDescrHtml}</p>
-              <p>${specialty.repair}</p>
+            ` 
+              <li>
+              <h2>Repair:</h2>
+              <p id="specId"hidden>${specialty._id}</p>
+              <p id="uRepair">${specialty.repair}
+              <button id="uDelSpecialty">X</button>
+              </p>
+              ${uCurrSpecDesc}
+              <p>Cost:</p>
+              <p id="uCost">${specialty.cost}</p>
+              </li>
             `
           });
 
           console.log(currSpecHtml);
-          // $('.uCurrSpecialtySection').html('<p>Specialty has been deleted.</p>');
+          $('.uCurrSpecList').html(currSpecHtml);
           console.log('specialty has been deleted');
+          specId = "";
+          console.log(specId);
         }
       });
-
 
     });
    
