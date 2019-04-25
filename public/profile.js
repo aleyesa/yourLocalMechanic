@@ -1096,9 +1096,11 @@ const updateCarShop = () => {
   //   }
   // });
        //need to create a listener
-       $('.carShopSection').on('submit', () => {
+       $('.carShopSection').on('submit', function() {
         event.preventDefault();
         console.log('update button has been pressed.');
+
+        console.log($(this).find('.currentSpecialtiesSection #labor').val());
       // $.ajax({
       //   type: 'PUT',
       //   url: `/api/carshop/${$('.carShopId').text()}`,
