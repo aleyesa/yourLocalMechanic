@@ -29,7 +29,11 @@ Current tasks:
     -[DONE]Create an ajax function to remove specified specialty from database.
 
     -remove specified specialty html.
-    [] use response from ajax request to update html.
-    [] somehow get labor to work with specialty section
-    [] fix spec id when deleting a specialty 
+    [O] use response from ajax request to update html.
+    [O] somehow get labor to work with specialty section
+    [O] fix spec id when deleting a specialty 
     *has to deal with specId concatanation
+
+    [] have one edit button that brings the profile tab to edit mode.
+    [] integrate edit specialties with both forms.
+    [] figure out where to put 'addCarshop' function.

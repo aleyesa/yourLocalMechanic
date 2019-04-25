@@ -57,7 +57,7 @@ const carShopOwnerProfile = () => {
   let newMsgRecSend = {};
 
   populateCarShopOwnerInfo(csoId, authToken);
-  addCarShop();
+  // addCarShop();
 
   $('.messageSection').on('click', '.msgThread', function() {
 
@@ -252,10 +252,37 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
             <ul class="uCurrSpecList">
             ${uCurrSpecHtml}
             </ul>
-            <p>Labor</p>
-            <p id="uLabor">${res.carShopInfo.labor}</p>
             </section>
-            <section class="editSpecialtySection"></section>
+            <section class="editSpecialtySection" hidden>
+              <fieldset>
+              <legend>Add Specialties:</legend>
+              <label for="repair">Repair:</label>
+              <input 
+              type="text" name="repair" 
+              id="repair" placeholder="Type of repair"
+              />
+              <label for="description">Description:</label>
+              <ul class="tempDesc"></ul>
+              <input
+                type="text" name="description" 
+                id="description" placeholder="description of repair"
+              />
+              <input type="button" name="addDescr" id="addDescr" value="Add Description"/>
+        
+              <label for="cost">Cost:</label>
+              <input 
+              type="text" name="cost" 
+              id="cost" placeholder="cost of repair"
+              />
+              <input type="button" name="addSpecialties" id="addSpecialties" value="Add Specialties">
+              </fieldset>
+              <label for="labor">Labor:</label>
+              <input 
+                type="text" name="labor" 
+                id="labor" placeholder="${res.carShopInfo.labor}"
+                value="${res.carShopInfo.labor}"
+              />
+            </section>
             <input type="submit" id="updateShopBtn" value="Update">
           </form>
 
@@ -648,6 +675,7 @@ const addCarShop = () => {
 
 
 
+
   $('.carShopSection').on('submit', () => {
     event.preventDefault();
  /*
@@ -993,36 +1021,7 @@ const updateCarShop = () => {
     // }); 
     $('.currentSpecialtiesSection').hide();
     $('.uCurrSpecialtySection').show();
-    $('.editSpecialtySection').html(
-    `
-      <fieldset>
-      <legend>Add Specialties:</legend>
-      <label for="repair">Repair:</label>
-      <input 
-      type="text" name="repair" 
-      id="repair" placeholder="Type of repair"
-      />
-      <label for="description">Description:</label>
-      <ul class="tempDesc"></ul>
-      <input
-        type="text" name="description" 
-        id="description" placeholder="description of repair"
-      />
-      <input type="button" name="addDescr" id="addDescr" value="Add Description"/>
-
-      <label for="cost">Cost:</label>
-      <input 
-      type="text" name="cost" 
-      id="cost" placeholder="cost of repair"
-      />
-      <input type="button" name="addSpecialties" id="addSpecialties" value="Add Specialties">
-      </fieldset>
-      <label for="labor">Labor:</label>
-      <input 
-        type="text" name="labor" 
-        id="labor" placeholder="cost of labor"
-      />
-    `);
+    $('.editSpecialtySection').show();
     
     $('.uCurrSpecialtySection').on('click', '#uDelSpecialty', function(event) {
       event.preventDefault();
@@ -1079,7 +1078,6 @@ const updateCarShop = () => {
           console.log(specId);
         }
       });
-
     });
    
   });
@@ -1097,6 +1095,26 @@ const updateCarShop = () => {
   //     console.log(res);
   //   }
   // });
+       //need to create a listener
+       $('.carShopSection').on('submit', () => {
+        event.preventDefault();
+        console.log('update button has been pressed.');
+      // $.ajax({
+      //   type: 'PUT',
+      //   url: `/api/carshop/${$('.carShopId').text()}`,
+      //   headers: {
+      //   Authorization: `Bearer ${sessionStorage.getItem('csoToken')}`
+      //   },
+      //   success: res => {
+      //     console.log(res);
+      //   }
+      // });
+
+    });
+
+
+
+
 };
 
 const getMessageById = (msgId, currUserType, authToken) => {
