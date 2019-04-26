@@ -1100,21 +1100,25 @@ const updateCarShop = () => {
         event.preventDefault();
         console.log('update button has been pressed.');
         let labor = $(this).find('.currentSpecialtiesSection #labor').val();
+        let data = {};
         if(!labor) {
           console.log('labor field is empty');
         } else {
-          console.log(labor);
+          data.labor = labor;
+          console.log(data);
+          $.ajax({
+            type: 'PUT',
+            url: `/api/carshop/${$('.carShopId').text()}`,
+            headers: {
+            Authorization: `Bearer ${sessionStorage.getItem('csoToken')}`
+            },
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: res => {
+              console.log(res);
+            }
+          });
         }
-      // $.ajax({
-      //   type: 'PUT',
-      //   url: `/api/carshop/${$('.carShopId').text()}`,
-      //   headers: {
-      //   Authorization: `Bearer ${sessionStorage.getItem('csoToken')}`
-      //   },
-      //   success: res => {
-      //     console.log(res);
-      //   }
-      // });
 
     });
 

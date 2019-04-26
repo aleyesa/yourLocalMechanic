@@ -40,3 +40,5 @@ Current tasks:
 
     []create conditional statement to check if input field is empty or not
         so that we can put inputed data into an object
+
+    [O] get ajax function working with given labor data.
