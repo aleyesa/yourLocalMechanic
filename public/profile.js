@@ -1099,8 +1099,8 @@ const updateCarShop = () => {
        $('.carShopSection').on('submit', function() {
         event.preventDefault();
         console.log('update button has been pressed.');
-
-        console.log($(this).find('.currentSpecialtiesSection #labor').val());
+        let labor = $(this).find('.currentSpecialtiesSection #labor').val();
+        console.log(labor);
       // $.ajax({
       //   type: 'PUT',
       //   url: `/api/carshop/${$('.carShopId').text()}`,

@@ -37,3 +37,6 @@ Current tasks:
     [] have one edit button that brings the profile tab to edit mode.
     [] integrate edit specialties with both forms.
     [] figure out where to put 'addCarshop' function.
+
+    []create conditional statement to check if input field is empty or not
+        so that we can put inputed data into an object
