@@ -1100,7 +1100,11 @@ const updateCarShop = () => {
         event.preventDefault();
         console.log('update button has been pressed.');
         let labor = $(this).find('.currentSpecialtiesSection #labor').val();
-        console.log(labor);
+        if(!labor) {
+          console.log('labor field is empty');
+        } else {
+          console.log(labor);
+        }
       // $.ajax({
       //   type: 'PUT',
       //   url: `/api/carshop/${$('.carShopId').text()}`,
