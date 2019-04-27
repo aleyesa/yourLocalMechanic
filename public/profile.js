@@ -1100,25 +1100,37 @@ const updateCarShop = () => {
         event.preventDefault();
         console.log('update button has been pressed.');
         let labor = $(this).find('.currentSpecialtiesSection #labor').val();
+        let carShopName = $(this).find('form #carShop').val();
         let data = {};
+
+        console.log(carShopName);
+  
         if(!labor) {
           console.log('labor field is empty');
         } else {
           data.labor = labor;
           console.log(data);
-          $.ajax({
-            type: 'PUT',
-            url: `/api/carshop/${$('.carShopId').text()}`,
-            headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('csoToken')}`
-            },
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            success: res => {
-              console.log(res);
-            }
-          });
         }
+
+        if(!carShopName) {
+          console.log('carShop field is empty');
+        } else {
+          data.shopName = carShopName;
+          console.log(data);
+        }
+
+        $.ajax({
+          type: 'PUT',
+          url: `/api/carshop/${$('.carShopId').text()}`,
+          headers: {
+          Authorization: `Bearer ${sessionStorage.getItem('csoToken')}`
+          },
+          contentType: 'application/json',
+          data: JSON.stringify(data),
+          success: res => {
+            console.log(res);
+          }
+        });
 
     });
 
