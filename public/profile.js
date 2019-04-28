@@ -199,6 +199,7 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
         $('.carShopSection').html(
           `
           <p class="carShopId" hidden>${res.carShopInfo._id}</p>
+          <button id="backBtn" hidden><a href="carShopProfile.html">Go Back</a></button>
           <form>
             <label for="carShop">Car Shop Name:</label>
             <input 
@@ -1022,6 +1023,7 @@ const updateCarShop = () => {
     $('.currentSpecialtiesSection').hide();
     $('.uCurrSpecialtySection').show();
     $('.editSpecialtySection').show();
+    $('#backBtn').show();
     
     $('.uCurrSpecialtySection').on('click', '#uDelSpecialty', function(event) {
       event.preventDefault();

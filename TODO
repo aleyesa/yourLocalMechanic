@@ -36,10 +36,13 @@ Current tasks:
 
     [] have one edit button that brings the profile tab to edit mode.
     [] integrate edit specialties with both forms.
-    [] figure out where to put 'addCarshop' function.
+    [O] figure out where to put 'addCarshop' function.
 
-    []create conditional statement to check if input field is empty or not
+    [O]create conditional statement to check if input field is empty or not
         so that we can put inputed data into an object
 
     [O] get ajax function working with given labor data.
-    [] get car shop name integrated with data object.
+    [O] get car shop name integrated with data object.
+    [] backBtn
+      []when backBtn has been pressed navigate back to profile.
+      []hide backBtn when pressed.
