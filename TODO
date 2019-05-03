@@ -43,6 +43,13 @@ Current tasks:
 
     [O] get ajax function working with given labor data.
     [O] get car shop name integrated with data object.
-    [] backBtn
-      []when backBtn has been pressed navigate back to profile.
-      []hide backBtn when pressed.
+    [O] backBtn
+      [O]when backBtn has been pressed navigate back to profile.
+      [O]hide backBtn when pressed.
+
+    [O]fix labor update 
+
+    [O] remove main car shop info form
+
+    [] implement add specialties
+    

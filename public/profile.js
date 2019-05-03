@@ -123,7 +123,7 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
       $('.userSection').html(
       `
       <p class="userId" hidden>${res._id}</p>
-      <form>
+      <form class="mainCarShopInfo">
         <label for="firstName">First Name:</label>
         <input 
           type="text" name="firstName" 
@@ -249,7 +249,11 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
             </section>
       
             <button class="editSpecialties">Edit Specialties</button>
-            <section class="uCurrSpecialtySection" hidden>
+            
+            <input type="submit" id="updateShopBtn" value="Update">
+          </form>
+
+          <section class="uCurrSpecialtySection" hidden>
             <ul class="uCurrSpecList">
             ${uCurrSpecHtml}
             </ul>
@@ -277,15 +281,7 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
               />
               <input type="button" name="addSpecialties" id="addSpecialties" value="Add Specialties">
               </fieldset>
-              <label for="labor">Labor:</label>
-              <input 
-                type="text" name="labor" 
-                id="labor" placeholder="${res.carShopInfo.labor}"
-                value="${res.carShopInfo.labor}"
-              />
             </section>
-            <input type="submit" id="updateShopBtn" value="Update">
-          </form>
 
           <button class="delCarShopBtn">Delete Car Shop</button>
           `
@@ -1024,6 +1020,79 @@ const updateCarShop = () => {
     $('.uCurrSpecialtySection').show();
     $('.editSpecialtySection').show();
     $('#backBtn').show();
+    $('.carShopSection form').hide();
+    $('.delCarShopBtn').hide();
+
+    //add specialties code here
+    const descriptionArray = [];
+    const specs = {};
+    $('.editSpecialtySection').on('click', '#addDescr', function() {
+      event.preventDefault();
+      let description = $('.editSpecialtySection #description').val();
+      descriptionArray.push(description);
+      console.log(descriptionArray);     
+      console.log('add description button has been pressed.');
+    });
+
+    $('.editSpecialtySection').on('click', '#addSpecialties', function() {
+      event.preventDefault();
+      let repairName = $('.editSpecialtySection #repair').val();
+      let costOfRepair = $('.editSpecialtySection #cost').val();
+
+      specs.repair = repairName;
+      specs.description = descriptionArray;
+      specs.cost = costOfRepair;
+      console.log(specs);
+
+      console.log('add specialties button has been pressed.');
+
+      // $.ajax({
+      //   type: 'PUT',
+      //   url: '/api/carshop/updateSpecialty',
+      //   headers: {
+      //     Authorization: `Bearer${sessionStorage.getItem('csoToken')}`
+      //   },
+      //   contentType: 'application/json',
+      //   data: JSON.stringify({
+      //     csId: carShopId,
+      //     specialtyId: specId
+      //   }),
+      //   success: (res) => {
+
+      //     currSpecHtml = '';
+      //     console.log(res);
+      //     res.forEach(specialty => {
+      //       uCurrSpecDesc = '';
+      //       specialty.description.forEach(descr => {
+      //         uCurrSpecDesc += 
+      //         `
+      //           <h2>Specialty:</h2>
+      //           <p id="uDesc">${descr}</p>
+      //         `
+      //       });
+      //       currSpecHtml +=
+      //       ` 
+      //         <li>
+          //     <h2>Repair:</h2>
+          //     <p id="specId"hidden>${specialty._id}</p>
+          //     <p id="uRepair">${specialty.repair}
+          //     <button id="uDelSpecialty">X</button>
+          //     </p>
+          //     ${uCurrSpecDesc}
+          //     <p>Cost:</p>
+          //     <p id="uCost">${specialty.cost}</p>
+          //     </li>
+          //   `
+          // });
+
+      //     console.log(currSpecHtml);
+      //     $('.uCurrSpecList').html(currSpecHtml);
+      //     console.log('specialty has been deleted');
+      //     specId = "";
+      //     console.log(specId);
+      //   }
+      // });
+    });
     
     $('.uCurrSpecialtySection').on('click', '#uDelSpecialty', function(event) {
       event.preventDefault();
