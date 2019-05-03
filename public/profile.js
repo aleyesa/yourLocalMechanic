@@ -1038,6 +1038,7 @@ const updateCarShop = () => {
       event.preventDefault();
       let repairName = $('.editSpecialtySection #repair').val();
       let costOfRepair = $('.editSpecialtySection #cost').val();
+      let carShopId = $('.carShopSection').find('.carShopId').text();
 
       specs.repair = repairName;
       specs.description = descriptionArray;
@@ -1046,52 +1047,21 @@ const updateCarShop = () => {
 
       console.log('add specialties button has been pressed.');
 
-      // $.ajax({
-      //   type: 'PUT',
-      //   url: '/api/carshop/updateSpecialty',
-      //   headers: {
-      //     Authorization: `Bearer${sessionStorage.getItem('csoToken')}`
-      //   },
-      //   contentType: 'application/json',
-      //   data: JSON.stringify({
-      //     csId: carShopId,
-      //     specialtyId: specId
-      //   }),
-      //   success: (res) => {
-
-      //     currSpecHtml = '';
-      //     console.log(res);
-      //     res.forEach(specialty => {
-      //       uCurrSpecDesc = '';
-      //       specialty.description.forEach(descr => {
-      //         uCurrSpecDesc += 
-      //         `
-      //           <h2>Specialty:</h2>
-      //           <p id="uDesc">${descr}</p>
-      //         `
-      //       });
-      //       currSpecHtml +=
-      //       ` 
-      //         <li>
-          //     <h2>Repair:</h2>
-          //     <p id="specId"hidden>${specialty._id}</p>
-          //     <p id="uRepair">${specialty.repair}
-          //     <button id="uDelSpecialty">X</button>
-          //     </p>
-          //     ${uCurrSpecDesc}
-          //     <p>Cost:</p>
-          //     <p id="uCost">${specialty.cost}</p>
-          //     </li>
-          //   `
-          // });
-
-      //     console.log(currSpecHtml);
-      //     $('.uCurrSpecList').html(currSpecHtml);
-      //     console.log('specialty has been deleted');
-      //     specId = "";
-      //     console.log(specId);
-      //   }
-      // });
+      $.ajax({
+        type: 'PUT',
+        url: '/api/carshop/updateSpecialty',
+        headers: {
+          Authorization: `Bearer${sessionStorage.getItem('csoToken')}`
+        },
+        contentType: 'application/json',
+        data: JSON.stringify({
+          csId: carShopId,
+          specs
+        }),
+        success: (res) => {
+          console.log(res);
+        }
+      });
     });
     
     $('.uCurrSpecialtySection').on('click', '#uDelSpecialty', function(event) {
