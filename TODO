@@ -53,4 +53,7 @@ Current tasks:
 
     [O] implement add specialties
     []update specialties list html when adding a specialties.
+      []use response to update html
+      []use jquery to add new li after current last li
+      []Fix for each statements
     

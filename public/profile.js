@@ -671,8 +671,6 @@ const addCarShop = () => {
   });
 
 
-
-
   $('.carShopSection').on('submit', () => {
     event.preventDefault();
  /*
@@ -680,7 +678,6 @@ const addCarShop = () => {
   the html, plus we have an object of the carshop that we will send 
   to our api to create or update the car shop.
   */
-
   
     const carShopName = $('#carShop').val();
     const shopEmail = $('#shopEmail').val();
@@ -1060,6 +1057,48 @@ const updateCarShop = () => {
         }),
         success: (res) => {
           console.log(res);
+          let tempDescrHtml = '';
+          let specialtyHtml = '';
+          res.forEach(specialty => {
+            console.log(specialty);
+            specialty.description.forEach(descr => {
+              tempDescrHtml += 
+              `
+                <p id="uDesc">${descr}</p>
+              `;
+            });
+            specialtyHtml += 
+            `
+            <li>
+                    <h2>Repair:${specialty.repair}</h2>
+                    <p id="specId"hidden>${specialty._id}</p>
+                    <p id="uRepair">
+                    ${specialty.repair}
+                    <button id="uDelSpecialty">X</button>
+                    </p>
+                    ${tempDescrHtml}
+                    <p>Cost:</p>
+                    <p id="uCost">${specialty.cost}</p>
+            </li>
+            `;
+            tempDescrHtml = '';
+          });
+
+          $('.uCurrSpecialtySection').html(specialtyHtml);
+
+    // $('.uCurrSpecialtySection .uCurrSpecList')
+    // .append(
+    //   `
+    //       <li>
+    //         <h2>Repair:</h2>
+    //         <p id="specId"hidden></p>
+    //         <p id="uRepair">
+    //         <button id="uDelSpecialty">X</button>
+    //         </p>
+    //         <p>Cost:</p>
+    //         <p id="uCost"></p>
+    //       </li>
+    //       `);
         }
       });
     });
