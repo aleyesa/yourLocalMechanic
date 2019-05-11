@@ -53,7 +53,8 @@ Current tasks:
 
     [O] implement add specialties
     []update specialties list html when adding a specialties.
-      []use response to update html
-      []use jquery to add new li after current last li
-      []Fix for each statements
+      [0]use response to update html
+      [0]use jquery to add new li after current last li
+      [0]Fix for each statements
+    []when pressing update button navigate to car shope profile 
     

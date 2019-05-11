@@ -250,7 +250,7 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
       
             <button class="editSpecialties">Edit Specialties</button>
             
-            <input type="submit" id="updateShopBtn" value="Update">
+            <a href="carShopProfile.html"><input type="submit" id="updateShopBtn" value="Update"></a>
           </form>
 
           <section class="uCurrSpecialtySection" hidden>
@@ -1177,10 +1177,11 @@ const updateCarShop = () => {
   // });
        //need to create a listener
        $('.carShopSection').on('submit', function() {
-        event.preventDefault();
         console.log('update button has been pressed.');
         let labor = $(this).find('.currentSpecialtiesSection #labor').val();
         let carShopName = $(this).find('form #carShop').val();
+        let carShopEmail = $(this).find('form #shopEmail').val();
+        console.log(carShopEmail);
         let data = {};
 
         console.log(carShopName);
@@ -1196,6 +1197,13 @@ const updateCarShop = () => {
           console.log('carShop field is empty');
         } else {
           data.shopName = carShopName;
+          console.log(data);
+        }
+
+        if(!carShopEmail) {
+          console.log('carShop Email field is empty');
+        }else {
+          data.shopEmail = carShopEmail;
           console.log(data);
         }
 
