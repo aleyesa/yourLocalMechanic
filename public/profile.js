@@ -57,6 +57,7 @@ const carShopOwnerProfile = () => {
   let newMsgRecSend = {};
 
   populateCarShopOwnerInfo(csoId, authToken);
+  deleteCarShop();
   // addCarShop();
 
   $('.messageSection').on('click', '.msgThread', function() {
@@ -720,29 +721,6 @@ const addCarShop = () => {
 
   });
 
-  // const deleteCarShop = () => {
-    $('.carShopSection').on('click', '.delCarShopBtn', () => {
-      console.log('Delete Car Shop Button works.');
-
-      $.ajax({
-        type: 'DELETE',
-        url: `/api/carshop/${$('.carShopId').text()}`,
-        headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('csoToken')}`
-        },
-        success: res => {
-          console.log(res);
-        }
-      });
-
-    });
-  // };
-
-  // const carShop = {
-  //   shopName: 
-  //   carShopOwner:
-  // }
-
   $('.carShopSection').on('click', '#addDescr', () => {
     event.preventDefault();
     description.push($('#description').val());
@@ -1226,6 +1204,24 @@ const updateCarShop = () => {
 
 
 };
+  const deleteCarShop = () => {
+    $('.carShopSection').on('click', '.delCarShopBtn', () => {
+      // event.preventDefault();
+      console.log('Delete Car Shop Button works.');
+      console.log($('.carShopId').text());
+      // $.ajax({
+      //   type: 'DELETE',
+      //   url: `/api/carshop/${$('.carShopId').text()}`,
+      //   headers: {
+      //   Authorization: `Bearer ${sessionStorage.getItem('csoToken')}`
+      //   },
+      //   success: res => {
+      //     console.log(res);
+      //   }
+      // });
+
+    });
+  };
 
 const getMessageById = (msgId, currUserType, authToken) => {
   let setRemovedMsg = {};
