@@ -58,7 +58,7 @@ const carShopOwnerProfile = () => {
 
   populateCarShopOwnerInfo(csoId, authToken);
   deleteCarShop();
-  // addCarShop();
+  addCarShop();
 
   $('.messageSection').on('click', '.msgThread', function() {
 
@@ -365,7 +365,7 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
               type="text" name="labor" 
               id="labor" placeholder="cost of labor"
             />
-            <input type="submit" id="saveShopBtn" value="Save Car Shop">
+            <a href="carShopProfile.html"><input type="submit" id="saveShopBtn" value="Save Car Shop"></a>
           </form>
           `
           );
@@ -620,6 +620,8 @@ const addCarShop = () => {
   //request for adding phone
   $('.carShopSection').on('click', '.addPhoneBtn', () => {
     event.preventDefault();
+    
+    console.log('phone button has been pressed');
 
     $.ajax({
       type: 'POST',
@@ -673,7 +675,7 @@ const addCarShop = () => {
 
 
   $('.carShopSection').on('submit', () => {
-    event.preventDefault();
+    // event.preventDefault();
  /*
   -this event listener gets the values of the required info and updates
   the html, plus we have an object of the carshop that we will send 
@@ -1141,20 +1143,9 @@ const updateCarShop = () => {
   });
 
 
-
-
-  // $.ajax({
-  //   type: 'PUT',
-  //   url: `/api/carshop/${window.sessionStorage.getItem('currUserId')}`,
-  //   contentType: 'application/json',
-  //   data: JSON.stringify(userInfo),
-  //   success: res => {
-  //     console.log(userInfo);
-  //     console.log(res);
-  //   }
-  // });
-       //need to create a listener
+    const updateCSInfo = () => {
        $('.carShopSection').on('submit', function() {
+         event.preventDefault();
         console.log('update button has been pressed.');
         let labor = $(this).find('.currentSpecialtiesSection #labor').val();
         let carShopName = $(this).find('form #carShop').val();
@@ -1199,6 +1190,7 @@ const updateCarShop = () => {
         });
 
     });
+  };
 
 
 
@@ -1209,16 +1201,16 @@ const updateCarShop = () => {
       // event.preventDefault();
       console.log('Delete Car Shop Button works.');
       console.log($('.carShopId').text());
-      // $.ajax({
-      //   type: 'DELETE',
-      //   url: `/api/carshop/${$('.carShopId').text()}`,
-      //   headers: {
-      //   Authorization: `Bearer ${sessionStorage.getItem('csoToken')}`
-      //   },
-      //   success: res => {
-      //     console.log(res);
-      //   }
-      // });
+      $.ajax({
+        type: 'DELETE',
+        url: `/api/carshop/${$('.carShopId').text()}`,
+        headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('csoToken')}`
+        },
+        success: res => {
+          console.log(res);
+        }
+      });
 
     });
   };

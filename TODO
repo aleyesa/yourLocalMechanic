@@ -56,7 +56,8 @@ Current tasks:
       [0]use response to update html
       [0]use jquery to add new li after current last li
       [0]Fix for each statements
-    []when pressing update button navigate to car shope profile 
+    [O]when pressing update button navigate to car shope profile 
 
-    []Get delete carshop working.
-    
+    [O]Get delete carshop working.
+    []Get add car shop working.
+    [] ** update cs info is not being run.
