@@ -99,7 +99,7 @@ const carShopOwnerProfile = () => {
 
   });
 
-  // updateCarShopOwnerInfo();
+  updateCarShopOwnerInfo();
   updateCarShop();
 
 };
@@ -145,7 +145,7 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
           type="text" name="password" 
           id="password" placeholder="${res.password}"
         />
-        <input type="submit" id="updateUserBtn" value="Update"/>
+        <a href="profile.html"><input type="submit" id="updateUserBtn" value="Update"/></a>
       </form>
       `
       );
@@ -525,7 +525,7 @@ const updateCarShopOwnerInfo = () => {
     if there is field that are left empty, we should ignore.
   */
   $('.userSection').on('submit', () => {
-    event.preventDefault();
+
     const ownerInfoForm = $('.userSection form');
     const formLength = ownerInfoForm[0].length;
     const userInfo = {};
@@ -540,7 +540,10 @@ const updateCarShopOwnerInfo = () => {
 
     $.ajax({
       type: 'PUT',
-      url: `/api/carshopowner/${window.sessionStorage.getItem('currUserId')}`,
+      url: `/api/carshopowner/${window.sessionStorage.getItem('csoId')}`,
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('csoToken')}`
+      },
       contentType: 'application/json',
       data: JSON.stringify(userInfo),
       success: res => {
