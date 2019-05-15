@@ -284,7 +284,7 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
               </fieldset>
             </section>
 
-          <button class="delCarShopBtn">Delete Car Shop</button>
+          <a href="carShopProfile.html"><button class="delCarShopBtn">Delete Car Shop</button></a>
           `
           );
 
