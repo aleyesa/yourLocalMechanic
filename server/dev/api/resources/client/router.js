@@ -13,7 +13,8 @@ import {
 const clientRouter = express.Router();
 
 clientRouter.route('/')
-.get(jwtAuthenticate, getAllClients)
+// .get(jwtAuthenticate, getAllClients)
+.get(getAllClients)
 .post(createClient);
 
 clientRouter.route('/:id')

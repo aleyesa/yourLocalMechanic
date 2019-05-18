@@ -14,6 +14,7 @@ const carShopOwnerRouter = express.Router();
 
 carShopOwnerRouter.route('/')
 .get(jwtAuthenticate, getAllCarShopOwner)
+.get(getAllCarShopOwner)
 .post(createAccount);
 
 carShopOwnerRouter.route('/:id')

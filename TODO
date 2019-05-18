@@ -59,5 +59,21 @@ Current tasks:
     [O]when pressing update button navigate to car shope profile 
 
     [O]Get delete carshop working.
-    []Get add car shop working.
-    [] ** update cs info is not being run.
+    [O]Get add car shop working.
+    [O] ** update cs info is not being run.
+
+
+    *Owner Profile: 
+
+      [] Change password with encryption.
+
+    *Messaging:
+
+    [O]send messages/receive messages
+    []update message box html
+      []get currently pressed client/csowner inbox 
+    []deleting messages should:
+      []hide if only one person deletes specific messages
+      []completely delete specific message when both have removed from there message box.
+
+      

@@ -6,21 +6,23 @@ const clientProfile = () => {
 
   populateClientInfo(clientId, authToken);
 
-  $('.messageSection').on('click', '.msgThread', function() {
+  let selCsoId = '';
 
-    const selCsoId = $(this).children('p[hidden]').text();
+    $('.messageSection').on('click', '.msgThread', function() {
 
-    newMsgRecSend = {
-      "sender": {
-        "client": clientId
-      },
-      "receiver": {
-        "carShop": selCsoId 
-      }
-    };
+      selCsoId = $(this).children('p[hidden]').text();
 
-    populateMessage(selCsoId, clientId, authToken);
-  });
+      newMsgRecSend = {
+        "sender": {
+          "client": clientId
+        },
+        "receiver": {
+          "carShop": selCsoId 
+        }
+      };
+
+      populateMessage(selCsoId, clientId, authToken);
+    });
 
     $('.messageThread').on('submit', () => {
     event.preventDefault();
@@ -30,6 +32,7 @@ const clientProfile = () => {
     newMsgRecSend.message = $('.newMsg').val();
     
     addMessage(newMsgRecSend, authToken);
+    populateMessage(selCsoId, clientId, authToken);
 
   });
 
@@ -60,21 +63,24 @@ const carShopOwnerProfile = () => {
   deleteCarShop();
   addCarShop();
 
-  $('.messageSection').on('click', '.msgThread', function() {
+  let selClientId = '';
+  
+    $('.messageSection').on('click', '.msgThread', function() {
 
-    const selClientId = $(this).children('p[hidden]').text();
+      selClientId = $(this).children('p[hidden]').text();
 
-    newMsgRecSend = {
-      "sender": {
-        "carShop": csoId
-      },
-      "receiver": {
-        "client": selClientId
-      }
-    };
+      newMsgRecSend = {
+        "sender": {
+          "carShop": csoId
+        },
+        "receiver": {
+          "client": selClientId
+        }
+      };
 
-    populateMessage(csoId, selClientId, authToken);
-  });
+      populateMessage(csoId, selClientId, authToken);
+    });
+
 
   $('.messageThread').on('submit', () => {
     event.preventDefault();
@@ -84,6 +90,8 @@ const carShopOwnerProfile = () => {
     newMsgRecSend.message = $('.newMsg').val();
     
     addMessage(newMsgRecSend, authToken);
+
+    populateMessage(csoId, selClientId, authToken);
 
   });
 
