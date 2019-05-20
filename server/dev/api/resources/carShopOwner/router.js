@@ -7,7 +7,9 @@ import {
   getCarShopOwnerInfo,
   createAccount,
   updateCarShopOwnerInfo,
-  deleteCarShopOwnerAccount
+  deleteCarShopOwnerAccount,
+
+  comparePWTester
 } from './controller';
 
 const carShopOwnerRouter = express.Router();
@@ -17,9 +19,13 @@ carShopOwnerRouter.route('/')
 .get(getAllCarShopOwner)
 .post(createAccount);
 
+carShopOwnerRouter.route('/tester')
+.get(comparePWTester);
+
 carShopOwnerRouter.route('/:id')
 .get(jwtAuthenticate, getCarShopOwnerInfo)
 .put(jwtAuthenticate, updateCarShopOwnerInfo)
 .delete(jwtAuthenticate, deleteCarShopOwnerAccount);
+
 
 export default carShopOwnerRouter;

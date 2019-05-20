@@ -67,11 +67,14 @@ Current tasks:
 
       [] Change password with encryption.
 
+      [] I have to modify the put method in in car shop owner controller
+      [] Do the same for client controller
+        
+
     *Messaging:
 
     [O]send messages/receive messages
-    []update message box html
-      []get currently pressed client/csowner inbox 
+    [O]update message box html
     []deleting messages should:
       []hide if only one person deletes specific messages
       []completely delete specific message when both have removed from there message box.

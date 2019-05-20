@@ -137,10 +137,25 @@ const deleteCarShopOwnerAccount = (req, res) => {
 
 };
 
+const comparePWTester = (req, res) => {
+  CarShopOwner
+  .findById(req.body._id)
+  .then(cso => {
+    console.log(cso.password);
+    console.log(req.body.pw);
+    cso.comparePw(req.body.pw, cso.password)
+    .then(resp => {
+      res.json(resp);
+    });
+  });
+};
+
 export {
   getAllCarShopOwner,
   getCarShopOwnerInfo,
   createAccount,
   updateCarShopOwnerInfo,
-  deleteCarShopOwnerAccount
+  deleteCarShopOwnerAccount,
+
+  comparePWTester
 };
