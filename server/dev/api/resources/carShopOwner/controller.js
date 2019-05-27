@@ -122,8 +122,35 @@ const createAccount = (req, res) => {
 const updateCarShopOwnerInfo = (req, res) => {
 
   CarShopOwner
-  .findByIdAndUpdate(req.params.id, req.body)
-  .then(updatedInfo => res.json(updatedInfo))
+  .findById(req.params.id)
+  .then(cso => {
+    console.log(cso);
+    if( req.body.password !== req.body.password.trim() ) {
+
+      console.log('no spaces allowed in the beginning or end of password.');
+      res.json('no spaces allowed in the beginning or end of password.');
+
+    }else {
+
+      if( req.body.password.length < 8 ) {
+
+        console.log('Password needs to be at least 8 characters long.');
+        res.json('Password needs to be at least 8 characters long.');
+
+      }else { 
+
+        CarShopOwner.hashPassword(req.body.password)
+        .then(pw => {
+          req.body.password = pw;
+          CarShopOwner.findByIdAndUpdate(req.params.id, req.body)
+          .then(updatedInfo => {
+            res.json(updatedInfo)
+          });
+        })
+        .catch(err => console.log(`failed to create user. \n ${err.message} `));
+      }
+    }
+  })
   .catch(err => res.status(400).json('failed to update info.'));
 
 };
@@ -145,7 +172,13 @@ const comparePWTester = (req, res) => {
     console.log(req.body.pw);
     cso.comparePw(req.body.pw, cso.password)
     .then(resp => {
-      res.json(resp);
+      console.log(resp);
+      if(resp === true){
+        res.json(true);
+      } else {
+        res.json('wrong password need authentication.');
+      }
+
     });
   });
 };

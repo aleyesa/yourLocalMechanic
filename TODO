@@ -69,6 +69,8 @@ Current tasks:
 
       [] I have to modify the put method in in car shop owner controller
       [] Do the same for client controller
+      [] reauthentication whenever you update?
+      *fix controller update cs info
         
 
     *Messaging:
