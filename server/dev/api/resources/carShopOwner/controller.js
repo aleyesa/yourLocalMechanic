@@ -120,40 +120,32 @@ const createAccount = (req, res) => {
 };
 
 const updateCarShopOwnerInfo = (req, res) => {
+    let newPassword = '';
 
-  CarShopOwner
-  .findById(req.params.id)
-  .then(cso => {
-    console.log(cso);
-    if( req.body.password !== req.body.password.trim() ) {
+      if(req.body.password) {
+ 
+        if( (req.body.password === req.body.password.trim()) && (req.body.password.length > 8)) {
 
-      console.log('no spaces allowed in the beginning or end of password.');
-      res.json('no spaces allowed in the beginning or end of password.');
-
-    }else {
-
-      if( req.body.password.length < 8 ) {
-
-        console.log('Password needs to be at least 8 characters long.');
-        res.json('Password needs to be at least 8 characters long.');
-
-      }else { 
-
-        CarShopOwner.hashPassword(req.body.password)
-        .then(pw => {
-          req.body.password = pw;
-          CarShopOwner.findByIdAndUpdate(req.params.id, req.body)
+          CarShopOwner.hashPassword(req.body.password)
+          .then(pw => {
+            req.body.password = pw;
+            CarShopOwner.findByIdAndUpdate(req.params.id, req.body)
           .then(updatedInfo => {
-            res.json(updatedInfo)
-          });
-        })
-        .catch(err => console.log(`failed to create user. \n ${err.message} `));
+              res.json(updatedInfo)
+            });
+          })
+          .catch(err => console.log(`failed to accept new password. \n ${err.message} `));
+        } else { 
+          res.json('Did not meet criteria, could not update password.');
+          console.log('Did not meet criteria.');
+        }
+      } else {
+      CarShopOwner.findByIdAndUpdate(req.params.id, req.body)
+      .then(updatedInfo => res.json(updatedInfo))
+      .catch(err => res.json('Could not update info'));
+    
       }
-    }
-  })
-  .catch(err => res.status(400).json('failed to update info.'));
-
-};
+  };
 
 const deleteCarShopOwnerAccount = (req, res) => {
 
