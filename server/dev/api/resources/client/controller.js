@@ -89,11 +89,30 @@ const createClient = (req, res) => {
 
 const updateClient = (req, res) => {
 
-  Client
-  .findByIdAndUpdate(req.params.id, req.body)
-  .then(client => res.json(client))
-  .catch(err => res.status(400).json(err));
+  let newPassword = '';
 
+  if(req.body.password) {
+
+    if( (req.body.password === req.body.password.trim()) && (req.body.password.length > 8)) {
+
+      Client.hashPassword(req.body.password)
+      .then(pw => {
+        req.body.password = pw;
+        Client.findByIdAndUpdate(req.params.id, req.body)
+      .then(updatedInfo => {
+          res.json(updatedInfo);
+        });
+      })
+      .catch(err => console.log(`failed to accept new password. \n ${err.message} `));
+    } else { 
+      res.json('Did not meet criteria, could not update password.');
+      console.log('Did not meet criteria.');
+    }
+  } 
+      Client
+      .findByIdAndUpdate(req.params.id, req.body)
+      .then(client => res.json(client))
+      .catch(err => res.status(400).json(err));
 };
 
 const deleteClient = (req, res) => {

@@ -131,7 +131,7 @@ const updateCarShopOwnerInfo = (req, res) => {
             req.body.password = pw;
             CarShopOwner.findByIdAndUpdate(req.params.id, req.body)
           .then(updatedInfo => {
-              res.json(updatedInfo)
+              res.json(updatedInfo);
             });
           })
           .catch(err => console.log(`failed to accept new password. \n ${err.message} `));
@@ -139,12 +139,14 @@ const updateCarShopOwnerInfo = (req, res) => {
           res.json('Did not meet criteria, could not update password.');
           console.log('Did not meet criteria.');
         }
-      } else {
-      CarShopOwner.findByIdAndUpdate(req.params.id, req.body)
-      .then(updatedInfo => res.json(updatedInfo))
-      .catch(err => res.json('Could not update info'));
+      } 
+
+      CarShopOwner
+      .findByIdAndUpdate(req.params.id, req.body)
+      .then(cs => res.json(cs))
+      .catch(err => res.status(400).json(err));
+
     
-      }
   };
 
 const deleteCarShopOwnerAccount = (req, res) => {

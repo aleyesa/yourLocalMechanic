@@ -65,12 +65,8 @@ Current tasks:
 
     *Owner Profile: 
 
-      [] Change password with encryption.
-
-      [] I have to modify the put method in in car shop owner controller
-      [] Do the same for client controller
-      [] reauthentication whenever you update?
-      *fix controller update cs info
+      [O] Change password with encryption.
+      [] Allow to change account name.
         
 
     *Messaging:
@@ -78,7 +74,10 @@ Current tasks:
     [O]send messages/receive messages
     [O]update message box html
     []deleting messages should:
+    [O] add hidden msg id for each reply
+    line 1228 use ajax request to update object
       []hide if only one person deletes specific messages
       []completely delete specific message when both have removed from there message box.
 
       
+      []Get conditional statement working with username.

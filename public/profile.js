@@ -433,8 +433,8 @@ const populateClientInfo = (clientId, authToken) => {
             type="text" name="password" 
             id="password" placeholder="${res.password}"
           />
-          <input type="submit" id="updateUserBtn" value="Update"/>
-        </form>
+          <a href="profile.html"><input type="submit" id="updateUserBtn" value="Update"/></a>
+          </form>
         `
         );
 
@@ -564,7 +564,6 @@ const updateCarShopOwnerInfo = () => {
 
 const updateClientInfo = (clientId, clientToken) => {
   $('.userSection').on('submit', () => {
-    event.preventDefault();
 
     const userInfoForm = $('.userSection form');
     const formLength = userInfoForm[0].length;
@@ -1237,15 +1236,36 @@ const getMessageById = (msgId, currUserType, authToken) => {
     success: (res) => {
 
       if(res.sender[currUserType]){
+
+        res.sender.removedMsg = true;
+
         setRemovedMsg = {
-          'sender.removedMsg': true
+          sender: res.sender
         };
+        
       } else {
+
+        res.receiver.removedMsg = true;
+
         setRemovedMsg = {
-          'receiver.removedMsg': true
+          receiver: res.receiver
         };
+
       }
-      console.log(setRemovedMsg);
+
+      $.ajax({
+        type: 'PUT',
+        url: `/api/message/${msgId}`,
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        },
+        contentType: 'application/json',
+        data: JSON.stringify(setRemovedMsg),
+        success: res => {
+          console.log(res);
+        }
+      })
+
     }
   });
 
