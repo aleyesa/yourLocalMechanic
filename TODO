@@ -77,7 +77,39 @@ Current tasks:
     [O] add hidden msg id for each reply
     line 1228 use ajax request to update object
       []hide if only one person deletes specific messages
-      []completely delete specific message when both have removed from there message box.
+      [O]completely delete specific message when both have removed from there message box.
+      When user clicks msgThread:
+        [] Check array and see if the user thats signed in has removedMsg boolean value set to true,
+            if it does, always hide that message.
+            [] Have another paramater for current user logged in, in order to check if that user is hiding message.
+      When currently logged in user deletes a message thread:
+        [] Set removedMsg to true for all the messages in the msgThread.
+        [] Don't show msgThread.
+      If both users deleted msgThread delete the messages entirely.
 
       
       []Get conditional statement working with username.
+
+
+      Hiding a message: 
+
+      Tap on header(when we create one).
+
+      How message thread works:
+
+        We created an ajax function that gets:
+
+          [O] All messages from specified client
+          [O] All messages from specified car shop Owner
+
+          For the currently logged in user:
+
+            We should hide the message if the user's 'removedMsg' value is true
+            if show the message like normal
+
+            We should also check if both the client and car shop owner 'removedMsg' value is true
+            If it is then we delete that specified message.
+
+    
+
+        

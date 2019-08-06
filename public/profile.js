@@ -3,6 +3,7 @@ const clientProfile = () => {
   const clientId = sessionStorage.getItem('clientId');
   const authToken = sessionStorage.getItem('clientToken');
   let newMsgRecSend = {};
+  let currUser = 'client';
 
   populateClientInfo(clientId, authToken);
 
@@ -21,7 +22,7 @@ const clientProfile = () => {
         }
       };
 
-      populateMessage(selCsoId, clientId, authToken);
+      populateMessage(currUser, selCsoId, clientId, authToken);
     });
 
     $('.messageThread').on('submit', () => {
@@ -32,13 +33,16 @@ const clientProfile = () => {
     newMsgRecSend.message = $('.newMsg').val();
     
     addMessage(newMsgRecSend, authToken);
-    populateMessage(selCsoId, clientId, authToken);
+    populateMessage(currUser, selCsoId, clientId, authToken);
 
   });
 
   $('.messageThread').on('click', '.delMsg', function(event) {
     let msgId = $(this).children('p[hidden]').text();
+
     getMessageById(msgId, 'client', authToken);
+
+    console.log($(this).parent().remove());
   });
 
   $('.messageSection').on('click', '.delConversation', function(event) {
@@ -58,6 +62,7 @@ const carShopOwnerProfile = () => {
   const csoId = sessionStorage.getItem('csoId');
   const authToken = sessionStorage.getItem('csoToken');
   let newMsgRecSend = {};
+  let currUser = 'carShop';
 
   populateCarShopOwnerInfo(csoId, authToken);
   deleteCarShop();
@@ -78,7 +83,7 @@ const carShopOwnerProfile = () => {
         }
       };
 
-      populateMessage(csoId, selClientId, authToken);
+      populateMessage(currUser, csoId, selClientId, authToken);
     });
 
 
@@ -91,7 +96,7 @@ const carShopOwnerProfile = () => {
     
     addMessage(newMsgRecSend, authToken);
 
-    populateMessage(csoId, selClientId, authToken);
+    populateMessage(currUser, csoId, selClientId, authToken);
 
   });
 
@@ -458,7 +463,8 @@ const populateClientInfo = (clientId, authToken) => {
   });
 };
 
-const populateMessage = (csoId, selClientId, authToken) => {
+const populateMessage = (currUser, csoId, selClientId, authToken) => {
+
   $.ajax({
     type: 'GET',
     url: `/api/message/thread`,
@@ -470,61 +476,118 @@ const populateMessage = (csoId, selClientId, authToken) => {
       client: selClientId
     },
     success: (res) => {
+
       console.log(res);
       let messagesHtml = '';
       res.forEach(message => {
-        if(message.sender.client) {
 
-          messagesHtml +=
-          `
-          <section class="carShopMsg">
-            <p>From: ${message.sender.client.username}</p>
-            <p>To: ${message.receiver.carShop.username}</p>
-            <p>Time: ${message.timestamp}</p>
-            <p>Subject: ${message.subject}</p>
-            <p>Message: ${message.message}</p>
-            <button class="delMsg">
-              <p hidden>${message._id}</p>
-              <p>X</p>
-            </button>
-          </section>
-          `;
-      
+        //Gets all messages of a specified client thats the sender
+        if(currUser === 'client') {
+
+          if(message.sender.client) {
+
+            if(message.sender.removedMsg === true) {
+
+            } else {
+
+            messagesHtml +=
+            `
+            <section class="carShopMsg">
+              <p>From: ${message.sender.client.username}</p>
+              <p>To: ${message.receiver.carShop.username}</p>
+              <p>Time: ${message.timestamp}</p>
+              <p>Subject: ${message.subject}</p>
+              <p>Message: ${message.message}</p>
+              <button class="delMsg">
+                <p hidden>${message._id}</p>
+                <p>X</p>
+              </button>
+            </section>
+            `;
+            }
+
+            } else if(message.receiver.client){
+
+            // Gets all messages if the sender if a receiver
+
+            if(message.receiver.removedMsg === true) {
+
+            } else {
+            
+            messagesHtml +=
+            `
+            <section class="clientMsg">
+              <p>From: ${message.sender.carShop.username}</p>
+              <p>To: ${message.receiver.client.username}</p>
+              <p>Time: ${message.timestamp}</p>
+              <p>Subject: ${message.subject}</p>
+              <p>Message: ${message.message}</p>
+              <button class="delMsg">
+                <p hidden>${message._id}</p>
+                <p>X</p>
+              </button>
+            </section>
+            `;
+              }
+            }
+
+    } else if(currUser === 'carShop') {
+
+      if(message.sender.carShop) {
+
+        if(message.sender.removedMsg === true) {
+
         } else {
 
-          messagesHtml +=
-          `
-          <section class="clientMsg">
-            <p>From: ${message.sender.carShop.username}</p>
-            <p>To: ${message.receiver.client.username}</p>
-            <p>Time: ${message.timestamp}</p>
-            <p>Subject: ${message.subject}</p>
-            <p>Message: ${message.message}</p>
-            <button class="delMsg">
-              <p hidden>${message._id}</p>
-              <p>X</p>
-            </button>
-          </section>
-          `;
+        messagesHtml +=
+        `
+        <section class="carShopMsg">
+          <p>From: ${message.sender.carShop.username}</p>
+          <p>To: ${message.receiver.client.username}</p>
+          <p>Time: ${message.timestamp}</p>
+          <p>Subject: ${message.subject}</p>
+          <p>Message: ${message.message}</p>
+          <button class="delMsg">
+            <p hidden>${message._id}</p>
+            <p>X</p>
+          </button>
+        </section>
+        `;
+        
+      }
+
+        } else if(message.receiver.carShop){
+
+        // Gets all messages if the sender if a receiver
+
+        if(message.receiver.removedMsg === true) {
+
+        } else {
+
+        messagesHtml +=
+        `
+        <section class="clientMsg">
+          <p>From: ${message.sender.client.username}</p>
+          <p>To: ${message.receiver.carShop.username}</p>
+          <p>Time: ${message.timestamp}</p>
+          <p>Subject: ${message.subject}</p>
+          <p>Message: ${message.message}</p>
+          <button class="delMsg">
+            <p hidden>${message._id}</p>
+            <p>X</p>
+          </button>
+        </section>
+        `;
+          }
         }
-
-      });
-
-      messagesHtml +=
-      `
-      <form class="msgForm">
-        <input type="text" class="subject" placeholder="subject"/>
-        <input type="text" class="newMsg" placeholder="message"/>
-        <button type="submit">
-          <p>Send</p>
-        </button>
-      </form>
-      `
-      $('.messageThread').html(messagesHtml);
-
+      }
+    });
+    
+    $('.messageThread').html(messagesHtml);
     }
   });
 };
+
 
 const updateCarShopOwnerInfo = () => {
   /*listen if the update button has been pressed
