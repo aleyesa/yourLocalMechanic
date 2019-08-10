@@ -33,9 +33,13 @@ const clientProfile = () => {
     newMsgRecSend.message = $('.newMsg').val();
     
     addMessage(newMsgRecSend, authToken);
+    
     populateMessage(currUser, selCsoId, clientId, authToken);
 
   });
+
+  hideMsg();
+  showMsg();
 
   $('.messageThread').on('click', '.delMsg', function(event) {
     let msgId = $(this).children('p[hidden]').text();
@@ -502,6 +506,12 @@ const populateMessage = (currUser, csoId, selClientId, authToken) => {
                 <p hidden>${message._id}</p>
                 <p>X</p>
               </button>
+              <button class="hideMsg">
+              <p>-</p>
+              </button>
+              <button class="showMsg">
+              <p>+</p>
+              </button>
             </section>
             `;
             }
@@ -525,6 +535,12 @@ const populateMessage = (currUser, csoId, selClientId, authToken) => {
               <button class="delMsg">
                 <p hidden>${message._id}</p>
                 <p>X</p>
+              </button>
+              <button class="hideMsg">
+              <p>-</p>
+              </button>
+              <button class="showMsg">
+              <p>+</p>
               </button>
             </section>
             `;
@@ -551,6 +567,12 @@ const populateMessage = (currUser, csoId, selClientId, authToken) => {
             <p hidden>${message._id}</p>
             <p>X</p>
           </button>
+          <button class="hideMsg">
+          <p>-</p>
+          </button>
+          <button class="showMsg">
+          <p>+</p>
+          </button>
         </section>
         `;
         
@@ -576,6 +598,12 @@ const populateMessage = (currUser, csoId, selClientId, authToken) => {
             <p hidden>${message._id}</p>
             <p>X</p>
           </button>
+          <button class="hideMsg">
+          <p>-</p>
+          </button>
+          <button class="showMsg">
+          <p>+</p>
+          </button>
         </section>
         `;
           }
@@ -583,7 +611,17 @@ const populateMessage = (currUser, csoId, selClientId, authToken) => {
       }
     });
     
-    $('.messageThread').html(messagesHtml);
+    $('.messageThread').html(messagesHtml +   
+    `
+    <form class="msgForm">
+      <input type="text" class="subject" placeholder="subject"/>
+      <input type="text" class="newMsg" placeholder="message"/>
+      <button type="submit">
+        <p>Send</p>
+      </button>
+    </form>
+    `  
+    );
     }
   });
 };
@@ -1349,6 +1387,24 @@ const addMessage = (newMsgRecSend, authToken) => {
     }
   });
 
+};
+
+const hideMsg = () => {
+  //event listener checking if hideMsg button has been pressed
+  //if pressed change button symbol to '+';
+  //hide message
+  $('.messageThread').on('click', '.hideMsg', function(event) {
+    console.log("hide button has been pressed.");
+  });
+};
+
+const showMsg = () => {
+  //event listener checking if showmsg btn has been pressed
+  //if pressed change button to '-';
+  //show message
+  $('.messageThread').on('click', '.showMsg', function(event) {
+    console.log("show button has been pressed.");
+  });
 };
 
 const updateMsg = (msgId, currUserId, authToken) => {

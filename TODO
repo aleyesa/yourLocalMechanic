@@ -76,12 +76,11 @@ Current tasks:
     []deleting messages should:
     [O] add hidden msg id for each reply
     line 1228 use ajax request to update object
-      []hide if only one person deletes specific messages
+      [O]hide if only one person deletes specific messages
       [O]completely delete specific message when both have removed from there message box.
       When user clicks msgThread:
-        [] Check array and see if the user thats signed in has removedMsg boolean value set to true,
+        [O] Check array and see if the user thats signed in has removedMsg boolean value set to true,
             if it does, always hide that message.
-            [] Have another paramater for current user logged in, in order to check if that user is hiding message.
       When currently logged in user deletes a message thread:
         [] Set removedMsg to true for all the messages in the msgThread.
         [] Don't show msgThread.
