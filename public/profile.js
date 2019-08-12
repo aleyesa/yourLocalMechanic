@@ -497,21 +497,23 @@ const populateMessage = (currUser, csoId, selClientId, authToken) => {
             messagesHtml +=
             `
             <section class="carShopMsg">
-              <p>From: ${message.sender.client.username}</p>
-              <p>To: ${message.receiver.carShop.username}</p>
-              <p>Time: ${message.timestamp}</p>
-              <p>Subject: ${message.subject}</p>
-              <p>Message: ${message.message}</p>
-              <button class="delMsg">
-                <p hidden>${message._id}</p>
-                <p>X</p>
-              </button>
-              <button class="hideMsg">
-              <p>-</p>
-              </button>
-              <button class="showMsg">
-              <p>+</p>
-              </button>
+              <section class="msg">
+                <p>From: ${message.sender.client.username}</p>
+                <p>To: ${message.receiver.carShop.username}</p>
+                <p>Time: ${message.timestamp}</p>
+                <p>Subject: ${message.subject}</p>
+                <p>Message: ${message.message}</p>
+              </section>
+                <button class="delMsg">
+                  <p hidden>${message._id}</p>
+                  <p>X</p>
+                </button>
+                <button class="hideMsg">
+                <p>-</p>
+                </button>
+                <button class="showMsg">
+                <p>+</p>
+                </button>
             </section>
             `;
             }
@@ -527,21 +529,23 @@ const populateMessage = (currUser, csoId, selClientId, authToken) => {
             messagesHtml +=
             `
             <section class="clientMsg">
-              <p>From: ${message.sender.carShop.username}</p>
-              <p>To: ${message.receiver.client.username}</p>
-              <p>Time: ${message.timestamp}</p>
-              <p>Subject: ${message.subject}</p>
-              <p>Message: ${message.message}</p>
-              <button class="delMsg">
-                <p hidden>${message._id}</p>
-                <p>X</p>
-              </button>
-              <button class="hideMsg">
-              <p>-</p>
-              </button>
-              <button class="showMsg">
-              <p>+</p>
-              </button>
+              <section class="msg">
+                <p>From: ${message.sender.carShop.username}</p>
+                <p>To: ${message.receiver.client.username}</p>
+                <p>Time: ${message.timestamp}</p>
+                <p>Subject: ${message.subject}</p>
+                <p>Message: ${message.message}</p>
+              </section>
+                <button class="delMsg">
+                  <p hidden>${message._id}</p>
+                  <p>X</p>
+                </button>
+                <button class="hideMsg">
+                <p>-</p>
+                </button>
+                <button class="showMsg">
+                <p>+</p>
+                </button>
             </section>
             `;
               }
@@ -558,21 +562,23 @@ const populateMessage = (currUser, csoId, selClientId, authToken) => {
         messagesHtml +=
         `
         <section class="carShopMsg">
-          <p>From: ${message.sender.carShop.username}</p>
-          <p>To: ${message.receiver.client.username}</p>
-          <p>Time: ${message.timestamp}</p>
-          <p>Subject: ${message.subject}</p>
-          <p>Message: ${message.message}</p>
-          <button class="delMsg">
-            <p hidden>${message._id}</p>
-            <p>X</p>
-          </button>
-          <button class="hideMsg">
-          <p>-</p>
-          </button>
-          <button class="showMsg">
-          <p>+</p>
-          </button>
+          <section class="msg">
+            <p>From: ${message.sender.carShop.username}</p>
+            <p>To: ${message.receiver.client.username}</p>
+            <p>Time: ${message.timestamp}</p>
+            <p>Subject: ${message.subject}</p>
+            <p>Message: ${message.message}</p>
+          </section>
+            <button class="delMsg">
+              <p hidden>${message._id}</p>
+              <p>X</p>
+            </button>
+            <button class="hideMsg">
+            <p>-</p>
+            </button>
+            <button class="showMsg">
+            <p>+</p>
+            </button>
         </section>
         `;
         
@@ -589,21 +595,23 @@ const populateMessage = (currUser, csoId, selClientId, authToken) => {
         messagesHtml +=
         `
         <section class="clientMsg">
-          <p>From: ${message.sender.client.username}</p>
-          <p>To: ${message.receiver.carShop.username}</p>
-          <p>Time: ${message.timestamp}</p>
-          <p>Subject: ${message.subject}</p>
-          <p>Message: ${message.message}</p>
-          <button class="delMsg">
-            <p hidden>${message._id}</p>
-            <p>X</p>
-          </button>
-          <button class="hideMsg">
-          <p>-</p>
-          </button>
-          <button class="showMsg">
-          <p>+</p>
-          </button>
+          <section class="msg">
+            <p>From: ${message.sender.client.username}</p>
+            <p>To: ${message.receiver.carShop.username}</p>
+            <p>Time: ${message.timestamp}</p>
+            <p>Subject: ${message.subject}</p>
+            <p>Message: ${message.message}</p>
+          </section>
+            <button class="delMsg">
+              <p hidden>${message._id}</p>
+              <p>X</p>
+            </button>
+            <button class="hideMsg">
+            <p>-</p>
+            </button>
+            <button class="showMsg">
+            <p>+</p>
+            </button>
         </section>
         `;
           }
@@ -1394,6 +1402,8 @@ const hideMsg = () => {
   //if pressed change button symbol to '+';
   //hide message
   $('.messageThread').on('click', '.hideMsg', function(event) {
+
+    $(this).siblings('.msg').hide();
     console.log("hide button has been pressed.");
   });
 };
@@ -1403,6 +1413,7 @@ const showMsg = () => {
   //if pressed change button to '-';
   //show message
   $('.messageThread').on('click', '.showMsg', function(event) {
+    $(this).siblings('.msg').show();
     console.log("show button has been pressed.");
   });
 };
