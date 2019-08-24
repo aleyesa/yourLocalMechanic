@@ -9,8 +9,8 @@ const clientProfile = () => {
 
   let selCsoId = '';
 
-    $('.messageSection').on('click', '.msgThread', function() {
-
+    $('.messageSection').on('click', '.msgThread', function(event) {
+      let htmlLoc = $(this).parent().find('.messageThread');
       selCsoId = $(this).children('p[hidden]').text();
 
       newMsgRecSend = {
@@ -22,7 +22,8 @@ const clientProfile = () => {
         }
       };
 
-      populateMessage(currUser, selCsoId, clientId, authToken);
+      //console.log($(this).parent().find('.messageThread').html();
+      populateMessage(currUser, selCsoId, clientId, authToken, htmlLoc);
     });
 
     $('.messageThread').on('submit', () => {
@@ -46,7 +47,12 @@ const clientProfile = () => {
 
     getMessageById(msgId, 'client', authToken);
 
-    console.log($(this).parent().remove());
+    $(this).parent().remove();
+
+    console.log($('.messageThread').children('section').length);
+    if($('.messageThread').children('section').length === 0) {
+      console.log('remove msgThread');
+    }
   });
 
   $('.messageSection').on('click', '.delConversation', function(event) {
@@ -107,6 +113,8 @@ const carShopOwnerProfile = () => {
   $('.messageThread').on('click', '.delMsg', function(event) {
     let msgId = $(this).children('p[hidden]').text();
     getMessageById(msgId, 'carShop', authToken);
+
+    $(this).parent().remove();
   });
 
   $('.messageSection').on('click', '.delConversation', function(event) {
@@ -398,6 +406,7 @@ const populateCarShopOwnerInfo = (csoId, authToken) => {
             <p>${client.firstName} ${client.lastName}</p>
           </button>
           <button class="delConversation">X</button>
+          <section class="messageThread"></section>
         </section>
         `
       });
@@ -457,6 +466,7 @@ const populateClientInfo = (clientId, authToken) => {
               <p>${carShop.firstName} ${carShop.lastName}</p>
             </button>
             <button class="delConversation">X</button>
+            <section class="messageThread"></section>
           </section>
           `
         });
@@ -467,7 +477,7 @@ const populateClientInfo = (clientId, authToken) => {
   });
 };
 
-const populateMessage = (currUser, csoId, selClientId, authToken) => {
+const populateMessage = (currUser, csoId, selClientId, authToken, htmlLoc) => {
 
   $.ajax({
     type: 'GET',
@@ -481,8 +491,12 @@ const populateMessage = (currUser, csoId, selClientId, authToken) => {
     },
     success: (res) => {
 
-      console.log(res);
       let messagesHtml = '';
+      console.log(res.length);
+      console.log(res);
+
+      if(res.length > 0) {
+
       res.forEach(message => {
 
         //Gets all messages of a specified client thats the sender
@@ -511,7 +525,7 @@ const populateMessage = (currUser, csoId, selClientId, authToken) => {
                 <button class="hideMsg">
                 <p>-</p>
                 </button>
-                <button class="showMsg">
+                <button class="showMsg" hidden>
                 <p>+</p>
                 </button>
             </section>
@@ -543,7 +557,7 @@ const populateMessage = (currUser, csoId, selClientId, authToken) => {
                 <button class="hideMsg">
                 <p>-</p>
                 </button>
-                <button class="showMsg">
+                <button class="showMsg" hidden>
                 <p>+</p>
                 </button>
             </section>
@@ -576,7 +590,7 @@ const populateMessage = (currUser, csoId, selClientId, authToken) => {
             <button class="hideMsg">
             <p>-</p>
             </button>
-            <button class="showMsg">
+            <button class="showMsg" hidden>
             <p>+</p>
             </button>
         </section>
@@ -609,7 +623,7 @@ const populateMessage = (currUser, csoId, selClientId, authToken) => {
             <button class="hideMsg">
             <p>-</p>
             </button>
-            <button class="showMsg">
+            <button class="showMsg" hidden>
             <p>+</p>
             </button>
         </section>
@@ -618,8 +632,10 @@ const populateMessage = (currUser, csoId, selClientId, authToken) => {
         }
       }
     });
+
+  }
     
-    $('.messageThread').html(messagesHtml +   
+    htmlLoc.html(messagesHtml +   
     `
     <form class="msgForm">
       <input type="text" class="subject" placeholder="subject"/>
@@ -630,6 +646,7 @@ const populateMessage = (currUser, csoId, selClientId, authToken) => {
     </form>
     `  
     );
+
     }
   });
 };
@@ -1351,6 +1368,11 @@ const getMessageById = (msgId, currUserType, authToken) => {
         setRemovedMsg = {
           sender: res.sender
         };
+
+        if(res.receiver.removedMsg === true){
+          console.log('Message was deleted from collection.');
+          delMsg(msgId, authToken);
+        };
         
       } else {
 
@@ -1358,6 +1380,11 @@ const getMessageById = (msgId, currUserType, authToken) => {
 
         setRemovedMsg = {
           receiver: res.receiver
+        };
+
+        if(res.sender.removedMsg === true) {
+          console.log('Message was deleted from collection');
+          delMsg(msgId, authToken);
         };
 
       }
@@ -1403,7 +1430,10 @@ const hideMsg = () => {
   //hide message
   $('.messageThread').on('click', '.hideMsg', function(event) {
 
+    $(this).hide();
+    $(this).siblings('.delMsg').hide();
     $(this).siblings('.msg').hide();
+    $(this).siblings('.showMsg').show();
     console.log("hide button has been pressed.");
   });
 };
@@ -1413,7 +1443,10 @@ const showMsg = () => {
   //if pressed change button to '-';
   //show message
   $('.messageThread').on('click', '.showMsg', function(event) {
+    $(this).hide();
     $(this).siblings('.msg').show();
+    $(this).siblings('.delMsg'.show());
+    $(this).siblings('.hideMsg').show();
     console.log("show button has been pressed.");
   });
 };
@@ -1440,12 +1473,11 @@ const delMsg = (msgId, authToken) => {
 
   $.ajax({
     type: 'DELETE',
-    url: `/api/message${msgId}`,
+    url: `/api/message/${msgId}`,
     headers: {
       Authorization: `Bearer ${authToken}`
     },
     contentType: 'application/json',
-    data: JSON.stringify({}),
     success: () => {
 
     }
