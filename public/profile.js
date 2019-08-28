@@ -26,24 +26,26 @@ const clientProfile = () => {
       populateMessage(currUser, selCsoId, clientId, authToken, htmlLoc);
     });
 
-    $('.messageThread').on('submit', () => {
+    $('.messageSection').on('submit', '.msgForm', function(event)  {
     event.preventDefault();
 
+    let htmlLoc = $(this).closest('.messageThread');
 
     newMsgRecSend.subject = $('.subject').val();
     newMsgRecSend.message = $('.newMsg').val();
     
     addMessage(newMsgRecSend, authToken);
     
-    populateMessage(currUser, selCsoId, clientId, authToken);
+    populateMessage(currUser, selCsoId, clientId, authToken, htmlLoc);
 
   });
 
   hideMsg();
   showMsg();
 
-  $('.messageThread').on('click', '.delMsg', function(event) {
+  $('.messageSection').on('click', '.delMsg', function(event) {
     let msgId = $(this).children('p[hidden]').text();
+    let currMsgThread = $(this).parent().parent().parent();
 
     getMessageById(msgId, 'client', authToken);
 
@@ -51,7 +53,8 @@ const clientProfile = () => {
 
     console.log($('.messageThread').children('section').length);
     if($('.messageThread').children('section').length === 0) {
-      console.log('remove msgThread');
+      console.log('current msgThread removed.');
+      currMsgThread.remove();
     }
   });
 
@@ -80,7 +83,9 @@ const carShopOwnerProfile = () => {
 
   let selClientId = '';
   
-    $('.messageSection').on('click', '.msgThread', function() {
+    $('.messageSection').on('click', '.msgThread', function(event) {
+
+      let htmlLoc = $(this).parent().find('.messageThread');
 
       selClientId = $(this).children('p[hidden]').text();
 
@@ -93,28 +98,37 @@ const carShopOwnerProfile = () => {
         }
       };
 
-      populateMessage(currUser, csoId, selClientId, authToken);
+      populateMessage(currUser, csoId, selClientId, authToken, htmlLoc);
     });
 
 
-  $('.messageThread').on('submit', () => {
+  $('.messageSection').on('submit', function(event) {
     event.preventDefault();
 
-
+    console.log($(this).parent().html());
     newMsgRecSend.subject = $('.subject').val();
     newMsgRecSend.message = $('.newMsg').val();
+    console.log('testing new message.');
     
-    addMessage(newMsgRecSend, authToken);
+    // addMessage(newMsgRecSend, authToken);
 
-    populateMessage(currUser, csoId, selClientId, authToken);
+    // populateMessage(currUser, csoId, selClientId, authToken);
+
 
   });
 
-  $('.messageThread').on('click', '.delMsg', function(event) {
+  $('.messageSection').on('click', '.delMsg', function(event) {
     let msgId = $(this).children('p[hidden]').text();
+    let currMsgThread = $(this).parent().parent().parent();
     getMessageById(msgId, 'carShop', authToken);
 
     $(this).parent().remove();
+
+    console.log($('.messageThread').children('section').length);
+    if($('.messageThread').children('section').length === 0) {
+      console.log('current msgThread removed.');
+      currMsgThread.remove();
+    }
   });
 
   $('.messageSection').on('click', '.delConversation', function(event) {

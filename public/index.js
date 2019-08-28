@@ -66,6 +66,15 @@ $('.carShopSearchForm').on('submit', () => {
             <p hidden>${carShopOwner._id}</p>
             <p>Send Message</p>
           </button>
+          <section class="msgSystem">
+          <form class="msgForm">
+            <input type="text" class="subject" placeholder="subject"/>
+            <input type="text" class="newMsg" placeholder="message"/>
+            <button type="submit">
+              <p>Send</p>
+            </button>
+          </form>
+         </section>
         </section>
         `
       });
@@ -81,7 +90,11 @@ $('.carShops').on('click', '.sendMsg', function(event) {
   if(sessionStorage.getItem('clientToken')) {
   csoId = $(this).children('p[hidden]').text();
 
-  $('.msgSystem').css('display', 'block');
+  $('.msgSystem').hide();
+
+  let msgSystem = $(this).siblings('.msgSystem').css('display', 'block');
+
+  msgSystem;
 
   } else {
     console.log('Please sign in or register on a client account to send messages to car shops.');

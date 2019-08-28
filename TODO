@@ -115,10 +115,14 @@ Current tasks:
 ** Populating message
 
   Check if there is an messages in the array of messages **FIX
-    [] If there is create html string and show 
-    [] If there is nothing, delete the conversation.
-        []Figure out a way to populate msgThread in selected client or cs
-        []Figure out way to get msgThread id to delete.
-    
+    [O] If there is create html string and show 
+    [O] If there is nothing, delete the conversation.
+        [O]Figure out a way to populate msgThread in selected client or cs
+        [O]Figure out way to get msgThread id to delete.
 
-        
+  * Figure out how to remove/hide message thread when user has deleted the all the messages
+  in the specified message thread.
+
+  * have send message form right next to the carshop instead of having it in the bottom [O].
+
+  
