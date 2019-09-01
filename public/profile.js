@@ -7,7 +7,15 @@ const clientProfile = () => {
 
   populateClientInfo(clientId, authToken);
 
+
   let selCsoId = '';
+
+  //Possibly use this to populate message when user clicks on message tab
+    // $('.messages').on('click', function(event){
+    //   event.preventDefault();
+
+    //   populateMessage();
+    // });
 
     $('.messageSection').on('click', '.msgThread', function(event) {
       let htmlLoc = $(this).parent().find('.messageThread');
@@ -50,6 +58,8 @@ const clientProfile = () => {
     getMessageById(msgId, 'client', authToken);
 
     $(this).parent().remove();
+
+    console.log($('.messageSection').find('section').length);
 
     console.log($('.messageThread').children('section').length);
     if($('.messageThread').children('section').length === 0) {
@@ -470,6 +480,8 @@ const populateClientInfo = (clientId, authToken) => {
         `
         );
 
+        console.log(res);
+
         res.carShopMessages.forEach(carShop => {
             
           carShops +=
@@ -506,6 +518,7 @@ const populateMessage = (currUser, csoId, selClientId, authToken, htmlLoc) => {
     success: (res) => {
 
       let messagesHtml = '';
+      let counter = 0;
       console.log(res.length);
       console.log(res);
 
@@ -519,7 +532,7 @@ const populateMessage = (currUser, csoId, selClientId, authToken, htmlLoc) => {
           if(message.sender.client) {
 
             if(message.sender.removedMsg === true) {
-
+              counter++;
             } else {
 
             messagesHtml +=
@@ -551,7 +564,7 @@ const populateMessage = (currUser, csoId, selClientId, authToken, htmlLoc) => {
             // Gets all messages if the sender if a receiver
 
             if(message.receiver.removedMsg === true) {
-
+              counter++;
             } else {
             
             messagesHtml +=
@@ -584,7 +597,7 @@ const populateMessage = (currUser, csoId, selClientId, authToken, htmlLoc) => {
       if(message.sender.carShop) {
 
         if(message.sender.removedMsg === true) {
-
+          counter++;
         } else {
 
         messagesHtml +=
@@ -617,7 +630,7 @@ const populateMessage = (currUser, csoId, selClientId, authToken, htmlLoc) => {
         // Gets all messages if the sender if a receiver
 
         if(message.receiver.removedMsg === true) {
-
+          counter++;
         } else {
 
         messagesHtml +=
@@ -646,8 +659,13 @@ const populateMessage = (currUser, csoId, selClientId, authToken, htmlLoc) => {
         }
       }
     });
+    console.log(htmlLoc.parent().html());
+    if(res.length === counter) {
+      console.log('current message thread has been removed due to hiding all messages.');
+      htmlLoc.parent().remove();
+    }
 
-  }
+  } 
     
     htmlLoc.html(messagesHtml +   
     `

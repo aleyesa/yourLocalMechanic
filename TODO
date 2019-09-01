@@ -122,6 +122,12 @@ Current tasks:
 
   * Figure out how to remove/hide message thread when user has deleted the all the messages
   in the specified message thread.
+      ***Deals with populateClientInfoInfo and populateCS
+      ***When user clicks on messages tab it should:
+        -check if there is any carshops or clients that hid 'all' there messages
+            if they did don't show
+                -modify messages anchor to populate message.
+                
 
   * have send message form right next to the carshop instead of having it in the bottom [O].
 

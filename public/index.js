@@ -103,7 +103,7 @@ $('.carShops').on('click', '.sendMsg', function(event) {
 
 });
 
-$('.msgSystem').on('submit', () => {
+$('.carShops').on('submit', () => {
   event.preventDefault();
 
   let clientToken = sessionStorage.getItem('clientToken');
