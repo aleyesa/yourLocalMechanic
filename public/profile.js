@@ -12,14 +12,16 @@ const clientProfile = () => {
 
   //Possibly use this to populate message when user clicks on message tab
     // $('.messages').on('click', function(event){
-    //   event.preventDefault();
+    //   console.log('message tab has been pressed.');
+    //   // event.preventDefault();
 
-    //   populateMessage();
+    //   // populateMessage();
     // });
 
     $('.messageSection').on('click', '.msgThread', function(event) {
       let htmlLoc = $(this).parent().find('.messageThread');
       selCsoId = $(this).children('p[hidden]').text();
+      console.log(selCsoId);
 
       newMsgRecSend = {
         "sender": {
@@ -30,8 +32,7 @@ const clientProfile = () => {
         }
       };
 
-      //console.log($(this).parent().find('.messageThread').html();
-      populateMessage(currUser, selCsoId, clientId, authToken, htmlLoc);
+      populateMessage(currUser, selCsoId, clientId, authToken, htmlLoc, selCsoId );
     });
 
     $('.messageSection').on('submit', '.msgForm', function(event)  {
@@ -450,7 +451,8 @@ const populateClientInfo = (clientId, authToken) => {
     },
     success: function (res) {
       console.log(res);
-      let carShops = '';
+      let carShops = [];
+      let carShopsHtml = '';
       $('.userSection').html(
         `
         <p class="userId" hidden>${res._id}</p>
@@ -483,8 +485,10 @@ const populateClientInfo = (clientId, authToken) => {
         console.log(res);
 
         res.carShopMessages.forEach(carShop => {
-            
-          carShops +=
+          
+          carShops.push(carShop);
+
+          carShopsHtml +=
           `
           <section class="client">
             <button class="msgThread">
@@ -494,193 +498,531 @@ const populateClientInfo = (clientId, authToken) => {
             <button class="delConversation">X</button>
             <section class="messageThread"></section>
           </section>
-          `
+          `;
         });
 
-        $('.messageSection').html(carShops);
+        console.log(carShops);
+
+        $('.messageSection').html(carShopsHtml);
+
+        populateMessage('client', carShops._id, clientId, authToken, '.messageSection', carShops);
     }
     
   });
 };
 
-const populateMessage = (currUser, csoId, selClientId, authToken, htmlLoc) => {
+const populateMessage = (currUser, csoId, selClientId, authToken, htmlLoc, sender) => {
+  console.log(currUser);
+  console.log(sender);
+  console.log(selClientId);
 
-  $.ajax({
-    type: 'GET',
-    url: `/api/message/thread`,
-    headers: {
-      Authorization: `Bearer ${authToken}`
-    },
-    data: {
-      carShop: csoId,
-      client: selClientId
-    },
-    success: (res) => {
+  let senderHtml = ``;
 
-      let messagesHtml = '';
-      let counter = 0;
-      console.log(res.length);
-      console.log(res);
+  if(currUser === 'client') {
 
-      if(res.length > 0) {
+    sender.forEach(senderInfo => {
 
-      res.forEach(message => {
-
-        //Gets all messages of a specified client thats the sender
-        if(currUser === 'client') {
-
-          if(message.sender.client) {
-
-            if(message.sender.removedMsg === true) {
-              counter++;
-            } else {
-
-            messagesHtml +=
-            `
-            <section class="carShopMsg">
-              <section class="msg">
-                <p>From: ${message.sender.client.username}</p>
-                <p>To: ${message.receiver.carShop.username}</p>
-                <p>Time: ${message.timestamp}</p>
-                <p>Subject: ${message.subject}</p>
-                <p>Message: ${message.message}</p>
-              </section>
-                <button class="delMsg">
-                  <p hidden>${message._id}</p>
-                  <p>X</p>
-                </button>
-                <button class="hideMsg">
-                <p>-</p>
-                </button>
-                <button class="showMsg" hidden>
-                <p>+</p>
-                </button>
-            </section>
-            `;
-            }
-
-            } else if(message.receiver.client){
-
-            // Gets all messages if the sender if a receiver
-
-            if(message.receiver.removedMsg === true) {
-              counter++;
-            } else {
-            
-            messagesHtml +=
-            `
-            <section class="clientMsg">
-              <section class="msg">
-                <p>From: ${message.sender.carShop.username}</p>
-                <p>To: ${message.receiver.client.username}</p>
-                <p>Time: ${message.timestamp}</p>
-                <p>Subject: ${message.subject}</p>
-                <p>Message: ${message.message}</p>
-              </section>
-                <button class="delMsg">
-                  <p hidden>${message._id}</p>
-                  <p>X</p>
-                </button>
-                <button class="hideMsg">
-                <p>-</p>
-                </button>
-                <button class="showMsg" hidden>
-                <p>+</p>
-                </button>
-            </section>
-            `;
-              }
-            }
-
-    } else if(currUser === 'carShop') {
-
-      if(message.sender.carShop) {
-
-        if(message.sender.removedMsg === true) {
-          counter++;
-        } else {
-
-        messagesHtml +=
-        `
-        <section class="carShopMsg">
-          <section class="msg">
-            <p>From: ${message.sender.carShop.username}</p>
-            <p>To: ${message.receiver.client.username}</p>
-            <p>Time: ${message.timestamp}</p>
-            <p>Subject: ${message.subject}</p>
-            <p>Message: ${message.message}</p>
-          </section>
-            <button class="delMsg">
-              <p hidden>${message._id}</p>
-              <p>X</p>
-            </button>
-            <button class="hideMsg">
-            <p>-</p>
-            </button>
-            <button class="showMsg" hidden>
-            <p>+</p>
-            </button>
-        </section>
-        `;
-        
-      }
-
-        } else if(message.receiver.carShop){
-
-        // Gets all messages if the sender if a receiver
-
-        if(message.receiver.removedMsg === true) {
-          counter++;
-        } else {
-
-        messagesHtml +=
-        `
-        <section class="clientMsg">
-          <section class="msg">
-            <p>From: ${message.sender.client.username}</p>
-            <p>To: ${message.receiver.carShop.username}</p>
-            <p>Time: ${message.timestamp}</p>
-            <p>Subject: ${message.subject}</p>
-            <p>Message: ${message.message}</p>
-          </section>
-            <button class="delMsg">
-              <p hidden>${message._id}</p>
-              <p>X</p>
-            </button>
-            <button class="hideMsg">
-            <p>-</p>
-            </button>
-            <button class="showMsg" hidden>
-            <p>+</p>
-            </button>
-        </section>
-        `;
-          }
-        }
-      }
-    });
-    console.log(htmlLoc.parent().html());
-    if(res.length === counter) {
-      console.log('current message thread has been removed due to hiding all messages.');
-      htmlLoc.parent().remove();
-    }
-
-  } 
+      //Use this variable to store the messages
+      //use hidden id to figure out the specific messageThread to put the messages in.
+      console.log($('.messageSection').find('.msgThread').find(`p[hidden=${senderInfo._id}]`).parent().html());
+      
+      $.ajax({
+        type: 'GET',
+        url: `/api/message/thread`,
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        },
+        data: {
+          carShop: senderInfo._id,
+          client: selClientId
+        },
+        success: (res) => {
     
-    htmlLoc.html(messagesHtml +   
-    `
-    <form class="msgForm">
-      <input type="text" class="subject" placeholder="subject"/>
-      <input type="text" class="newMsg" placeholder="message"/>
-      <button type="submit">
-        <p>Send</p>
-      </button>
-    </form>
-    `  
-    );
+          let messagesHtml = '';
+          let counter = 0;
+          console.log(res.length);
+          console.log(res);
+    
+          // if(res.length > 0) {
+    
+          // res.forEach(message => {
+    
+          //   //Gets all messages of a specified client thats the sender
+          //   if(currUser === 'client') {
+    
+          //     if(message.sender.client) {
+    
+          //       if(message.sender.removedMsg === true) {
+          //         counter++;
+          //       } else {
+    
+          //         messagesHtml +=
+                  // `
+                  // <section class="client">
+                  //   <button class="msgThread">
+                  //     <p hidden>${csoId}</p>
+                  //     <p>${carShopInfo.firstName} ${carShopInfo.lastName}</p>
+                  //   </button>
+                  //   <button class="delConversation">X</button>
+                  //   <section class="messageThread">
+                  //   <section class="carShopMsg">
+                  //     <section class="msg">
+                  //       <p>From: ${message.sender.client.username}</p>
+                  //       <p>To: ${message.receiver.carShop.username}</p>
+                  //       <p>Time: ${message.timestamp}</p>
+                  //       <p>Subject: ${message.subject}</p>
+                  //       <p>Message: ${message.message}</p>
+                  //     </section>
+                  //       <button class="delMsg">
+                  //         <p hidden>${message._id}</p>
+                  //         <p>X</p>
+                  //       </button>
+                  //       <button class="hideMsg">
+                  //       <p>-</p>
+                  //       </button>
+                  //       <button class="showMsg" hidden>
+                  //       <p>+</p>
+                  //       </button>
+                  //   </section>
+                  //   </section>
+                  // </section>
+                  // `;
+    
+                // messagesHtml +=
+                // `
+                // <section class="carShopMsg">
+                //   <section class="msg">
+                //     <p>From: ${message.sender.client.username}</p>
+                //     <p>To: ${message.receiver.carShop.username}</p>
+                //     <p>Time: ${message.timestamp}</p>
+                //     <p>Subject: ${message.subject}</p>
+                //     <p>Message: ${message.message}</p>
+                //   </section>
+                //     <button class="delMsg">
+                //       <p hidden>${message._id}</p>
+                //       <p>X</p>
+                //     </button>
+                //     <button class="hideMsg">
+                //     <p>-</p>
+                //     </button>
+                //     <button class="showMsg" hidden>
+                //     <p>+</p>
+                //     </button>
+                // </section>
+                // `;
+                // }
+    
+                // } else if(message.receiver.client){
+    
+                // Gets all messages if the sender if a receiver
+    
+                // if(message.receiver.removedMsg === true) {
+                //   counter++;
+                // } else {
+    
+                //   messagesHtml +=
+                //   `
+                //   <section class="client">
+                //     <button class="msgThread">
+                //       <p hidden>${csoId}</p>
+                //       <p>${carShopInfo.firstName} ${carShopInfo.lastName}</p>
+                  //   </button>
+                  //   <button class="delConversation">X</button>
+                  //   <section class="messageThread">
+                  //   <section class="clientMsg">
+                  //     <section class="msg">
+                  //       <p>From: ${message.sender.carShop.username}</p>
+                  //       <p>To: ${message.receiver.client.username}</p>
+                  //       <p>Time: ${message.timestamp}</p>
+                  //       <p>Subject: ${message.subject}</p>
+                  //       <p>Message: ${message.message}</p>
+                  //     </section>
+                  //       <button class="delMsg">
+                  //         <p hidden>${message._id}</p>
+                  //         <p>X</p>
+                  //       </button>
+                  //       <button class="hideMsg">
+                  //       <p>-</p>
+                  //       </button>
+                  //       <button class="showMsg" hidden>
+                  //       <p>+</p>
+                  //       </button>
+                  //   </section>
+                  //   </section>
+                  // </section>
+                  // `;
+                
+                // messagesHtml +=
+                // `
+                // <section class="clientMsg">
+                //   <section class="msg">
+                //     <p>From: ${message.sender.carShop.username}</p>
+                //     <p>To: ${message.receiver.client.username}</p>
+                //     <p>Time: ${message.timestamp}</p>
+                //     <p>Subject: ${message.subject}</p>
+                //     <p>Message: ${message.message}</p>
+                //   </section>
+                //     <button class="delMsg">
+                //       <p hidden>${message._id}</p>
+                //       <p>X</p>
+                //     </button>
+                //     <button class="hideMsg">
+                //     <p>-</p>
+                //     </button>
+                //     <button class="showMsg" hidden>
+                //     <p>+</p>
+                //     </button>
+                // </section>
+                // `;
+                //   }
+                // }
+    
+        // } else if(currUser === 'carShop') {
+    
+        //   if(message.sender.carShop) {
+    
+        //     if(message.sender.removedMsg === true) {
+        //       counter++;
+        //     } else {
+    
+        //     messagesHtml +=
+            // `
+            // <section class="carShopMsg">
+            //   <section class="msg">
+            //     <p>From: ${message.sender.carShop.username}</p>
+            //     <p>To: ${message.receiver.client.username}</p>
+            //     <p>Time: ${message.timestamp}</p>
+            //     <p>Subject: ${message.subject}</p>
+            //     <p>Message: ${message.message}</p>
+            //   </section>
+            //     <button class="delMsg">
+            //       <p hidden>${message._id}</p>
+            //       <p>X</p>
+            //     </button>
+            //     <button class="hideMsg">
+          //       <p>-</p>
+          //       </button>
+          //       <button class="showMsg" hidden>
+          //       <p>+</p>
+          //       </button>
+          //   </section>
+          //   `;
+            
+          // }
+    
+        //     } else if(message.receiver.carShop){
+    
+        //     // Gets all messages if the sender if a receiver
+    
+        //     if(message.receiver.removedMsg === true) {
+        //       counter++;
+        //     } else {
+    
+        //     messagesHtml +=
+        //     `
+        //     <section class="clientMsg">
+        //       <section class="msg">
+        //         <p>From: ${message.sender.client.username}</p>
+        //         <p>To: ${message.receiver.carShop.username}</p>
+        //         <p>Time: ${message.timestamp}</p>
+        //         <p>Subject: ${message.subject}</p>
+        //         <p>Message: ${message.message}</p>
+        //       </section>
+        //         <button class="delMsg">
+        //           <p hidden>${message._id}</p>
+        //           <p>X</p>
+        //         </button>
+        //         <button class="hideMsg">
+        //         <p>-</p>
+        //         </button>
+        //         <button class="showMsg" hidden>
+        //         <p>+</p>
+        //         </button>
+        //     </section>
+        //     `;
+        //       }
+        //     }
+        //   }
+        // });
+      //   console.log($(htmlLoc).parent().html());
+      //   if(res.length === counter) {
+      //     console.log('current message thread has been removed due to hiding all messages.');
+      //     $(htmlLoc).remove();
+      //   }
+    
+      // } 
+        
+        // $(htmlLoc).html(messagesHtml +   
+        // `
+        // <form class="msgForm">
+        //   <input type="text" class="subject" placeholder="subject"/>
+        //   <input type="text" class="newMsg" placeholder="message"/>
+        //   <button type="submit">
+        //     <p>Send</p>
+        //   </button>
+        // </form>
+        // `  
+        // );
+    
+        }
+      });
+      console.log(senderInfo);
+  
+    });
 
-    }
-  });
+  }
+
+  else {
+
+  }
+
+
+    console.log(senderHtml);
+
+  // csi.forEach(userInfo => {
+  //   console.log(userInfo._id);
+  // });
+
+  // $.ajax({
+  //   type: 'GET',
+  //   url: `/api/message/thread`,
+  //   headers: {
+  //     Authorization: `Bearer ${authToken}`
+  //   },
+  //   data: {
+  //     carShop: csoId,
+  //     client: selClientId
+  //   },
+  //   success: (res) => {
+
+  //     let messagesHtml = '';
+  //     let counter = 0;
+  //     console.log(res.length);
+  //     console.log(res);
+
+  //     // if(res.length > 0) {
+
+  //     // res.forEach(message => {
+
+  //     //   //Gets all messages of a specified client thats the sender
+  //     //   if(currUser === 'client') {
+
+  //     //     if(message.sender.client) {
+
+  //     //       if(message.sender.removedMsg === true) {
+  //     //         counter++;
+  //     //       } else {
+
+  //     //         messagesHtml +=
+  //             // `
+  //             // <section class="client">
+  //             //   <button class="msgThread">
+  //             //     <p hidden>${csoId}</p>
+  //             //     <p>${carShopInfo.firstName} ${carShopInfo.lastName}</p>
+  //             //   </button>
+  //             //   <button class="delConversation">X</button>
+  //             //   <section class="messageThread">
+  //             //   <section class="carShopMsg">
+  //             //     <section class="msg">
+  //             //       <p>From: ${message.sender.client.username}</p>
+  //             //       <p>To: ${message.receiver.carShop.username}</p>
+  //             //       <p>Time: ${message.timestamp}</p>
+  //             //       <p>Subject: ${message.subject}</p>
+  //             //       <p>Message: ${message.message}</p>
+  //             //     </section>
+  //             //       <button class="delMsg">
+  //             //         <p hidden>${message._id}</p>
+  //             //         <p>X</p>
+  //             //       </button>
+  //             //       <button class="hideMsg">
+  //             //       <p>-</p>
+  //             //       </button>
+  //             //       <button class="showMsg" hidden>
+  //             //       <p>+</p>
+  //             //       </button>
+  //             //   </section>
+  //             //   </section>
+  //             // </section>
+  //             // `;
+
+  //           // messagesHtml +=
+  //           // `
+  //           // <section class="carShopMsg">
+  //           //   <section class="msg">
+  //           //     <p>From: ${message.sender.client.username}</p>
+  //           //     <p>To: ${message.receiver.carShop.username}</p>
+  //           //     <p>Time: ${message.timestamp}</p>
+  //           //     <p>Subject: ${message.subject}</p>
+  //           //     <p>Message: ${message.message}</p>
+  //           //   </section>
+  //           //     <button class="delMsg">
+  //           //       <p hidden>${message._id}</p>
+  //           //       <p>X</p>
+  //           //     </button>
+  //           //     <button class="hideMsg">
+  //           //     <p>-</p>
+  //           //     </button>
+  //           //     <button class="showMsg" hidden>
+  //           //     <p>+</p>
+  //           //     </button>
+  //           // </section>
+  //           // `;
+  //           // }
+
+  //           // } else if(message.receiver.client){
+
+  //           // Gets all messages if the sender if a receiver
+
+  //           // if(message.receiver.removedMsg === true) {
+  //           //   counter++;
+  //           // } else {
+
+  //           //   messagesHtml +=
+  //           //   `
+  //           //   <section class="client">
+  //           //     <button class="msgThread">
+  //           //       <p hidden>${csoId}</p>
+  //           //       <p>${carShopInfo.firstName} ${carShopInfo.lastName}</p>
+  //             //   </button>
+  //             //   <button class="delConversation">X</button>
+  //             //   <section class="messageThread">
+  //             //   <section class="clientMsg">
+  //             //     <section class="msg">
+  //             //       <p>From: ${message.sender.carShop.username}</p>
+  //             //       <p>To: ${message.receiver.client.username}</p>
+  //             //       <p>Time: ${message.timestamp}</p>
+  //             //       <p>Subject: ${message.subject}</p>
+  //             //       <p>Message: ${message.message}</p>
+  //             //     </section>
+  //             //       <button class="delMsg">
+  //             //         <p hidden>${message._id}</p>
+  //             //         <p>X</p>
+  //             //       </button>
+  //             //       <button class="hideMsg">
+  //             //       <p>-</p>
+  //             //       </button>
+  //             //       <button class="showMsg" hidden>
+  //             //       <p>+</p>
+  //             //       </button>
+  //             //   </section>
+  //             //   </section>
+  //             // </section>
+  //             // `;
+            
+  //           // messagesHtml +=
+  //           // `
+  //           // <section class="clientMsg">
+  //           //   <section class="msg">
+  //           //     <p>From: ${message.sender.carShop.username}</p>
+  //           //     <p>To: ${message.receiver.client.username}</p>
+  //           //     <p>Time: ${message.timestamp}</p>
+  //           //     <p>Subject: ${message.subject}</p>
+  //           //     <p>Message: ${message.message}</p>
+  //           //   </section>
+  //           //     <button class="delMsg">
+  //           //       <p hidden>${message._id}</p>
+  //           //       <p>X</p>
+  //           //     </button>
+  //           //     <button class="hideMsg">
+  //           //     <p>-</p>
+  //           //     </button>
+  //           //     <button class="showMsg" hidden>
+  //           //     <p>+</p>
+  //           //     </button>
+  //           // </section>
+  //           // `;
+  //           //   }
+  //           // }
+
+  //   // } else if(currUser === 'carShop') {
+
+  //   //   if(message.sender.carShop) {
+
+  //   //     if(message.sender.removedMsg === true) {
+  //   //       counter++;
+  //   //     } else {
+
+  //   //     messagesHtml +=
+  //       // `
+  //       // <section class="carShopMsg">
+  //       //   <section class="msg">
+  //       //     <p>From: ${message.sender.carShop.username}</p>
+  //       //     <p>To: ${message.receiver.client.username}</p>
+  //       //     <p>Time: ${message.timestamp}</p>
+  //       //     <p>Subject: ${message.subject}</p>
+  //       //     <p>Message: ${message.message}</p>
+  //       //   </section>
+  //       //     <button class="delMsg">
+  //       //       <p hidden>${message._id}</p>
+  //       //       <p>X</p>
+  //       //     </button>
+  //       //     <button class="hideMsg">
+  //     //       <p>-</p>
+  //     //       </button>
+  //     //       <button class="showMsg" hidden>
+  //     //       <p>+</p>
+  //     //       </button>
+  //     //   </section>
+  //     //   `;
+        
+  //     // }
+
+  //   //     } else if(message.receiver.carShop){
+
+  //   //     // Gets all messages if the sender if a receiver
+
+  //   //     if(message.receiver.removedMsg === true) {
+  //   //       counter++;
+  //   //     } else {
+
+  //   //     messagesHtml +=
+  //   //     `
+  //   //     <section class="clientMsg">
+  //   //       <section class="msg">
+  //   //         <p>From: ${message.sender.client.username}</p>
+  //   //         <p>To: ${message.receiver.carShop.username}</p>
+  //   //         <p>Time: ${message.timestamp}</p>
+  //   //         <p>Subject: ${message.subject}</p>
+  //   //         <p>Message: ${message.message}</p>
+  //   //       </section>
+  //   //         <button class="delMsg">
+  //   //           <p hidden>${message._id}</p>
+  //   //           <p>X</p>
+  //   //         </button>
+  //   //         <button class="hideMsg">
+  //   //         <p>-</p>
+  //   //         </button>
+  //   //         <button class="showMsg" hidden>
+  //   //         <p>+</p>
+  //   //         </button>
+  //   //     </section>
+  //   //     `;
+  //   //       }
+  //   //     }
+  //   //   }
+  //   // });
+  // //   console.log($(htmlLoc).parent().html());
+  // //   if(res.length === counter) {
+  // //     console.log('current message thread has been removed due to hiding all messages.');
+  // //     $(htmlLoc).remove();
+  // //   }
+
+  // // } 
+    
+  //   // $(htmlLoc).html(messagesHtml +   
+  //   // `
+  //   // <form class="msgForm">
+  //   //   <input type="text" class="subject" placeholder="subject"/>
+  //   //   <input type="text" class="newMsg" placeholder="message"/>
+  //   //   <button type="submit">
+  //   //     <p>Send</p>
+  //   //   </button>
+  //   // </form>
+  //   // `  
+  //   // );
+
+  //   }
+  // });
 };
 
 

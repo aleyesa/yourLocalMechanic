@@ -127,8 +127,36 @@ Current tasks:
         -check if there is any carshops or clients that hid 'all' there messages
             if they did don't show
                 -modify messages anchor to populate message.
+                -add hide key to carshowowner collection.
+
+                    -- When user clicks on messages tab it should possibly:
+                        populate all the messages but:
+                          hide them on first reload.
+                          -Modify the populate message:
+                              get all the users that sent a message to the currently logged in user.
+                              and use populate message with all the users.
+
+                              loop around all the users that sent a message and call populate message
+                              create html string to populate messages
                 
 
   * have send message form right next to the carshop instead of having it in the bottom [O].
 
+  *Figure out populateClientInfo and populateMessage();
+    PopulateMessage: 
+      Have to figure out a way to loop over ajax request to get all messages for each carshop
+      or client and display it through html.
+
+    My idea:
+
+        Figure out a way to populate everything when the user logs in.
+
+  12/28
+  have an array or some variable that holds the message thread for each recipient
+  Example:
+    two recipients: Recipient1 and Recipient2
   
+    Get id from each recipient[O]
+    hold array of all recipient ids[O] 
+    loop through recipient id array and call populateMessages[O]
+      Somehow have another array or variable that holds html version of each recipients message thread.

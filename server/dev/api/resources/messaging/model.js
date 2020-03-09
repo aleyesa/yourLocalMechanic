@@ -6,10 +6,6 @@ const messageSchema = new Schema({
 
   subject: String,
   message: String,
-  hide: {
-    type: Boolean,
-    default: false
-  },
   sender: {
     client: {
       type: Schema.Types.ObjectId,
